@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -43,8 +44,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const enablePlausible =
+    process.env.NEXT_PUBLIC_PLAUSIBLE === "1" ||
+    process.env.NEXT_PUBLIC_PLAUSIBLE === "true";
   return (
     <html lang="en">
+      <head>
+        {/* Plausible analytics — only enabled when NEXT_PUBLIC_PLAUSIBLE env var is set to 1 or true */}
+        {enablePlausible && (
+          <>
+            <Script
+              src="https://plausible.io/js/pa-h9uphsLdTwdLeCKe911Cm.js"
+              strategy="afterInteractive"
+            />
+            <Script
+              id="plausible-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html:
+                  `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`,
+              }}
+            />
+          </>
+        )}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

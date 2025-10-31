@@ -4,6 +4,19 @@ import { useRef, useState, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 
 export default function MergeTool() {
+  // safe Plausible tracker helper — no-op when Plausible isn't loaded
+  const track = (name: string, props?: Record<string, any>) => {
+    try {
+      if (typeof window === "undefined") return;
+      const w = window as any;
+      if (typeof w.plausible === "function") {
+        if (props) w.plausible(name, { props });
+        else w.plausible(name);
+      }
+    } catch (_err) {
+      // swallow tracking errors — analytics must never break UX
+    }
+  };
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [merging, setMerging] = useState(false);
@@ -49,6 +62,7 @@ export default function MergeTool() {
     if (count > 0) {
       setAddedMessage(`${count} file${count > 1 ? "s" : ""} added`);
       window.setTimeout(() => setAddedMessage(null), 2000);
+      track("Files Added", { count });
     }
   };
 
@@ -93,6 +107,7 @@ export default function MergeTool() {
         if (added > 0) {
           setAddedMessage(`${added} file${added > 1 ? "s" : ""} added`);
           window.setTimeout(() => setAddedMessage(null), 2000);
+          track("Files Added", { count: added, method: "drag-global" });
         }
 
         dragSessionAddedRef.current = true;
@@ -175,6 +190,7 @@ export default function MergeTool() {
     if (added > 0) {
       setAddedMessage(`${added} file${added > 1 ? "s" : ""} added`);
       window.setTimeout(() => setAddedMessage(null), 2000);
+      track("Files Added", { count: added, method: "drop-zone" });
     }
     dragSessionAddedRef.current = false;
     dragCounterRef.current = 0;
@@ -190,6 +206,7 @@ export default function MergeTool() {
     setMerging(true);
 
     try {
+      track("Merge Started", { files: files.length });
       const mergedPdf = await PDFDocument.create();
       const skippedLocal: string[] = [];
 
@@ -220,9 +237,11 @@ export default function MergeTool() {
       if (skippedLocal.length > 0) {
         setSkipped(skippedLocal);
         setError(`Some files were skipped (${skippedLocal.length}). See details below.`);
+        track("Merge Completed", { files: files.length, skipped: skippedLocal.length });
       }
     } catch (err: any) {
       setError(String(err?.message || err) || "An unexpected error occurred during merge.");
+      track("Merge Failed", { error: String(err?.message || err) });
     } finally {
       setMerging(false);
     }
