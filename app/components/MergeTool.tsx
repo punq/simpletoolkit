@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
 
 export default function MergeTool() {
@@ -338,18 +339,16 @@ export default function MergeTool() {
           {merging ? "Merging..." : "Merge PDFs"}
         </button>
 
-        <a
+        <Link
           className="rounded border px-4 py-2 text-sm"
-          href="/donate.html"
-          target="_blank"
-          rel="noreferrer"
+          href="/donate"
           aria-label="Donate to keep this tool free"
         >
           Keep this free — Donate
-        </a>
+        </Link>
       </div>
 
-      <footer className="pt-8 text-xs text-zinc-500">All merging happens locally in your browser. Files are never uploaded. <a className="underline" href="/privacy.html">Privacy</a></footer>
+      <footer className="pt-8 text-xs text-zinc-500">All merging happens locally in your browser. Files are never uploaded. <Link className="underline" href="/privacy">Privacy</Link></footer>
     </div>
   );
 }
