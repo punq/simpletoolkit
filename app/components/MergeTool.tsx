@@ -330,13 +330,6 @@ export default function MergeTool() {
         </a>
       </div>
 
-      <div className="w-full pt-6">
-        <div className="text-xs text-zinc-500">Ads / Sponsors</div>
-        <div className="mt-2 h-24 w-full rounded border border-dashed border-zinc-200" aria-hidden>
-          {/* Placeholder for ad code or Google AdSense snippet */}
-        </div>
-      </div>
-
       <footer className="pt-8 text-xs text-zinc-500">All merging happens locally in your browser. Files are never uploaded. <a className="underline" href="/privacy.html">Privacy</a></footer>
     </div>
   );
