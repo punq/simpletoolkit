@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { PDFDocument } from "pdf-lib";
 
 export default function MergeTool() {
@@ -8,22 +8,48 @@ export default function MergeTool() {
   const [error, setError] = useState<string | null>(null);
   const [merging, setMerging] = useState(false);
   const [skipped, setSkipped] = useState<string[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+  const [addedMessage, setAddedMessage] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dragIndexRef = useRef<number | null>(null);
+  // Prevent adding the same dragged files repeatedly during a single drag session
+  const dragSessionAddedRef = useRef(false);
+  // Counter to track nested dragenter/dragleave events
+  const dragCounterRef = useRef(0);
 
   const triggerFilePicker = () => fileInputRef.current?.click();
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const list = e.target.files ? Array.from(e.target.files) : [];
-    if (list.length > 20) {
-      setError("You can merge up to 20 files only.");
-      setFiles([]);
-      return;
-    }
+  const addFiles = (incoming: File[] | FileList) => {
+    const list = Array.from(incoming as any as File[]);
+    const pdfs = list.filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+    if (pdfs.length === 0) return 0;
+
+    setFiles((prev) => {
+      const existingIds = new Set(prev.map((p) => `${p.name}|${p.size}`));
+      const combined = [...prev];
+      for (const f of pdfs) {
+        if (combined.length >= 20) break;
+        const id = `${f.name}|${f.size}`;
+        if (!existingIds.has(id)) {
+          combined.push(f);
+          existingIds.add(id);
+        }
+      }
+      return combined;
+    });
+
     setError(null);
     setSkipped([]);
-    setFiles(list);
+    return pdfs.length;
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const count = addFiles(e.target.files || []);
+    if (count > 0) {
+      setAddedMessage(`${count} file${count > 1 ? "s" : ""} added`);
+      window.setTimeout(() => setAddedMessage(null), 2000);
+    }
   };
 
   const onDragStart = (e: React.DragEvent<HTMLLIElement>, index: number) => {
@@ -49,12 +75,109 @@ export default function MergeTool() {
     setFiles(updated);
   };
 
+  // Window-level listeners: when user drags files from the OS over the page,
+  // automatically detect PDF files and add them once per drag session.
+  useEffect(() => {
+    const onWindowDragEnter = (e: DragEvent) => {
+      try {
+        if (!e.dataTransfer) return;
+        const dtFiles = Array.from(e.dataTransfer.files || []);
+        if (dtFiles.length === 0) return;
+        const pdfFiles = dtFiles.filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+        if (pdfFiles.length === 0) return;
+        if (dragSessionAddedRef.current) return;
+
+        setError(null);
+        setSkipped([]);
+        const added = addFiles(pdfFiles);
+        if (added > 0) {
+          setAddedMessage(`${added} file${added > 1 ? "s" : ""} added`);
+          window.setTimeout(() => setAddedMessage(null), 2000);
+        }
+
+        dragSessionAddedRef.current = true;
+      } catch (err) {
+        // ignore errors in drag handler
+      }
+    };
+
+    const onWindowDragOver = (e: DragEvent) => {
+      // allow drop
+      if (e.dataTransfer) e.preventDefault();
+    };
+
+    const onWindowDrop = (e: DragEvent) => {
+      if (e.dataTransfer) e.preventDefault();
+      // clear session flags when drag ends
+      dragSessionAddedRef.current = false;
+      dragCounterRef.current = 0;
+      setIsDragging(false);
+    };
+
+    const onWindowDragLeave = (_e: DragEvent) => {
+      // decrement counter and clear session when leaving page entirely
+      dragCounterRef.current = Math.max(0, dragCounterRef.current - 1);
+      if (dragCounterRef.current === 0) {
+        dragSessionAddedRef.current = false;
+        setIsDragging(false);
+      }
+    };
+
+    const onWindowDragEnterCounter = (e: DragEvent) => {
+      dragCounterRef.current += 1;
+      setIsDragging(true);
+      onWindowDragEnter(e);
+    };
+
+    window.addEventListener("dragenter", onWindowDragEnterCounter);
+    window.addEventListener("dragover", onWindowDragOver);
+    window.addEventListener("dragleave", onWindowDragLeave);
+    window.addEventListener("drop", onWindowDrop);
+
+    return () => {
+      window.removeEventListener("dragenter", onWindowDragEnterCounter);
+      window.removeEventListener("dragover", onWindowDragOver);
+      window.removeEventListener("dragleave", onWindowDragLeave);
+      window.removeEventListener("drop", onWindowDrop);
+    };
+  }, []);
+
   const removeAt = (index: number) => {
     setFiles((prev) => {
       const next = [...prev];
       next.splice(index, 1);
       return next;
     });
+  };
+
+  const clearAll = () => {
+    setFiles([]);
+    setError(null);
+    setSkipped([]);
+  };
+
+  // Drop zone handlers for better UX and compatibility
+  const onZoneDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    setIsDragging(true);
+  };
+
+  const onZoneDragLeave = (_e: React.DragEvent<HTMLDivElement>) => {
+    setIsDragging(false);
+  };
+
+  const onZoneDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const dtFiles = Array.from(e.dataTransfer.files || []);
+    const added = addFiles(dtFiles);
+    if (added > 0) {
+      setAddedMessage(`${added} file${added > 1 ? "s" : ""} added`);
+      window.setTimeout(() => setAddedMessage(null), 2000);
+    }
+    dragSessionAddedRef.current = false;
+    dragCounterRef.current = 0;
   };
 
   const merge = async () => {
@@ -117,7 +240,13 @@ export default function MergeTool() {
         aria-hidden
       />
 
-      <div className="flex gap-3 items-center">
+      <div
+        onDragOver={onZoneDragOver}
+        onDragLeave={onZoneDragLeave}
+        onDrop={onZoneDrop}
+        className="relative flex gap-3 items-center"
+        aria-label="PDF drop zone"
+      >
         <button
           onClick={triggerFilePicker}
           className="rounded bg-black px-4 py-3 text-white text-sm hover:opacity-90"
@@ -126,6 +255,20 @@ export default function MergeTool() {
         </button>
 
         <div className="text-sm text-zinc-600 dark:text-zinc-400">{files.length ? `${files.length} file(s) selected` : "No files selected"}</div>
+
+        {files.length > 0 && (
+          <button onClick={clearAll} className="text-sm text-zinc-600 hover:text-zinc-800 ml-2">Clear all</button>
+        )}
+
+        {addedMessage && (
+          <div className="absolute -bottom-6 left-0 text-xs text-green-600">{addedMessage}</div>
+        )}
+
+        {isDragging && (
+          <div className="pointer-events-none absolute inset-0 rounded border-2 border-dashed border-zinc-300 bg-white/60 flex items-center justify-center">
+            <div className="text-sm text-zinc-700">Drop PDFs here to add</div>
+          </div>
+        )}
       </div>
 
       {/* Selected files list with drag handles */}
