@@ -1,5 +1,6 @@
 import Link from "next/link";
 import MergeTool from "../../components/MergeTool";
+import { ErrorBoundary } from "../../components/ErrorBoundary";
 
 export default function MergePage() {
   return (
@@ -23,7 +24,9 @@ export default function MergePage() {
           </div>
 
           <div className="w-full">
-            <MergeTool />
+            <ErrorBoundary>
+              <MergeTool />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

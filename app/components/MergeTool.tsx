@@ -39,6 +39,15 @@ export default function MergeTool() {
     const pdfs = list.filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
     if (pdfs.length === 0) return 0;
 
+    // File size limit: 50MB per file
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB in bytes
+    const oversized = pdfs.filter((f) => f.size > MAX_FILE_SIZE);
+    
+    if (oversized.length > 0) {
+      setError(`File size limit exceeded: ${oversized.map(f => f.name).join(", ")} (max 50MB per file)`);
+      return 0;
+    }
+
     setFiles((prev) => {
       const existingIds = new Set(prev.map((p) => `${p.name}|${p.size}`));
       const combined = [...prev];
@@ -225,15 +234,20 @@ export default function MergeTool() {
       }
 
       const mergedBytes = await mergedPdf.save();
-      const blob = new Blob([mergedBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      const blob = new Blob([new Uint8Array(mergedBytes)], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "merged.pdf";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+      
+      try {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "merged.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } finally {
+        // Always revoke the object URL to prevent memory leaks
+        URL.revokeObjectURL(url);
+      }
 
       if (skippedLocal.length > 0) {
         setSkipped(skippedLocal);
