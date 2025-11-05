@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SplitTool from "../../components/SplitTool";
+import { ErrorBoundary } from "../../components/ErrorBoundary";
 
 export default function SplitPage() {
   return (
@@ -23,7 +24,9 @@ export default function SplitPage() {
           </div>
 
           <div className="w-full">
-            <SplitTool />
+            <ErrorBoundary>
+              <SplitTool />
+            </ErrorBoundary>
           </div>
         </div>
       </div>
