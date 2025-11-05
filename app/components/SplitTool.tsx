@@ -262,15 +262,20 @@ export default function SplitTool() {
       // Download all output files
       for (const output of outputFiles) {
         const pdfBytes = await output.pdf.save();
-        const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+        const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
         const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = output.name;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
+        
+        try {
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = output.name;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        } finally {
+          // Always revoke the object URL to prevent memory leaks
+          URL.revokeObjectURL(url);
+        }
 
         // Small delay between downloads to prevent browser blocking
         if (outputFiles.length > 1) {

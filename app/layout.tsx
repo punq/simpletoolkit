@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://simpletoolkit.app'),
   title: "Simple Toolkit — Free Browser-Based Tools | No Ads, No Tracking",
   description:
     "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat. Featuring PDF merging and more simple tools that respect your privacy.",
