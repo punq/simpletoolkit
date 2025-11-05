@@ -20,10 +20,11 @@ export const metadata: Metadata = {
     "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat. Featuring PDF merging and more simple tools that respect your privacy.",
   icons: {
     icon: [
-      { rel: "icon", url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { rel: "icon", url: "/favicon.ico", sizes: "any" },
       { rel: "icon", url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { rel: "icon", url: "/favicon.ico", sizes: "any" }
+      { rel: "icon", url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" }
     ],
+    shortcut: [{ url: "/favicon.ico" }],
     apple: { url: "/apple-touch-icon.png" }
   },
   manifest: "/site.webmanifest",
