@@ -20,6 +20,12 @@ export default function Header() {
             Merge PDFs
           </Link>
           <Link 
+            href="/tools/split" 
+            className="text-sm text-muted hover:text-foreground transition-all relative link-underline"
+          >
+            Split PDF
+          </Link>
+          <Link 
             href="/privacy" 
             className="text-sm text-muted hover:text-foreground transition-all relative link-underline"
           >

@@ -18,10 +18,13 @@ export default function Home() {
             <p className="mt-2 text-sm text-muted">Merge up to 20 PDFs locally in your browser — no uploads.</p>
           </Link>
 
-          <div className="block rounded-lg border border-border/50 p-6 opacity-70">
-            <h3 className="font-medium">Split PDFs (coming soon)</h3>
-            <p className="mt-2 text-sm text-muted">Extract pages from PDFs — planned.</p>
-          </div>
+          <Link 
+            href="/tools/split" 
+            className="group block rounded-lg border border-border p-6 transition-all hover:border-foreground/20 hover:shadow-lg"
+          >
+            <h3 className="font-medium">Split PDF</h3>
+            <p className="mt-2 text-sm text-muted">Extract pages, ranges, or split into individual pages — all locally.</p>
+          </Link>
 
           <div className="block rounded-lg border border-border/50 p-6 opacity-70">
             <h3 className="font-medium">Rotate / Rearrange (coming soon)</h3>
