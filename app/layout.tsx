@@ -15,28 +15,61 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Simple Toolkit — Tiny web tools",
+  title: "Simple Toolkit — Free Browser-Based Tools | No Ads, No Tracking",
   description:
-    "A collection of tiny, privacy-first web tools. Merge PDFs locally in your browser — no uploads, no accounts.",
+    "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat. Featuring PDF merging and more simple tools that respect your privacy.",
+  keywords: [
+    "free tools",
+    "online tools",
+    "privacy-first",
+    "browser-based tools",
+    "pdf merger",
+    "no watermark",
+    "no signup",
+    "free pdf tools",
+    "local pdf processing",
+    "simple tools",
+  ],
   openGraph: {
-    title: "Simple Toolkit — Tiny web tools",
+    title: "Simple Toolkit — Free Browser-Based Tools | No Ads, No Tracking",
     description:
-      "A collection of tiny, privacy-first web tools. Merge PDFs locally in your browser — no uploads, no accounts.",
+      "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat. Featuring PDF merging and more simple tools that respect your privacy.",
     url: "https://simpletoolkit.app/",
     siteName: "Simple Toolkit",
     images: [
       {
-        url: "/next.svg",
+        url: "/stkapp.png",
         width: 1200,
         height: 630,
-        alt: "Simple Toolkit",
+        alt: "Simple Toolkit - Free Browser Tools",
       },
     ],
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Simple Toolkit — Free Browser-Based Tools",
+    description: "Free, privacy-first web tools that work in your browser. No uploads, no tracking.",
+    images: ["/stkapp.png"],
+  },
   icons: {
-    icon: "/next.svg",
+    icon: "/stkapp.png",
+    apple: "/stkapp.png",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "google-site-verification=tpwJ3Is5KaLH2qJu9XSkxAa5UWhQA3Ch4uuiOfsvSVQ", // You'll need to replace this with your actual Google Search Console verification token
   },
 };
 
@@ -51,6 +84,29 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Simple Toolkit",
+            "url": "https://simpletoolkit.app",
+            "description": "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat.",
+            "applicationCategory": "Utility",
+            "operatingSystem": "Any",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "PDF Merging",
+              "Browser-based processing",
+              "No file uploads required",
+              "No watermarks",
+              "Privacy-focused"
+            ]
+          })}
+        </script>
         {/* Plausible analytics — only enabled when NEXT_PUBLIC_PLAUSIBLE env var is set to 1 or true */}
         {enablePlausible && (
           <>

@@ -1,0 +1,6 @@
+# https://simpletoolkit.app/robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://simpletoolkit.app/sitemap.xml
