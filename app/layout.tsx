@@ -18,6 +18,15 @@ export const metadata: Metadata = {
   title: "Simple Toolkit — Free Browser-Based Tools | No Ads, No Tracking",
   description:
     "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat. Featuring PDF merging and more simple tools that respect your privacy.",
+  icons: {
+    icon: [
+      { rel: "icon", url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { rel: "icon", url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { rel: "icon", url: "/favicon.ico", sizes: "any" }
+    ],
+    apple: { url: "/apple-touch-icon.png" }
+  },
+  manifest: "/site.webmanifest",
   keywords: [
     "free tools",
     "online tools",
@@ -52,10 +61,6 @@ export const metadata: Metadata = {
     title: "Simple Toolkit — Free Browser-Based Tools",
     description: "Free, privacy-first web tools that work in your browser. No uploads, no tracking.",
     images: ["/stkapp.png"],
-  },
-  icons: {
-    icon: "/stkapp.png",
-    apple: "/stkapp.png",
   },
   robots: {
     index: true,
