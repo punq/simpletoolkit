@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://simpletoolkit.app'),
-  title: "Simple Toolkit — Free Browser-Based Tools | No Ads, No Tracking",
+  title: "Simple Toolkit — Privacy-First Tools | No Ads, No Tracking, Always Free",
   description:
-    "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat. Featuring PDF merging and more simple tools that respect your privacy.",
+    "Free browser-based tools for PDFs, images, and more. 100% private—files never leave your device. No uploads, no accounts, no watermarks, no ads. Professional tools that respect your privacy.",
   icons: {
     icon: [
       { rel: "icon", url: "/favicon.ico", sizes: "any" },
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     "simple tools",
   ],
   openGraph: {
-    title: "Simple Toolkit — Free Browser-Based Tools | No Ads, No Tracking",
+    title: "Simple Toolkit — Privacy-First Tools | No Ads, No Tracking",
     description:
-      "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat. Featuring PDF merging and more simple tools that respect your privacy.",
+      "Free browser-based tools for PDFs, images, and more. 100% private—files never leave your device. No uploads, no accounts, no watermarks. Professional tools that respect your privacy.",
     url: "https://simpletoolkit.app/",
     siteName: "Simple Toolkit",
     images: [
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
         url: "/stkapp.png",
         width: 1200,
         height: 630,
-        alt: "Simple Toolkit - Free Browser Tools",
+        alt: "Simple Toolkit - Privacy-First Browser Tools",
       },
     ],
     locale: "en_US",
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Simple Toolkit — Free Browser-Based Tools",
-    description: "Free, privacy-first web tools that work in your browser. No uploads, no tracking.",
+    title: "Simple Toolkit — Privacy-First Tools",
+    description: "Free browser-based tools. 100% private—files never leave your device. No uploads, no tracking, no ads.",
     images: ["/stkapp.png"],
   },
   robots: {
@@ -97,7 +97,7 @@ export default function RootLayout({
             "@type": "WebApplication",
             "name": "Simple Toolkit",
             "url": "https://simpletoolkit.app",
-            "description": "Free, privacy-first web tools that work entirely in your browser. No uploads, no accounts, no watermarks, no bloat.",
+            "description": "Free browser-based tools for PDFs, images, and more. 100% private—files never leave your device. No uploads, no accounts, no watermarks, no ads.",
             "applicationCategory": "Utility",
             "operatingSystem": "Any",
             "offers": {
@@ -106,12 +106,14 @@ export default function RootLayout({
               "priceCurrency": "USD"
             },
             "featureList": [
-              "PDF Merging",
-              "PDF Splitting",
-              "Browser-based processing",
-              "No file uploads required",
-              "No watermarks",
-              "Privacy-focused"
+              "PDF Merging and Splitting",
+              "Image Processing",
+              "Text Tools",
+              "100% Browser-based Processing",
+              "No File Uploads Required",
+              "No Watermarks Ever",
+              "No Ads or Tracking",
+              "Privacy-First Architecture"
             ],
             "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge."
           })}

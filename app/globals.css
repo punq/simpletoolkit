@@ -1,22 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --muted: #666666;
-  --border: #e5e7eb;
+  /* Base colors - warmer neutrals */
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --muted: #737373;
+  --muted-foreground: #525252;
+  --border: #e5e5e5;
   --radius: 0.5rem;
   
-  /* Modern color system */
-  --primary: #2563eb;
+  /* Primary - deeper, more trustworthy blue */
+  --primary: #0066cc;
+  --primary-hover: #0052a3;
   --primary-foreground: #ffffff;
-  --accent: #f3f4f6;
-  --accent-foreground: #111827;
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  /* Accent colors */
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  
+  /* Subtle warm accents for visual interest */
+  --warm-accent: #fef3c7;
+  --warm-accent-hover: #fde68a;
+  
+  /* Success/positive actions */
+  --success: #059669;
+  --success-foreground: #ffffff;
+  
+  /* Feature card backgrounds - subtle color hints */
+  --card-bg: #ffffff;
+  --card-border: #e5e5e5;
+  --card-hover-border: #d4d4d4;
+  
+  /* Icon backgrounds - colorful but subtle */
+  --icon-privacy: #dbeafe;
+  --icon-speed: #fef3c7;
+  --icon-simple: #fce7f3;
+  --icon-trust: #d1fae5;
+  --icon-access: #e0e7ff;
+  --icon-community: #fecaca;
+  
+  /* Shadows - softer, more natural */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
   
   /* Animation */
   --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -24,14 +51,48 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Base colors */
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #f5f5f5;
     --muted: #a3a3a3;
+    --muted-foreground: #d4d4d4;
     --border: #262626;
+    
+    /* Primary - brighter for dark mode */
     --primary: #3b82f6;
+    --primary-hover: #60a5fa;
     --primary-foreground: #ffffff;
-    --accent: #1f2937;
-    --accent-foreground: #f9fafb;
+    
+    /* Accent colors */
+    --accent: #1a1a1a;
+    --accent-foreground: #f5f5f5;
+    
+    /* Warm accents - toned down for dark mode */
+    --warm-accent: #422006;
+    --warm-accent-hover: #713f12;
+    
+    /* Success */
+    --success: #10b981;
+    --success-foreground: #ffffff;
+    
+    /* Cards */
+    --card-bg: #141414;
+    --card-border: #262626;
+    --card-hover-border: #404040;
+    
+    /* Icon backgrounds - darker but still colorful */
+    --icon-privacy: #1e3a5f;
+    --icon-speed: #422006;
+    --icon-simple: #4a1942;
+    --icon-trust: #064e3b;
+    --icon-access: #312e81;
+    --icon-community: #7f1d1d;
+    
+    /* Shadows - more prominent in dark mode */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
   }
 }
 
@@ -48,6 +109,30 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Gradient text with proper fallback */
+.gradient-text {
+  /* Solid color fallback */
+  color: var(--primary);
+  font-weight: 900;
+  
+  /* Gradient effect for supporting browsers */
+  background: linear-gradient(135deg, var(--primary) 0%, var(--success) 50%, var(--primary) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 8s ease infinite;
+}
+
+/* Reset for older browsers */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .gradient-text {
+    background: none;
+    -webkit-text-fill-color: var(--primary);
+    color: var(--primary);
+  }
 }
 
 ::selection {
@@ -196,4 +281,131 @@ button:active {
   left: 50%;
   transform: translateX(-50%);
   top: 1rem;
+}
+
+/* Card hover effects */
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Smooth color transitions */
+.text-muted {
+  color: var(--muted);
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+/* Primary color utility */
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-primary-hover:hover,
+.hover\:bg-primary-hover:hover {
+  background-color: var(--primary-hover);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-primary-foreground {
+  color: var(--primary-foreground);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}
+
+.border-border {
+  border-color: var(--border);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+}
+
+.hover\:bg-accent:hover {
+  background-color: var(--accent);
+}
+
+/* Gradient animation */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* Ping animation for live indicator */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Smooth hover scale */
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Tabular numbers for stats */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* Ensure proper text rendering on all devices */
+@supports (font-variant-numeric: tabular-nums) {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Prevent layout shift */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Better tap targets for mobile */
+@media (max-width: 640px) {
+  a, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
