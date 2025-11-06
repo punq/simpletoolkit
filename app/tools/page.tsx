@@ -45,16 +45,19 @@ export default function ToolsPage() {
             </p>
           </Link>
 
-          {/* Coming Soon Tools */}
-          <div className="block rounded-lg border border-border/50 p-6 opacity-70">
+          {/* Rotate / Rearrange */}
+          <Link 
+            href="/tools/rearrange" 
+            className="group block rounded-lg border border-border p-6 transition-all hover:border-foreground/20 hover:shadow-lg hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          >
             <div className="flex items-start justify-between mb-2">
-              <h2 className="text-xl font-semibold">Rotate / Rearrange</h2>
-              <span className="text-xs px-2 py-1 rounded-full bg-muted/10 text-muted font-medium">Coming Soon</span>
+              <h2 className="text-xl font-semibold group-hover:text-primary transition-colors">Rotate / Rearrange PDFs</h2>
+              <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
             </div>
             <p className="mt-2 text-sm text-muted leading-relaxed">
               Rotate pages or rearrange the order of pages within a PDF document.
             </p>
-          </div>
+          </Link>
 
           <Link 
             href="/tools/compress" 
