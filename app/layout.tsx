@@ -179,6 +179,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        {/* Service Worker Registration (client-only, resilient) */}
+        <Script id="sw-register" strategy="afterInteractive">
+          {`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+              });
+            }
+          `}
+        </Script>
         <Header />
         <main id="main-content" className="flex-1 container mx-auto max-w-screen-xl px-4 py-8">
           {children}
