@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
+import SuccessMessage from "./SuccessMessage";
 
 type SplitMode = "pages" | "range" | "every-n" | "individual";
 
@@ -25,6 +26,7 @@ export default function SplitTool() {
   const [splitting, setSplitting] = useState(false);
   const [pageCount, setPageCount] = useState<number | null>(null);
   const [mode, setMode] = useState<SplitMode>("pages");
+  const [success, setSuccess] = useState(false);
   
   // Mode-specific inputs
   const [pageInput, setPageInput] = useState(""); // e.g., "1,3,5-7"
@@ -123,6 +125,7 @@ export default function SplitTool() {
     }
 
     setError(null);
+    setSuccess(false);
     setSplitting(true);
 
     try {
@@ -282,6 +285,8 @@ export default function SplitTool() {
           await new Promise((resolve) => setTimeout(resolve, 150));
         }
       }
+      
+      setSuccess(true);
     } catch (err: any) {
       setError(String(err?.message || err) || "An unexpected error occurred during split.");
       track("Split Failed", { error: String(err?.message || err) });
@@ -456,6 +461,14 @@ export default function SplitTool() {
       )}
 
       {error && <div className="text-sm text-red-600 mt-3">{error}</div>}
+
+      {success && (
+        <SuccessMessage
+          message="PDF split successfully!"
+          onClose={() => setSuccess(false)}
+          trackingEvent="Split Success Donation Click"
+        />
+      )}
 
       <div className="flex gap-3 mt-6">
         <button

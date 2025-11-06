@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
+import SuccessMessage from "./SuccessMessage";
 
 export default function MergeTool() {
   // safe Plausible tracker helper — no-op when Plausible isn't loaded
@@ -24,6 +25,7 @@ export default function MergeTool() {
   const [skipped, setSkipped] = useState<string[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [addedMessage, setAddedMessage] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dragIndexRef = useRef<number | null>(null);
@@ -213,6 +215,7 @@ export default function MergeTool() {
     }
     setError(null);
     setSkipped([]);
+    setSuccess(false);
     setMerging(true);
 
     try {
@@ -244,6 +247,7 @@ export default function MergeTool() {
         document.body.appendChild(a);
         a.click();
         a.remove();
+        setSuccess(true);
       } finally {
         // Always revoke the object URL to prevent memory leaks
         URL.revokeObjectURL(url);
@@ -342,6 +346,14 @@ export default function MergeTool() {
             ))}
           </ul>
         </details>
+      )}
+      
+      {success && (
+        <SuccessMessage 
+          message="PDFs merged successfully!"
+          onClose={() => setSuccess(false)}
+          trackingEvent="Merge Success Donation Click"
+        />
       )}
 
       <div className="flex gap-3 mt-4">
