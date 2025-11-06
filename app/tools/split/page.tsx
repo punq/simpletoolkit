@@ -21,6 +21,14 @@ export default function SplitPage() {
             <p className="text-muted">
               Split PDF files locally in your browser — extract pages, ranges, or split into individual pages. No uploads, no accounts.
             </p>
+            <div className="flex items-center space-x-4">
+              <Link
+                href="/donate"
+                className="text-sm text-muted hover:text-foreground transition-all relative link-underline inline-flex items-center"
+              >
+                ♥️ Support this project
+              </Link>
+            </div>
           </div>
 
           <div className="w-full">
