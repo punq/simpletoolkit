@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { PDFDocument, PDFName, PDFStream, PDFDict } from "pdf-lib";
 import SuccessMessage from "./SuccessMessage";
 import { 
   isPdfFile,
@@ -59,6 +58,7 @@ export default function CompressTool() {
     }
 
     try {
+      const { PDFDocument } = await import("pdf-lib");
       const arrayBuffer = await selected.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
       const pageCount = pdf.getPageCount();
@@ -117,6 +117,7 @@ export default function CompressTool() {
       setProgress({ processed: 0, total: 100, percent: 0 });
       
       // Load the PDF
+      const { PDFDocument } = await import("pdf-lib");
       const fileData = await file.arrayBuffer();
       const pdfDoc = await PDFDocument.load(fileData);
       

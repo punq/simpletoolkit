@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { PDFDocument } from "pdf-lib";
 import SuccessMessage from "./SuccessMessage";
 import { 
   MAX_FILE_SIZE,
@@ -55,6 +54,7 @@ export default function SplitTool() {
 
     // Load PDF to get page count
     try {
+      const { PDFDocument } = await import("pdf-lib");
       const arrayBuffer = await selected.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
       const count = pdf.getPageCount();
@@ -117,6 +117,7 @@ export default function SplitTool() {
     setPageCount(null);
 
     try {
+      const { PDFDocument } = await import("pdf-lib");
       const arrayBuffer = await droppedFile.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
       const count = pdf.getPageCount();
@@ -169,11 +170,12 @@ export default function SplitTool() {
     setSplitting(true);
 
     try {
+      const { PDFDocument } = await import("pdf-lib");
       const arrayBuffer = await file.arrayBuffer();
       const sourcePdf = await PDFDocument.load(arrayBuffer);
       const baseFilename = file.name.replace(/\.pdf$/i, "");
 
-      let outputFiles: { name: string; pdf: PDFDocument }[] = [];
+  let outputFiles: { name: string; pdf: any }[] = [];
 
       if (mode === "pages") {
         // Extract specific pages

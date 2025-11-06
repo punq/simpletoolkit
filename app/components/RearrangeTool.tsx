@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState } from "react";
-import { PDFDocument, degrees } from "pdf-lib";
 import SuccessMessage from "./SuccessMessage";
 import { 
   validatePdfFile, 
@@ -60,6 +59,7 @@ export default function RearrangeTool() {
   const validateAndPrepare = useCallback(async (f: File): Promise<number> => {
     validatePdfFile(f); // Throws if invalid
     const buf = await f.arrayBuffer();
+    const { PDFDocument } = await import("pdf-lib");
     const pdf = await PDFDocument.load(buf);
     return pdf.getPageCount();
   }, []);
@@ -232,6 +232,7 @@ export default function RearrangeTool() {
     setProcessing(true);
 
     try {
+      const { PDFDocument, degrees } = await import("pdf-lib");
       const srcBytes = await file.arrayBuffer();
       const srcPdf = await PDFDocument.load(srcBytes);
       const srcPageCount = srcPdf.getPageCount();

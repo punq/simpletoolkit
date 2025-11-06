@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { PDFDocument } from "pdf-lib";
 import SuccessMessage from "./SuccessMessage";
 import { 
   MAX_FILE_SIZE,
@@ -129,6 +128,7 @@ export default function MergeTool() {
     setMerging(true);
 
     try {
+      const { PDFDocument } = await import("pdf-lib");
       track("Merge Started", { files: files.length });
       const mergedPdf = await PDFDocument.create();
       const skippedLocal: string[] = [];
