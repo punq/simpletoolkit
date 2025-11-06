@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { track } from "@/app/utils/analytics";
 
 export default function Header() {
   return (
@@ -22,6 +23,7 @@ export default function Header() {
           <Link 
             href="/donate" 
             className="text-sm text-muted hover:text-foreground transition-all relative link-underline"
+            onClick={() => track("Donate Header Click", { location: "header" })}
           >
             Donate
           </Link>

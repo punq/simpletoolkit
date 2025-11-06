@@ -2,10 +2,12 @@ import Link from "next/link";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 import CompressTool from "../../components/CompressTool";
 import Head from "next/head";
+import TrackView from "@/app/components/TrackView";
 
 export default function CompressPage() {
   return (
     <div className="flex flex-col items-center">
+      <TrackView event="Tool Viewed" props={{ tool: "compress" }} />
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#000000" />

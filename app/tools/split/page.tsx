@@ -1,10 +1,12 @@
 import Link from "next/link";
 import SplitTool from "../../components/SplitTool";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
+import TrackView from "@/app/components/TrackView";
 
 export default function SplitPage() {
   return (
     <div className="flex flex-col items-center">
+      <TrackView event="Tool Viewed" props={{ tool: "split" }} />
       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="space-y-6">
           <div>

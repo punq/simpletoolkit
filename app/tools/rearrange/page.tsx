@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import RearrangeTool from "@/app/components/RearrangeTool";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
+import TrackView from "@/app/components/TrackView";
 
 export const metadata: Metadata = {
   title: "Rotate / Rearrange PDF — Simple Toolkit",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function RearrangePage() {
   return (
     <div className="flex flex-col items-center">
+      <TrackView event="Tool Viewed" props={{ tool: "rearrange" }} />
       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="space-y-6">
           <div>

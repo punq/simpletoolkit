@@ -1,8 +1,10 @@
 import Link from "next/link";
+import TrackView from "@/app/components/TrackView";
 
 export default function DonatePage() {
   return (
     <div className="flex flex-col items-center">
+      <TrackView event="Donate Page Viewed" />
       <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="space-y-8">
           <div className="space-y-4">
