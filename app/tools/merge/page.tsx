@@ -2,6 +2,36 @@ import Link from "next/link";
 import MergeTool from "../../components/MergeTool";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 import TrackView from "@/app/components/TrackView";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Merge PDF Files — Free, Private, No Upload | Simple Toolkit",
+  description:
+    "Combine multiple PDFs entirely in your browser. No uploads, no watermarks, no signup, no ads. Fast and privacy-first.",
+  keywords: [
+    "merge pdf",
+    "combine pdf",
+    "pdf merger",
+    "merge pdf offline",
+    "merge pdf in browser",
+    "free pdf tools",
+    "no watermark",
+    "no upload pdf merge",
+  ],
+  openGraph: {
+    title: "Merge PDF Files — Private & Free | Simple Toolkit",
+    description:
+      "Merge up to 20 PDFs locally in your browser — no uploads or watermarks. Fast, secure, and free.",
+    type: "website",
+    url: "/tools/merge",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Merge PDF Files — Private & Free",
+    description: "Merge PDFs locally in your browser. No uploads, no watermarks, no signup.",
+  },
+  alternates: { canonical: "/tools/merge" },
+};
 
 export default function MergePage() {
   return (

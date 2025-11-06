@@ -2,6 +2,35 @@ import Link from "next/link";
 import SplitTool from "../../components/SplitTool";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 import TrackView from "@/app/components/TrackView";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Split PDF — Extract Pages, Ranges, or Individual PDFs | Simple Toolkit",
+  description:
+    "Split a PDF into pages or extract a range entirely in your browser. No uploads, no tracking, no watermarks.",
+  keywords: [
+    "split pdf",
+    "extract pdf pages",
+    "pdf splitter",
+    "split pdf offline",
+    "browser pdf tools",
+    "free pdf tools",
+    "no watermark",
+  ],
+  openGraph: {
+    title: "Split PDF — Private & Free | Simple Toolkit",
+    description:
+      "Extract pages or ranges from a PDF locally in your browser — no uploads or watermarks.",
+    type: "website",
+    url: "/tools/split",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Split PDF — Private & Free",
+    description: "Split PDF pages locally in your browser. No uploads, no watermarks, no signup.",
+  },
+  alternates: { canonical: "/tools/split" },
+};
 
 export default function SplitPage() {
   return (

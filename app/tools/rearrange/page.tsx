@@ -5,8 +5,29 @@ import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 import TrackView from "@/app/components/TrackView";
 
 export const metadata: Metadata = {
-  title: "Rotate / Rearrange PDF — Simple Toolkit",
-  description: "Rotate pages and reorder them within a PDF locally in your browser — private, fast, and free.",
+  title: "Rearrange & Rotate PDF — Free, Private, No Upload | Simple Toolkit",
+  description: "Reorder pages and rotate PDFs entirely in your browser. No uploads, no watermarks, no signup. Fast and private.",
+  keywords: [
+    "rearrange pdf",
+    "rotate pdf",
+    "reorder pdf pages",
+    "pdf page rotation",
+    "pdf tools private",
+    "no upload pdf",
+    "free pdf tools"
+  ],
+  openGraph: {
+    title: "Rearrange & Rotate PDF — Private & Free | Simple Toolkit",
+    description: "Drag to reorder and rotate PDF pages locally — no uploads or watermarks.",
+    type: "website",
+    url: "/tools/rearrange"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rearrange & Rotate PDF — Private & Free",
+    description: "Reorder and rotate PDF pages locally. No uploads, no watermarks, no tracking."
+  },
+  alternates: { canonical: "/tools/rearrange" }
 };
 
 export default function RearrangePage() {
