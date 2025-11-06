@@ -24,7 +24,7 @@ export const isPdfFile = (file: File): boolean => {
  * @returns true if file size is within limits
  */
 export const isValidFileSize = (file: File): boolean => {
-  return file.size > 0 && file.size <= MAX_FILE_SIZE;
+  return file.size <= MAX_FILE_SIZE;
 };
 
 /**
@@ -75,10 +75,6 @@ export const validatePdfFile = (file: File): void => {
 
   if (!isPdfFile(file)) {
     throw new Error("Please select a PDF file.");
-  }
-
-  if (file.size === 0) {
-    throw new Error("File is empty. Please select a valid PDF file.");
   }
 
   if (file.size > MAX_FILE_SIZE) {

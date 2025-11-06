@@ -4,23 +4,19 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
 import SuccessMessage from "./SuccessMessage";
+import { 
+  MAX_FILE_SIZE,
+  isPdfFile,
+  isValidFileSize,
+  formatFileSize,
+  sanitizeFilename,
+  downloadBlob
+} from "@/app/utils/pdfUtils";
+import { track } from "@/app/utils/analytics";
 
 type SplitMode = "pages" | "range" | "every-n" | "individual";
 
 export default function SplitTool() {
-  const track = (name: string, props?: Record<string, any>) => {
-    try {
-      if (typeof window === "undefined") return;
-      const w = window as any;
-      if (typeof w.plausible === "function") {
-        if (props) w.plausible(name, { props });
-        else w.plausible(name);
-      }
-    } catch (_err) {
-      // swallow tracking errors
-    }
-  };
-
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [splitting, setSplitting] = useState(false);
@@ -42,14 +38,13 @@ export default function SplitTool() {
     const selected = e.target.files?.[0];
     if (!selected) return;
 
-    if (selected.type !== "application/pdf" && !selected.name.toLowerCase().endsWith(".pdf")) {
+    if (!isPdfFile(selected)) {
       setError("Please select a PDF file.");
       return;
     }
 
     // File size validation - max 50MB for client-side processing
-    const maxSize = 50 * 1024 * 1024; // 50MB
-    if (selected.size > maxSize) {
+    if (!isValidFileSize(selected)) {
       setError("File is too large. Please select a PDF under 50MB.");
       return;
     }
@@ -107,13 +102,12 @@ export default function SplitTool() {
     const droppedFile = e.dataTransfer.files[0];
     if (!droppedFile) return;
 
-    if (droppedFile.type !== "application/pdf" && !droppedFile.name.toLowerCase().endsWith(".pdf")) {
+    if (!isPdfFile(droppedFile)) {
       setError("Please select a PDF file.");
       return;
     }
 
-    const maxSize = 50 * 1024 * 1024;
-    if (droppedFile.size > maxSize) {
+    if (!isValidFileSize(droppedFile)) {
       setError("File is too large. Please select a PDF under 50MB.");
       return;
     }
@@ -132,12 +126,6 @@ export default function SplitTool() {
       setError(`Could not load PDF: ${err.message || err}`);
       setFile(null);
     }
-  };
-
-  // Format file size for display
-  const formatSize = (bytes: number) => {
-    const mb = bytes / (1024 * 1024);
-    return mb.toFixed(1) + " MB";
   };
 
   // Parse page input like "1,3,5-7" into an array of page numbers (1-indexed)
@@ -168,11 +156,6 @@ export default function SplitTool() {
     }
 
     return Array.from(pages).sort((a, b) => a - b);
-  };
-
-  // Sanitize filename to remove problematic characters
-  const sanitizeFilename = (name: string): string => {
-    return name.replace(/[<>:"/\\|?*\x00-\x1F]/g, "_").substring(0, 200);
   };
 
   const split = async () => {
@@ -323,19 +306,9 @@ export default function SplitTool() {
       for (const output of outputFiles) {
         const pdfBytes = await output.pdf.save();
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
-        const url = URL.createObjectURL(blob);
         
-        try {
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = output.name;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        } finally {
-          // Always revoke the object URL to prevent memory leaks
-          URL.revokeObjectURL(url);
-        }
+        // Use shared download utility
+        downloadBlob(blob, output.name);
 
         // Small delay between downloads to prevent browser blocking
         if (outputFiles.length > 1) {
@@ -400,7 +373,7 @@ export default function SplitTool() {
             <div className="text-sm">
               <div className="font-medium">{file.name}</div>
               <div className="text-gray-500">
-                {formatSize(file.size)}
+                {formatFileSize(file.size)}
                 {pageCount && <> • {pageCount} pages</>}
               </div>
             </div>

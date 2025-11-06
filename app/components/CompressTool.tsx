@@ -4,6 +4,14 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { PDFDocument, PDFName, PDFStream, PDFDict } from "pdf-lib";
 import SuccessMessage from "./SuccessMessage";
+import { 
+  isPdfFile,
+  isValidFileSize,
+  formatFileSize,
+  downloadBlob,
+  getBaseFilename
+} from "@/app/utils/pdfUtils";
+import { track } from "@/app/utils/analytics";
 
 type CompressionLevel = "low" | "medium" | "high";
 
@@ -14,19 +22,6 @@ type ProgressData = {
 };
 
 export default function CompressTool() {
-  const track = (name: string, props?: Record<string, any>) => {
-    try {
-      if (typeof window === "undefined") return;
-      const w = window as any;
-      if (typeof w.plausible === "function") {
-        if (props) w.plausible(name, { props });
-        else w.plausible(name);
-      }
-    } catch (_err) {
-      // swallow tracking errors — analytics must never break UX
-    }
-  };
-
   // Core state
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -52,14 +47,13 @@ export default function CompressTool() {
     setSuccess(false);
     setCompressedSize(null);
 
-    if (selected.type !== "application/pdf" && !selected.name.toLowerCase().endsWith(".pdf")) {
+    if (!isPdfFile(selected)) {
       setError("Please select a PDF file.");
       return;
     }
 
     // File size validation - max 50MB for client-side processing
-    const maxSize = 50 * 1024 * 1024; // 50MB
-    if (selected.size > maxSize) {
+    if (!isValidFileSize(selected)) {
       setError("File is too large. Please select a PDF under 50MB.");
       return;
     }
@@ -174,13 +168,9 @@ export default function CompressTool() {
       const blob = new Blob([new Uint8Array(compressedBytes)], { type: "application/pdf" });
       setCompressedSize(blob.size);
       
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${file.name.replace(".pdf", "")}-compressed.pdf`;
-      a.click();
-      
-      URL.revokeObjectURL(url);
+      // Use shared download utility
+      const baseFilename = getBaseFilename(file.name);
+      downloadBlob(blob, `${baseFilename}-compressed.pdf`);
       
       setSuccess(true);
       track("PDF Compressed", {
@@ -197,12 +187,6 @@ export default function CompressTool() {
       setCompressing(false);
       setProgress({ processed: 0, total: 0, percent: 0 });
     }
-  };
-
-  // Format file size for display
-  const formatSize = (bytes: number) => {
-    const mb = bytes / (1024 * 1024);
-    return mb.toFixed(1) + " MB";
   };
 
   return (
@@ -253,9 +237,9 @@ export default function CompressTool() {
             <div className="text-sm">
               <div className="font-medium">{file.name}</div>
               <div className="text-gray-500">
-                Original size: {formatSize(file.size)}
+                Original size: {formatFileSize(file.size)}
                 {compressedSize && (
-                  <> • Compressed: {formatSize(compressedSize)}</>
+                  <> • Compressed: {formatFileSize(compressedSize)}</>
                 )}
               </div>
             </div>

@@ -4,21 +4,15 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { PDFDocument } from "pdf-lib";
 import SuccessMessage from "./SuccessMessage";
+import { 
+  MAX_FILE_SIZE,
+  isPdfFile,
+  formatFileSize,
+  downloadBlob
+} from "@/app/utils/pdfUtils";
+import { track } from "@/app/utils/analytics";
 
 export default function MergeTool() {
-  const track = (name: string, props?: Record<string, any>) => {
-    try {
-      if (typeof window === "undefined") return;
-      const w = window as any;
-      if (typeof w.plausible === "function") {
-        if (props) w.plausible(name, { props });
-        else w.plausible(name);
-      }
-    } catch (_err) {
-      // swallow tracking errors — analytics must never break UX
-    }
-  };
-
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [merging, setMerging] = useState(false);
@@ -34,11 +28,10 @@ export default function MergeTool() {
 
   const addFiles = (incoming: File[] | FileList) => {
     const list = Array.from(incoming as any as File[]);
-    const pdfs = list.filter((f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
+    const pdfs = list.filter((f) => isPdfFile(f));
     if (pdfs.length === 0) return 0;
 
-    // File size limit: 50MB per file
-    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB in bytes
+    // Filter out oversized files
     const oversized = pdfs.filter((f) => f.size > MAX_FILE_SIZE);
     
     if (oversized.length > 0) {
@@ -155,20 +148,10 @@ export default function MergeTool() {
 
       const mergedBytes = await mergedPdf.save();
       const blob = new Blob([new Uint8Array(mergedBytes)], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
       
-      try {
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "merged.pdf";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setSuccess(true);
-      } finally {
-        // Always revoke the object URL to prevent memory leaks
-        URL.revokeObjectURL(url);
-      }
+      // Use shared download utility
+      downloadBlob(blob, "merged.pdf");
+      setSuccess(true);
 
       if (skippedLocal.length > 0) {
         setSkipped(skippedLocal);
@@ -182,12 +165,6 @@ export default function MergeTool() {
     } finally {
       setMerging(false);
     }
-  };
-
-  // Format file size for display
-  const formatSize = (bytes: number) => {
-    const mb = bytes / (1024 * 1024);
-    return mb.toFixed(1) + " MB";
   };
 
   return (
@@ -257,7 +234,7 @@ export default function MergeTool() {
                     <div className="text-gray-400">☰</div>
                     <div>
                       <div className="font-medium text-sm">{f.name}</div>
-                      <div className="text-gray-500 text-xs">{formatSize(f.size)}</div>
+                      <div className="text-gray-500 text-xs">{formatFileSize(f.size)}</div>
                     </div>
                   </div>
                   <button
