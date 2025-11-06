@@ -105,7 +105,7 @@ export default function Home() {
             Why We're <span className="text-primary">Different</span>
           </h2>
           <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-            We're not just another PDF tool. We're what you wish existed all along.
+            We're not just another file utility. We're what you wish existed all along.
           </p>
         </div>
         
@@ -124,7 +124,7 @@ export default function Home() {
                 <h3 className="text-2xl sm:text-3xl font-bold">Your Files Stay on Your Device</h3>
               </div>
               <p className="text-lg leading-relaxed max-w-3xl" style={{ color: 'var(--muted-foreground)' }}>
-                Unlike every other PDF tool, we <strong className="text-foreground">literally cannot access your files</strong>. There's no server, no upload, no temporary storage. Your browser does all the work. It's not a feature—it's our architecture.
+                Unlike other file tools, we <strong className="text-foreground">literally cannot access your files</strong>. There's no server, no upload, no temporary storage. Your browser does all the work. It's not a feature—it's our architecture.
               </p>
             </div>
           </article>
@@ -233,7 +233,7 @@ export default function Home() {
               <div>
                 <h3 className="text-lg font-semibold mb-2">Donation-Powered</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                  No investors to please, no users to monetize. Just a tool that works, supported by people who appreciate that.
+                  No investors to please, no users to monetize. Just tools that work, supported by people who appreciate that.
                 </p>
               </div>
             </div>
