@@ -107,10 +107,52 @@ export default function RootLayout({
             },
             "featureList": [
               "PDF Merging",
+              "PDF Splitting",
               "Browser-based processing",
               "No file uploads required",
               "No watermarks",
               "Privacy-focused"
+            ],
+            "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge."
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Are my files uploaded to a server?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. All file processing happens locally in your browser using JavaScript. Your files never leave your device and are not uploaded to any server."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is Simple Toolkit really free?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Simple Toolkit is completely free with no hidden fees, premium tiers, or paywalls. The project runs on donations from users who find it valuable."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do I need to create an account?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Simple Toolkit requires no signup, login, or account creation. Just visit the site and start using the tools immediately."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Are there any file size limits?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "There are no artificial limits imposed by Simple Toolkit. The only limitations are those of your browser and device capabilities."
+                }
+              }
             ]
           })}
         </script>
@@ -135,8 +177,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        <a href="#main-content" className="skip-to-main">
+          Skip to main content
+        </a>
         <Header />
-        <main className="flex-1 container mx-auto max-w-screen-xl px-4 py-8">
+        <main id="main-content" className="flex-1 container mx-auto max-w-screen-xl px-4 py-8">
           {children}
         </main>
       </body>

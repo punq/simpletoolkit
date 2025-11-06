@@ -14,16 +14,16 @@ export default function Header() {
         </Link>
         <nav className="flex items-center space-x-6">
           <Link 
-            href="/tools/merge" 
+            href="/tools" 
             className="text-sm text-muted hover:text-foreground transition-all relative link-underline"
           >
-            Merge PDFs
+            Tools
           </Link>
           <Link 
-            href="/tools/split" 
+            href="/donate" 
             className="text-sm text-muted hover:text-foreground transition-all relative link-underline"
           >
-            Split PDF
+            Donate
           </Link>
           <Link 
             href="/privacy" 
