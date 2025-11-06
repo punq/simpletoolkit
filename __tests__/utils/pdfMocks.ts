@@ -5,6 +5,12 @@
 // Mock PDFDocument class
 const mockPages: any[] = [];
 
+// Allow tests to control page count returned by PDFDocument.load
+let mockPageCount = 3;
+export const setMockPageCount = (count: number) => {
+  mockPageCount = count;
+};
+
 export const mockPDFDocument = {
   create: jest.fn(() => Promise.resolve({
     copyPages: jest.fn((pdf, indices) => {
@@ -33,9 +39,10 @@ export const mockPDFDocument = {
       return Promise.reject(new Error('Cannot modify encrypted PDF'));
     }
     
+    const count = mockPageCount;
     return Promise.resolve({
-      getPageIndices: jest.fn(() => [0, 1, 2]), // Mock 3 pages
-      getPageCount: jest.fn(() => 3),
+      getPageIndices: jest.fn(() => Array.from({ length: count }, (_, i) => i)),
+      getPageCount: jest.fn(() => count),
     });
   }),
 };
@@ -43,6 +50,7 @@ export const mockPDFDocument = {
 // Reset function for tests
 export const resetPDFMocks = () => {
   mockPages.length = 0;
+  mockPageCount = 3;
   mockPDFDocument.create.mockClear();
   mockPDFDocument.load.mockClear();
 };
