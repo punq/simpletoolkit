@@ -14,7 +14,7 @@ export default function CompressPage() {
         <div className="space-y-6 sm:space-y-8">
           <div>
             <Link 
-              href="/" 
+              href="/tools" 
               className="text-sm text-muted hover:text-foreground transition-all relative link-underline inline-flex items-center"
             >
               ← Back to tools
