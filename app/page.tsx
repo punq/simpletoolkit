@@ -27,7 +27,7 @@ export default function Home() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: 'var(--success)' }}></span>
               <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--success)' }}></span>
             </span>
-            <span className="text-foreground">100% Private • No Servers • No Tracking</span>
+            <span className="text-foreground">100% Private • No Servers • No Ads</span>
           </div>
 
           <div className="space-y-6">
@@ -45,9 +45,9 @@ export default function Home() {
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed px-4" style={{ color: 'var(--muted-foreground)' }}>
-              No signups. No uploads. No tracking. No ads. No watermarks. No premium tiers.
+              No signups. No uploads. No ads. No watermarks. No premium tiers.
               <br />
-              <strong className="text-foreground font-bold">PDFs, images, text—all free, forever.</strong>
+              <strong className="text-foreground font-bold">We may use privacy‑friendly, cookie‑less analytics (Plausible) in production to count visits. Your files never leave your device.</strong>
             </p>
           </div>
 
@@ -190,7 +190,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-success mt-0.5">✓</span>
-                  <span><strong className="text-foreground">Zero tracking</strong> or analytics</span>
+                  <span><strong className="text-foreground">No invasive tracking</strong>; optional privacy‑friendly analytics (Plausible) may be enabled</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-success mt-0.5">✓</span>

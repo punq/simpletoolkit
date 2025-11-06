@@ -15,9 +15,13 @@ export default function PrivacyPage() {
 
           <div className="space-y-4 text-muted">
             <p className="leading-relaxed">
-              We don't collect or store the files you process. The site may include minimal analytics to count visits 
-              or clicks (privacy-first) but no file content is ever transmitted.
+              We don't collect or store the files you process. In production we may use Plausible Analytics, a privacy‑friendly, cookie‑less analytics service, to count visits and basic events. It does not collect personal data, use cookies, or store file content.
             </p>
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              <li>Your files never leave your device.</li>
+              <li>No cookies. No cross‑site tracking. No advertising identifiers.</li>
+              <li>Analytics can be blocked by content blockers without affecting functionality.</li>
+            </ul>
             
             <p className="leading-relaxed">
               If you have questions, email me at{" "}

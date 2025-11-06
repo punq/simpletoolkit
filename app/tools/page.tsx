@@ -43,7 +43,7 @@ export default function ToolsPage() {
 
         <div className="relative z-10 text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold shadow-sm" style={{ borderColor: 'var(--primary)' }}>
-            <span className="text-foreground">100% Private • No Logins • No Tracking</span>
+            <span className="text-foreground">100% Private • No Logins • No Ads</span>
           </div>
           <h1 id="tools-hero" className="text-4xl sm:text-5xl font-bold tracking-tight">All Tools</h1>
           <p className="text-lg sm:text-xl max-w-3xl mx-auto" style={{ color: 'var(--muted-foreground)' }}>
@@ -171,7 +171,7 @@ export default function ToolsPage() {
             <div className="relative z-10 space-y-4">
               <h2 id="privacy-promise" className="text-2xl sm:text-3xl font-bold">Our Privacy Promise</h2>
               <p className="text-sm sm:text-base max-w-3xl mx-auto" style={{ color: 'var(--muted-foreground)' }}>
-                All tools run <strong className="text-foreground">100% in your browser</strong>. We never upload, log, or track your files or actions. No accounts, no ads, no analytics—just useful tools.
+                All tools run <strong className="text-foreground">100% in your browser</strong>. Your files are never uploaded. No accounts, no ads. We may enable privacy‑friendly, cookie‑less analytics (Plausible) in production to count visits and basic events—never file content.
               </p>
               <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
                 <Link className="underline hover:text-foreground transition-colors" href="/privacy">Read our simple privacy policy</Link>
