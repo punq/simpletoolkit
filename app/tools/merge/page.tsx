@@ -21,6 +21,14 @@ export default function MergePage() {
             <p className="text-muted">
               Merge up to 20 PDF files locally in your browser — no uploads, no accounts.
             </p>
+            <div className="flex items-center space-x-4">
+              <Link
+                href="/donate"
+                className="text-sm text-muted hover:text-foreground transition-all relative link-underline inline-flex items-center"
+              >
+                ♥️ Support this project
+              </Link>
+            </div>
           </div>
 
           <div className="w-full">
