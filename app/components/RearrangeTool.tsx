@@ -40,6 +40,7 @@ export default function RearrangeTool() {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [operationId, setOperationId] = useState<string | null>(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
   const [pages, setPages] = useState<PageItem[]>([]);
@@ -87,12 +88,12 @@ export default function RearrangeTool() {
       setFile(f);
       setPages(Array.from({ length: count }, (_, i) => ({ index: i, rotation: 0 })));
       track("Rearrange File Loaded", { pages: count });
-    } catch (err: any) {
+    } catch (err: unknown) {
       setFile(null);
       setPages([]);
       
       // Provide user-friendly error messages
-      const message = err?.message || String(err);
+      const message = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
       if (message.includes("encrypted") || message.includes("password")) {
         setError("This PDF is encrypted. Please remove the password protection first.");
       } else if (message.includes("Invalid") || message.includes("parse")) {
@@ -264,12 +265,14 @@ export default function RearrangeTool() {
       
       // Use shared download utility with sanitization
       const baseFilename = getBaseFilename(file.name);
-      downloadBlob(blob, `${baseFilename}-rearranged.pdf`);
+  downloadBlob(blob, `${baseFilename}-rearranged.pdf`);
       
-      setSuccess(true);
+  const opId = `rearrange-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  setOperationId(opId);
+  setSuccess(true);
       track("Rearrange Export Completed", { pages: pages.length });
-    } catch (err: any) {
-      const message = err?.message || String(err);
+    } catch (err: unknown) {
+      const message = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
       setError(message || "Failed to export PDF.");
       track("Rearrange Export Failed", { error: message });
     } finally {
@@ -424,6 +427,8 @@ export default function RearrangeTool() {
           message="PDF rearranged successfully!"
           onClose={() => setSuccess(false)}
           trackingEvent="Rearrange Success Donation Click"
+          operationId={operationId || undefined}
+          tool="rearrange"
         />
       )}
 

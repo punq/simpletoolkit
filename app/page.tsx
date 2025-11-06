@@ -45,9 +45,9 @@ export default function Home() {
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed px-4" style={{ color: 'var(--muted-foreground)' }}>
-              No signups. No uploads. No ads. No watermarks. No premium tiers.
+              No signups. No uploads. No ads. No watermarks. No cost. No BS.
               <br />
-              <strong className="text-foreground font-bold">We may use privacy‑friendly, cookie‑less analytics (Plausible) in production to count visits. Your files never leave your device.</strong>
+              <strong className="text-foreground font-bold">Your files never leave your device.</strong>
             </p>
           </div>
 
@@ -74,7 +74,7 @@ export default function Home() {
           {/* Social proof / stats - The Hook */}
           <div className="pt-12 sm:pt-16">
             <p className="text-sm font-semibold uppercase tracking-wide mb-6" style={{ color: 'var(--muted)' }}>
-              What We Don't Do
+              What We Don&#39;t Do
             </p>
             <div className="flex flex-wrap justify-center gap-6 sm:gap-12">
               <div className="flex flex-col items-center gap-2 min-w-[100px]">
@@ -102,10 +102,10 @@ export default function Home() {
       <section aria-labelledby="features-heading" className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="text-center mb-16">
           <h2 id="features-heading" className="text-4xl sm:text-5xl font-bold mb-4">
-            Why We're <span className="text-primary">Different</span>
+            Why We&#39;re <span className="text-primary">Different</span>
           </h2>
           <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-            We're not just another file utility. We're what you wish existed all along.
+            We&#39;re not just another file utility. We&#39;re what you wish existed all along.
           </p>
         </div>
         
@@ -124,7 +124,7 @@ export default function Home() {
                 <h3 className="text-2xl sm:text-3xl font-bold">Your Files Stay on Your Device</h3>
               </div>
               <p className="text-lg leading-relaxed max-w-3xl" style={{ color: 'var(--muted-foreground)' }}>
-                Unlike other file tools, we <strong className="text-foreground">literally cannot access your files</strong>. There's no server, no upload, no temporary storage. Your browser does all the work. It's not a feature—it's our architecture.
+                Unlike other file tools, we <strong className="text-foreground">literally cannot access your files</strong>. There&#39;s no server, no upload, no temporary storage. Your browser does all the work. It&#39;s not a feature—it&#39;s our architecture.
               </p>
             </div>
           </article>
@@ -256,7 +256,7 @@ export default function Home() {
             <p className="text-xl max-w-2xl mx-auto" style={{ color: 'var(--muted-foreground)' }}>
               They ask you to trust them with your files.
               <br />
-              <strong className="text-foreground">We can't touch them even if we wanted to.</strong>
+              <strong className="text-foreground">We can&#39;t touch them even if we wanted to.</strong>
             </p>
             <Link 
               href="/tools"

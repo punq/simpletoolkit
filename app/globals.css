@@ -402,6 +402,20 @@ html {
   }
 }
 
+/* Keyframe for adaptive progress bar shrink (used in SuccessMessage) */
+@keyframes progressShrink {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+/* Utility to opt-in via animate-[progressShrink_linear] with custom duration */
+.animate-[progressShrink_linear] {
+  animation-name: progressShrink;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  transform-origin: left;
+}
+
 /* Better tap targets for mobile */
 @media (max-width: 640px) {
   a, button {

@@ -15,7 +15,7 @@ export default function PrivacyPage() {
 
           <div className="space-y-4 text-muted">
             <p className="leading-relaxed">
-              We don't collect or store the files you process. In production we may use Plausible Analytics, a privacy‑friendly, cookie‑less analytics service, to count visits and basic events. It does not collect personal data, use cookies, or store file content.
+              We don&#39;t collect or store the files you process. In production we may use Plausible Analytics, a privacy‑friendly, cookie‑less analytics service, to count visits and basic events. It does not collect personal data, use cookies, or store file content.
             </p>
             <ul className="list-disc list-inside space-y-1 text-sm">
               <li>Your files never leave your device.</li>
@@ -33,9 +33,9 @@ export default function PrivacyPage() {
           </div>
 
           <div className="pt-4">
-            <a href="/" className="text-sm text-muted hover:text-foreground transition-all relative link-underline">
+            <Link href="/" className="text-sm text-muted hover:text-foreground transition-all relative link-underline" aria-label="Back to home">
               ← Back
-            </a>
+            </Link>
           </div>
         </div>
       </div>

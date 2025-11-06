@@ -13,6 +13,18 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    files: [
+      "**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "jest.config.js",
+      "scripts/**/*.js",
+    ],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "react/display-name": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

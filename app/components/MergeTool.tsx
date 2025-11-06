@@ -19,6 +19,7 @@ export default function MergeTool() {
   const [isDragging, setIsDragging] = useState(false);
   const [addedMessage, setAddedMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [operationId, setOperationId] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dragIndexRef = useRef<number | null>(null);
@@ -26,7 +27,7 @@ export default function MergeTool() {
   const triggerFilePicker = () => fileInputRef.current?.click();
 
   const addFiles = (incoming: File[] | FileList) => {
-    const list = Array.from(incoming as any as File[]);
+    const list = Array.from(incoming as unknown as File[]);
     const pdfs = list.filter((f) => isPdfFile(f));
     if (pdfs.length === 0) return 0;
 
@@ -139,9 +140,10 @@ export default function MergeTool() {
           const pdf = await PDFDocument.load(arrayBuffer);
           const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
           copiedPages.forEach((p) => mergedPdf.addPage(p));
-        } catch (perr: any) {
+        } catch (perr: unknown) {
           // If a single file fails (encrypted/corrupt), skip it and continue
-          skippedLocal.push(`${f.name}: ${String(perr?.message || perr)}`);
+          const msg = (perr && typeof perr === 'object' && 'message' in perr) ? String((perr as { message?: unknown }).message) : String(perr);
+          skippedLocal.push(`${f.name}: ${msg}`);
           // continue with next file
         }
       }
@@ -149,9 +151,12 @@ export default function MergeTool() {
       const mergedBytes = await mergedPdf.save();
       const blob = new Blob([new Uint8Array(mergedBytes)], { type: "application/pdf" });
       
-      // Use shared download utility
+  // Use shared download utility
       downloadBlob(blob, "merged.pdf");
-      setSuccess(true);
+  // Generate unique operation id for deduping counters
+  const opId = `merge-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  setOperationId(opId);
+  setSuccess(true);
 
       if (skippedLocal.length > 0) {
         setSkipped(skippedLocal);
@@ -159,9 +164,10 @@ export default function MergeTool() {
       }
       
       track("Merge Completed", { files: files.length, skipped: skippedLocal.length });
-    } catch (err: any) {
-      setError(String(err?.message || err) || "An unexpected error occurred during merge.");
-      track("Merge Failed", { error: String(err?.message || err) });
+    } catch (err: unknown) {
+      const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
+      setError(msg || "An unexpected error occurred during merge.");
+      track("Merge Failed", { error: msg });
     } finally {
       setMerging(false);
     }
@@ -292,10 +298,12 @@ export default function MergeTool() {
       )}
 
       {success && (
-        <SuccessMessage 
+        <SuccessMessage
           message="PDFs merged successfully!"
           onClose={() => setSuccess(false)}
           trackingEvent="Merge Success Donation Click"
+          operationId={operationId || undefined}
+          tool="merge"
         />
       )}
 

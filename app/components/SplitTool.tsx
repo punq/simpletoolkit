@@ -22,6 +22,7 @@ export default function SplitTool() {
   const [pageCount, setPageCount] = useState<number | null>(null);
   const [mode, setMode] = useState<SplitMode>("pages");
   const [success, setSuccess] = useState(false);
+  const [operationId, setOperationId] = useState<string | null>(null);
   
   // Mode-specific inputs
   const [pageInput, setPageInput] = useState(""); // e.g., "1,3,5-7"
@@ -60,8 +61,9 @@ export default function SplitTool() {
       const count = pdf.getPageCount();
       setPageCount(count);
       track("File Loaded", { pages: count });
-    } catch (err: any) {
-      setError(`Could not load PDF: ${err.message || err}`);
+    } catch (err: unknown) {
+      const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
+      setError(`Could not load PDF: ${msg}`);
       setFile(null);
     }
   };
@@ -123,8 +125,9 @@ export default function SplitTool() {
       const count = pdf.getPageCount();
       setPageCount(count);
       track("File Loaded", { pages: count });
-    } catch (err: any) {
-      setError(`Could not load PDF: ${err.message || err}`);
+    } catch (err: unknown) {
+      const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
+      setError(`Could not load PDF: ${msg}`);
       setFile(null);
     }
   };
@@ -175,7 +178,7 @@ export default function SplitTool() {
       const sourcePdf = await PDFDocument.load(arrayBuffer);
       const baseFilename = file.name.replace(/\.pdf$/i, "");
 
-  let outputFiles: { name: string; pdf: any }[] = [];
+  const outputFiles: { name: string; pdf: unknown }[] = [];
 
       if (mode === "pages") {
         // Extract specific pages
@@ -306,7 +309,8 @@ export default function SplitTool() {
 
       // Download all output files
       for (const output of outputFiles) {
-        const pdfBytes = await output.pdf.save();
+  const pdfDoc = output.pdf as { save: () => Promise<Uint8Array | ArrayBuffer> };
+  const pdfBytes = await pdfDoc.save();
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
         
         // Use shared download utility
@@ -318,10 +322,13 @@ export default function SplitTool() {
         }
       }
       
+      const opId = `split-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      setOperationId(opId);
       setSuccess(true);
-    } catch (err: any) {
-      setError(String(err?.message || err) || "An unexpected error occurred during split.");
-      track("Split Failed", { error: String(err?.message || err) });
+    } catch (err: unknown) {
+      const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
+      setError(msg || "An unexpected error occurred during split.");
+      track("Split Failed", { error: msg });
     } finally {
       setSplitting(false);
     }
@@ -538,6 +545,8 @@ export default function SplitTool() {
           message="PDF split successfully!"
           onClose={() => setSuccess(false)}
           trackingEvent="Split Success Donation Click"
+          operationId={operationId || undefined}
+          tool="split"
         />
       )}
 

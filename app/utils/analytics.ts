@@ -18,19 +18,19 @@ export const track = (eventName: string, props?: AnalyticsProps): void => {
   try {
     // Only run in browser context
     if (typeof window === "undefined") return;
-    
-    const w = window as any;
-    
+
+    const plausible = (window as unknown as { plausible?: (e: string, o?: { props?: AnalyticsProps }) => void }).plausible;
+
     // Check if Plausible is loaded
-    if (typeof w.plausible !== "function") return;
-    
+    if (typeof plausible !== "function") return;
+
     // Track with or without props
     if (props) {
-      w.plausible(eventName, { props });
+      plausible(eventName, { props });
     } else {
-      w.plausible(eventName);
+      plausible(eventName);
     }
-  } catch (error) {
+  } catch {
     // Silently fail - analytics must never break UX
     // In development, you could log: console.warn('Analytics error:', error);
   }

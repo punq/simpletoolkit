@@ -60,7 +60,7 @@ export default function DonatePage() {
           <div className="space-y-4">
             <h2 className="text-xl font-medium tracking-tight">Other Ways to Help</h2>
             <p className="text-muted leading-relaxed">
-              Can't donate? No problem! You can still help by:
+              Can&#39;t donate? No problem! You can still help by:
             </p>
             <ul className="list-disc list-inside space-y-2 text-muted pl-4">
               <li>Sharing Simple Toolkit with others who might find it useful</li>

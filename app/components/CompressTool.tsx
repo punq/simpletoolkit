@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import SuccessMessage from "./SuccessMessage";
 import { 
   isPdfFile,
@@ -25,6 +25,7 @@ export default function CompressTool() {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [operationId, setOperationId] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [addedMessage, setAddedMessage] = useState<string | null>(null);
 
@@ -69,8 +70,9 @@ export default function CompressTool() {
         size: Math.round(selected.size / 1024),
         pages: pageCount
       });
-    } catch (err: any) {
-      setError(`Could not load PDF: ${err.message || err}`);
+    } catch (err: unknown) {
+      const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
+      setError(`Could not load PDF: ${msg}`);
       setFile(null);
     }
   };
@@ -146,8 +148,7 @@ export default function CompressTool() {
       const optimizedPdf = await PDFDocument.create();
       const pages = pdfDoc.getPages();
       const totalPages = pages.length;
-
-      // Copy pages with progress tracking
+      setError("Failed to compress PDF. Please make sure the file isn't corrupted or password protected.");
       for (let i = 0; i < totalPages; i++) {
         const [copiedPage] = await optimizedPdf.copyPages(pdfDoc, [i]);
         optimizedPdf.addPage(copiedPage);
@@ -171,9 +172,11 @@ export default function CompressTool() {
       
       // Use shared download utility
       const baseFilename = getBaseFilename(file.name);
-      downloadBlob(blob, `${baseFilename}-compressed.pdf`);
+  downloadBlob(blob, `${baseFilename}-compressed.pdf`);
       
-      setSuccess(true);
+  const opId = `compress-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  setOperationId(opId);
+  setSuccess(true);
       track("PDF Compressed", {
         originalSize: Math.round(file.size / 1024),
         compressedSize: Math.round(blob.size / 1024),
@@ -295,6 +298,8 @@ export default function CompressTool() {
           message="PDF compressed successfully!"
           onClose={() => setSuccess(false)}
           trackingEvent="Compress Success Donation Click"
+          operationId={operationId || undefined}
+          tool="compress"
         />
       )}
 
