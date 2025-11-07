@@ -305,7 +305,7 @@ export default function RearrangeTool() {
 
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
-          isDraggingOver ? "border-black bg-gray-50" : file ? "border-green-500 bg-green-50" : "border-gray-300 hover:border-gray-400"
+          isDraggingOver ? "border-black bg-gray-50" : file ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
         }`}
         onClick={triggerFilePicker}
         onDragEnter={onDragEnter}

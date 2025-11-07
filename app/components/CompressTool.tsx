@@ -201,7 +201,7 @@ export default function CompressTool() {
 
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
-          isDragging ? "border-black bg-gray-50" : file ? "border-green-500 bg-green-50" : "border-gray-300 hover:border-gray-400"
+          isDragging ? "border-black bg-gray-50" : file ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
         }`}
         onClick={() => fileInputRef.current?.click()}
         onDragEnter={handleDragOver}
