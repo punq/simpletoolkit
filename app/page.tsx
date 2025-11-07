@@ -31,7 +31,7 @@ export default function Home() {
             <span className="shimmer-text">privacy</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground dark:text-gray-300 max-w-[600px] mb-8 leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground dark:text-gray-200 max-w-[600px] mb-8 leading-relaxed">
             PDFs, images, text, and dev utilities—all running entirely in your browser. 
             No uploads. No accounts. No ads. No compromises.
           </p>
@@ -67,7 +67,7 @@ export default function Home() {
             ].map((stat) => (
               <div key={stat.label}>
                 <div className="text-3xl font-bold mb-1 tabular-nums">{stat.value}</div>
-                <div className="text-sm text-muted-foreground dark:text-gray-300">{stat.label}</div>
+                <div className="text-sm text-muted-foreground dark:text-gray-200">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -79,13 +79,13 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
           <div className="max-w-[800px] mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">What makes us different</h2>
-            <p className="text-base sm:text-lg text-muted-foreground dark:text-gray-300 leading-relaxed">
-              Unlike typical online tools, your files <strong className="text-foreground">never touch our servers</strong>. 
+            <p className="text-base sm:text-lg text-muted-foreground dark:text-gray-200 leading-relaxed">
+              Unlike typical online tools, your files <strong className="text-foreground dark:text-white">never touch our servers</strong>. 
               Everything happens in your browser using JavaScript—no uploads, no storage, no server-side processing. 
               We can&apos;t see your files because they never leave your device. This is the privacy guarantee.
             </p>
-            <div className="mt-6 pt-6 border-t border-border dark:border-zinc-700 text-sm text-muted-foreground dark:text-gray-300">
-              <strong className="text-foreground">No ads.</strong> No affiliate links. No cookies. No premium tiers. No paywalls.
+            <div className="mt-6 pt-6 border-t border-border dark:border-zinc-700 text-sm text-muted-foreground dark:text-gray-200">
+              <strong className="text-foreground dark:text-white">No ads.</strong> No affiliate links. No cookies. No premium tiers. No paywalls.
               <br />
               We use privacy-focused Plausible for anonymous page view stats. It&apos;s cookieless, GDPR-compliant, and doesn&apos;t track individuals.
             </div>
@@ -93,17 +93,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Tools Grid */}
+      {/* Featured Tools Preview */}
       <section className="w-full bg-white dark:bg-black">
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
-          <div className="mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Essential Tools</h2>
-            <p className="text-lg text-muted-foreground dark:text-gray-300 max-w-[600px]">
-              Built for professionals who value their privacy. More tools added regularly.
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Popular Tools</h2>
+            <p className="text-lg text-muted-foreground dark:text-gray-200 max-w-[600px] mx-auto">
+              The most-used privacy-focused tools. Everything runs in your browser—files never leave your device.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Featured 4 tools in 2x2 grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {[
               {
                 href: "/tools/merge",
@@ -115,12 +116,6 @@ export default function Home() {
                 href: "/tools/split",
                 title: "Split PDFs",
                 description: "Extract specific pages or split a PDF into multiple documents.",
-                category: "PDF"
-              },
-              {
-                href: "/tools/rearrange",
-                title: "Rearrange PDF Pages",
-                description: "Reorder, rotate, or remove pages from your PDF documents.",
                 category: "PDF"
               },
               {
@@ -143,10 +138,10 @@ export default function Home() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400">
+                    <span className="text-xs font-mono text-gray-400 dark:text-gray-500 group-hover:text-gray-300 dark:group-hover:text-gray-600">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <span className="text-xs font-semibold text-muted-foreground dark:text-gray-400 group-hover:text-gray-300 dark:group-hover:text-gray-600 uppercase tracking-wide">
+                    <span className="text-xs font-semibold text-muted-foreground dark:text-gray-400 group-hover:text-gray-200 dark:group-hover:text-gray-600 uppercase tracking-wide">
                       {tool.category}
                     </span>
                   </div>
@@ -157,30 +152,34 @@ export default function Home() {
                 <h3 className="text-xl font-bold mb-2 group-hover:text-white dark:group-hover:text-black transition-colors">
                   {tool.title}
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed group-hover:text-gray-200 dark:group-hover:text-gray-700 transition-colors">
+                <p className="text-sm text-gray-600 dark:text-gray-200 leading-relaxed group-hover:text-gray-100 dark:group-hover:text-gray-700 transition-colors">
                   {tool.description}
                 </p>
               </Link>
             ))}
           </div>
 
-          {/* Coming Soon Teaser */}
-          <div className="mt-12 p-8 border-2 border-border dark:border-zinc-700 bg-off-white dark:bg-zinc-900">
-            <div className="flex items-start justify-between">
-              <div>
-                <h3 className="text-lg font-bold mb-2">More tools coming soon</h3>
-                <p className="text-sm text-muted-foreground dark:text-gray-300 mb-4">
-                  Image optimization, JSON formatters, text utilities, and more.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {['More Image Tools', 'Dev Utilities', 'Text Tools', 'Data Tools'].map((cat) => (
-                    <span key={cat} className="px-3 py-1 bg-white dark:bg-zinc-800 border border-border dark:border-zinc-700 text-xs font-semibold text-muted-foreground dark:text-gray-300">
-                      {cat}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="text-2xl">🚀</div>
+          {/* More Tools Teaser - Clean B&W design */}
+          <div className="border-2 border-black dark:border-white p-8 flex items-center justify-between">
+            <div>
+              <h3 className="text-xl font-bold mb-2">More Tools Available</h3>
+              <p className="text-sm text-muted-foreground dark:text-gray-200 mb-3">
+                Rearrange PDFs • Data Formatter • Base64 Encoder • Text List Utilities
+              </p>
+              <Link 
+                href="/tools" 
+                className="inline-flex items-center text-sm font-semibold underline hover:no-underline"
+              >
+                Browse all tools
+                <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <div className="hidden sm:block">
+              <svg className="w-16 h-16 text-black dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 17a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM14 17a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1v-2z" />
+              </svg>
             </div>
           </div>
         </div>
@@ -199,7 +198,7 @@ export default function Home() {
                   Open your browser&apos;s Network tab. Upload a file. Process it. Watch what happens.
                 </p>
                 <p className="text-base leading-relaxed">
-                  You&apos;ll see <strong className="text-white">zero file uploads to our servers</strong>. Your files stay on your device. 
+                  You&apos;ll see <strong className="text-white dark:text-gray-100">zero file uploads to our servers</strong>. Your files stay on your device. 
                   This isn&apos;t marketing—it&apos;s how the application is architecturally built.
                 </p>
                 <p className="text-base leading-relaxed">
@@ -207,7 +206,7 @@ export default function Home() {
                   Your files are processed in memory and downloaded directly back to you.
                 </p>
                 <p className="text-sm leading-relaxed border-l-2 border-zinc-700 dark:border-zinc-600 pl-4 mt-6">
-                  <strong className="text-white">Note on analytics:</strong> We use Plausible for anonymous page view counts (not file processing). 
+                  <strong className="text-white dark:text-gray-100">Note on analytics:</strong> We use Plausible for anonymous page view counts (not file processing). 
                   No cookies, no personal data, no IP addresses stored. Just aggregated stats to understand which tools are useful.
                 </p>
               </div>
@@ -250,7 +249,7 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
           <div className="mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-3">Why this matters</h2>
-            <p className="text-lg text-muted-foreground dark:text-gray-300 max-w-[600px]">
+            <p className="text-lg text-muted-foreground dark:text-gray-200 max-w-[600px]">
               Most &quot;free&quot; tools aren&apos;t free—you pay with your data, privacy, and attention
             </p>
           </div>
@@ -284,7 +283,7 @@ export default function Home() {
             ].map((item) => (
               <div key={item.title} className="border-l-2 border-black dark:border-white pl-4">
                 <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground dark:text-gray-300 leading-relaxed">
+                <p className="text-sm text-muted-foreground dark:text-gray-200 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -299,7 +298,7 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             Support independent software
           </h2>
-          <p className="text-base text-muted-foreground dark:text-gray-300 max-w-[500px] mx-auto mb-8">
+          <p className="text-base text-muted-foreground dark:text-gray-200 max-w-[500px] mx-auto mb-8">
             SimpleToolkit is free and always will be. If you find it useful, 
             consider supporting the hosting and development costs.
           </p>
