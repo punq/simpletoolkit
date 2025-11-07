@@ -116,7 +116,14 @@ export default function DonatePage() {
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-black dark:text-white">•</span>
-                    <span>Providing feedback or reporting issues - send to me at simpletoolkit@gmail.com</span>
+                    <span>Providing feedback or reporting issues - email{" "}
+                      <a 
+                        href="mailto:simpletoolkitapp@gmail.com" 
+                        className="text-black dark:text-white font-semibold hover:underline"
+                      >
+                        simpletoolkitapp@gmail.com
+                      </a>
+                    </span>
                   </li>
                 </ul>
               </div>
