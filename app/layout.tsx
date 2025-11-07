@@ -190,7 +190,7 @@ export default function RootLayout({
           `}
         </Script>
         <Header />
-        <main id="main-content" className="flex-1 container mx-auto max-w-screen-xl px-4 py-8">
+        <main id="main-content" className="flex-1">
           {children}
         </main>
       </body>

@@ -248,25 +248,27 @@ export default function Home() {
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-success/20 rounded-full blur-3xl" aria-hidden="true"></div>
           
           <div className="relative z-10 space-y-8">
-            <h2 id="cta-heading" className="text-4xl sm:text-5xl font-bold">
+            <h2 id="cta-heading" className="text-3xl sm:text-4xl md:text-5xl font-bold text-left sm:text-center">
               Stop uploading.
               <br />
               <span className="text-primary">Start creating.</span>
             </h2>
-            <p className="text-xl max-w-2xl mx-auto" style={{ color: 'var(--muted-foreground)' }}>
+            <p className="text-lg sm:text-xl max-w-2xl mx-auto text-left sm:text-center" style={{ color: 'var(--muted-foreground)' }}>
               They ask you to trust them with your files.
               <br />
               <strong className="text-foreground">We can&#39;t touch them even if we wanted to.</strong>
             </p>
-            <Link 
-              href="/tools"
-              className="group inline-flex items-center justify-center px-10 py-5 text-xl font-bold rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-xl hover:shadow-2xl hover:scale-105"
-            >
-              Try It Now—No Signup
-              <svg className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </Link>
+            <div className="flex justify-start sm:justify-center">
+              <Link 
+                href="/tools"
+                className="group inline-flex items-center justify-center px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-bold rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-xl hover:shadow-2xl hover:scale-105"
+              >
+                Try It Now
+                <svg className="ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
