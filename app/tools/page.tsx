@@ -148,6 +148,21 @@ export default function ToolsPage() {
                 Format, validate, and convert between JSON, YAML, and XML—<strong className="text-foreground">zero uploads</strong>, instant validation.
               </p>
             </Link>
+
+            {/* Base64 Encoder/Decoder */}
+            <Link
+              href="/tools/base64"
+              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Encode and decode Base64 strings locally"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Base64 URL Encoder</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                Encode and decode Base64 with standard & URL-safe modes—<strong className="text-foreground">full Unicode support</strong>, instant processing.
+              </p>
+            </Link>
           </div>
         </section>
 

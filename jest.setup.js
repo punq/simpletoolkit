@@ -1,4 +1,9 @@
 import '@testing-library/jest-dom'
+import { TextEncoder, TextDecoder } from 'util';
+
+// Polyfill TextEncoder/TextDecoder for Node.js environment
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 // Mock window.URL.createObjectURL and revokeObjectURL
 global.URL.createObjectURL = jest.fn(() => 'mock-object-url')
