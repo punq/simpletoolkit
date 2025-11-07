@@ -126,6 +126,31 @@ export default function ToolsPage() {
           </div>
         </section>
 
+        {/* Category: Text & Productivity Tools */}
+        <section aria-labelledby="text-tools" className="mt-12">
+          <div className="flex items-baseline justify-between mb-6">
+            <h2 id="text-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Text & Productivity Tools</h2>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Text List Utility */}
+            <Link
+              href="/tools/text-list"
+              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Process text lists with deduplication, sorting, and case conversion"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Text List Utility</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                Remove duplicates, sort alphabetically, convert case—perfect for email lists, todo lists, or any text data. Handle 100,000+ lines <strong className="text-foreground">instantly</strong>.
+              </p>
+            </Link>
+          </div>
+        </section>
+
         {/* Category: Developer Tools */}
         <section aria-labelledby="developer-tools" className="mt-12">
           <div className="flex items-baseline justify-between mb-6">
@@ -239,7 +264,7 @@ export default function ToolsPage() {
             <div className="relative z-10 space-y-4">
               <h2 id="privacy-promise" className="text-2xl sm:text-3xl font-bold">Our Privacy Promise</h2>
               <p className="text-sm sm:text-base max-w-3xl mx-auto" style={{ color: 'var(--muted-foreground)' }}>
-                All tools run <strong className="text-foreground">100% in your browser</strong>. Your files are never uploaded. No accounts, no ads. We may enable privacy‑friendly, cookie‑less analytics (Plausible) in production to count visits and basic events—never file content.
+                All tools run <strong className="text-foreground">100% in your browser</strong>. Your files are never uploaded. No accounts, no ads. We enable privacy‑friendly, cookie‑less analytics (Plausible) in production to count visits and basic events, but never file content.
               </p>
               <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
                 <Link className="underline hover:text-foreground transition-colors" href="/privacy">Read our simple privacy policy</Link>
