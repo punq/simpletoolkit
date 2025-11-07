@@ -610,7 +610,7 @@ export default function DataFormatterValidator() {
                 <>
                   <button
                     onClick={handleSwap}
-                    className="text-xs text-blue-600 hover:text-blue-800 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
                     aria-label="Swap input and output"
                     title="Swap input and output (use output as new input)"
                   >
@@ -618,14 +618,14 @@ export default function DataFormatterValidator() {
                   </button>
                   <button
                     onClick={handleCopyOutput}
-                    className="text-xs text-blue-600 hover:text-blue-800 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded relative"
+                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded relative"
                     aria-label="Copy formatted output to clipboard"
                   >
                     {showCopiedFeedback ? "✓ Copied!" : "Copy"}
                   </button>
                   <button
                     onClick={handleDownloadOutput}
-                    className="text-xs text-blue-600 hover:text-blue-800 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
                     aria-label="Download formatted output as file"
                   >
                     Download
@@ -742,7 +742,7 @@ export default function DataFormatterValidator() {
                   {validation.errorColumn && `, Column ${validation.errorColumn}`}
                   <br />
                   <span className="text-red-600 mt-1 block">
-                    💡 Tip: Check your syntax at the indicated line. Common issues include missing commas, 
+                    Tip: Check your syntax at the indicated line. Common issues include missing commas, 
                     unclosed brackets, or invalid characters.
                   </span>
                 </p>
@@ -778,10 +778,10 @@ export default function DataFormatterValidator() {
       )}
 
       {/* Privacy Notice */}
-      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
-        <div className="flex items-start gap-2">
+      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
+        <div className="flex items-start gap-3">
           <svg
-            className="w-5 h-5 flex-shrink-0 mt-0.5"
+            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -791,24 +791,22 @@ export default function DataFormatterValidator() {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
             />
           </svg>
           <div>
-            <p className="font-medium mb-1">✨ 100% Private, Instant Processing</p>
-            <p className="leading-relaxed">
-              All formatting, validation, and conversion happens <strong>instantly in your browser</strong> using 
-              native JavaScript APIs. No data is uploaded to any server. No network requests. No delays. 
-              Your sensitive data stays completely private on your device.
+            <p className="font-medium text-gray-900 mb-1">Private & Secure</p>
+            <p className="text-gray-600 leading-relaxed">
+              All processing happens locally in your browser. No data is uploaded to any server.
             </p>
           </div>
         </div>
       </div>
 
       {/* Keyboard Shortcuts Help */}
-      <details className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
-          ⌨️ Keyboard Shortcuts
+      <details className="p-4 bg-white border border-gray-200 rounded-lg">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+          Keyboard Shortcuts
         </summary>
         <div className="mt-3 space-y-2 text-sm text-gray-600">
           <div className="flex items-center gap-3">
