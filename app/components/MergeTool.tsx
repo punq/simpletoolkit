@@ -174,7 +174,8 @@ export default function MergeTool() {
 
   return (
     <div className="w-full space-y-4 sm:space-y-6">
-      <div className="flex items-center justify-between">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-lg sm:text-xl font-medium">Merge PDFs</h2>
         {files.length > 0 && (
           <button
@@ -186,14 +187,15 @@ export default function MergeTool() {
                 fileInputRef.current.value = "";
               }
             }}
-            className="text-sm sm:text-base px-2 py-1 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-md"
+            className="text-sm px-4 py-2 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-lg transition-colors"
             aria-label="Clear all files"
           >
-            Clear all
+            Clear All
           </button>
         )}
       </div>
 
+      {/* File Drop Zone */}
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
           isDragging ? "border-black bg-gray-50" : files.length > 0 ? "border-green-500 bg-green-50" : "border-gray-300 hover:border-gray-400"
@@ -229,16 +231,16 @@ export default function MergeTool() {
               {files.map((f, i) => (
                 <div
                   key={`${f.name}-${i}`}
-                  className="flex items-center justify-between bg-white rounded-lg border p-3"
+                  className="flex items-center justify-between bg-white rounded-lg border border-gray-200 p-3 hover:bg-gray-50 transition-colors"
                   draggable
                   onDragStart={(e) => onDragStart(e, i)}
                   onDragOver={onDragOver}
                   onDrop={(e) => onDrop(e, i)}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="text-gray-400">☰</div>
+                    <div className="text-gray-400 cursor-grab active:cursor-grabbing" aria-hidden="true">☰</div>
                     <div>
-                      <div className="font-medium text-sm">{f.name}</div>
+                      <div className="font-medium text-sm text-gray-900">{f.name}</div>
                       <div className="text-gray-500 text-xs">{formatFileSize(f.size)}</div>
                     </div>
                   </div>
@@ -247,7 +249,8 @@ export default function MergeTool() {
                       e.stopPropagation();
                       removeAt(i);
                     }}
-                    className="text-xs text-red-600 hover:text-red-800"
+                    className="text-xs text-red-600 hover:text-red-800 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 transition-colors"
+                    aria-label={`Remove ${f.name}`}
                   >
                     Remove
                   </button>
@@ -279,23 +282,50 @@ export default function MergeTool() {
         )}
       </div>
 
+      {/* Error Display with Enhanced Messaging */}
       {error && (
-        <div className="p-4 rounded-lg bg-red-50 text-sm text-red-600">
-          {error}
+        <div
+          className="p-4 rounded-lg bg-red-50 border border-red-200 text-sm space-y-2"
+          role="alert"
+          aria-live="assertive"
+        >
+          <div className="flex items-start gap-2">
+            <svg
+              className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <div className="flex-1">
+              <p className="font-medium text-red-800">{error}</p>
+            </div>
+          </div>
         </div>
       )}
 
+      {/* Skipped Files Details */}
       {skipped.length > 0 && (
-        <details className="text-xs text-gray-600 mt-1">
-          <summary>Skipped files details ({skipped.length})</summary>
-          <ul className="mt-2 list-disc pl-5">
+        <details className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm">
+          <summary className="cursor-pointer font-medium text-yellow-800 hover:text-yellow-900 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 rounded px-2 py-1">
+            ⚠️ Skipped files details ({skipped.length})
+          </summary>
+          <ul className="mt-3 space-y-1 text-yellow-700">
             {skipped.map((s, idx) => (
-              <li key={idx} className="break-words">{s}</li>
+              <li key={idx} className="break-words pl-2 border-l-2 border-yellow-300">{s}</li>
             ))}
           </ul>
         </details>
       )}
 
+      {/* Success Message */}
       {success && (
         <SuccessMessage
           message="PDFs merged successfully!"
@@ -306,13 +336,90 @@ export default function MergeTool() {
         />
       )}
 
+      {/* Action Button */}
       <button
         onClick={merge}
         disabled={merging || files.length === 0}
-        className="flex-none rounded-lg bg-black px-4 py-2 text-white disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+        className="w-full sm:w-auto bg-black text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+        aria-busy={merging}
+        aria-label="Merge selected PDF files"
       >
-        {merging ? "Merging..." : "Merge PDFs"}
+        {merging ? (
+          <span className="flex items-center justify-center gap-2">
+            <svg
+              className="animate-spin h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            <span>Merging PDFs...</span>
+          </span>
+        ) : (
+          "Merge PDFs"
+        )}
       </button>
+
+      {/* Privacy Notice */}
+      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
+        <div className="flex items-start gap-3">
+          <svg
+            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+          <div>
+            <p className="font-medium text-gray-900 mb-1">Private & Secure</p>
+            <p className="text-gray-600 leading-relaxed">
+              All processing happens locally in your browser. No files are uploaded to any server.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* How to Use */}
+      <details className="p-4 bg-white border border-gray-200 rounded-lg">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+          How to Use
+        </summary>
+        <div className="mt-3 space-y-3 text-sm text-gray-600">
+          <div>
+            <p className="font-medium text-gray-900 mb-1">1. Add PDFs</p>
+            <p>Click the drop zone or drag and drop PDF files (up to 20 files, 50MB each).</p>
+          </div>
+          <div>
+            <p className="font-medium text-gray-900 mb-1">2. Reorder (Optional)</p>
+            <p>Drag files to change their order in the final merged PDF.</p>
+          </div>
+          <div>
+            <p className="font-medium text-gray-900 mb-1">3. Merge</p>
+            <p>Click "Merge PDFs" and your merged file will download automatically as "merged.pdf".</p>
+          </div>
+        </div>
+      </details>
     </div>
   );
 }

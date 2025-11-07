@@ -56,7 +56,7 @@ describe('MergeTool - Core Functionality', () => {
       expect(screen.getByText(/Drop PDFs here or/i)).toBeInTheDocument();
       expect(screen.getByText(/Maximum 20 files • 50MB per file/i)).toBeInTheDocument();
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       expect(mergeButton).toBeDisabled();
     });
 
@@ -109,7 +109,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, createMockPDFFiles(1));
       
       await waitFor(() => {
-        const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+        const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
         expect(mergeButton).not.toBeDisabled();
       });
     });
@@ -344,7 +344,7 @@ describe('MergeTool - Core Functionality', () => {
       
       await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
       await waitFor(() => {
@@ -359,10 +359,10 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, createMockPDFFiles(1));
       await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
-      expect(screen.getByRole('button', { name: /Merging.../i })).toBeInTheDocument();
+      expect(screen.getByText(/Merging PDFs.../i)).toBeInTheDocument();
     });
 
     it('creates and revokes object URL', async () => {
@@ -372,7 +372,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, createMockPDFFiles(1));
       await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
       await waitFor(() => {
@@ -388,7 +388,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, createMockPDFFiles(2));
       await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
       await waitFor(() => {
@@ -409,7 +409,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, [corrupted, good]);
       await waitFor(() => expect(screen.getByText('bad.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
       await waitFor(() => {
@@ -426,7 +426,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, [encrypted]);
       await waitFor(() => expect(screen.getByText('enc.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
       await waitFor(() => {
@@ -473,7 +473,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, createMockPDFFiles(1));
       await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
       await waitFor(() => {
@@ -488,7 +488,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, createMockPDFFiles(1));
       await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
       
-      const mergeButton = screen.getByRole('button', { name: /Merge PDFs/i });
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
       await waitFor(() => expect(screen.getByTestId('success-message')).toBeInTheDocument());
