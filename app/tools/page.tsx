@@ -181,11 +181,11 @@ export default function ToolsPage() {
 
             <div className="block rounded-2xl border border-border/50 p-6 opacity-80">
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold">Metadata Cleaner</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-muted/10 text-muted font-medium">Researching</span>
+                <h3 className="text-lg font-semibold">Image Optimizer</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-muted/10 text-muted font-medium">Planned</span>
               </div>
               <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Remove hidden metadata from files before sharing—privacy first.
+                Compress and resize images without quality loss—all in your browser.
               </p>
             </div>
           </div>

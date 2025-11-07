@@ -1,12 +1,17 @@
 # AI Agent Instructions for SimplePDFToolkit
 
 ## Project Overview
-This is a Next.js-based web application that provides local, privacy-focused PDF manipulation tools. The app runs entirely in the browser using pdf-lib, with no server uploads required. Currently supports PDF merging and splitting operations.
+This is a Next.js-based web application that provides local, privacy-focused file manipulation tools. The app runs entirely in the browser with no server uploads required. Currently supports PDF operations (merge, split, rearrange, compress) and image privacy tools (EXIF metadata stripping).
 
 ## Key Architecture Points
-- **Client-Side Processing**: All PDF operations happen in the browser using `pdf-lib`
+- **Client-Side Processing**: All operations happen in the browser
+  - PDF tools use `pdf-lib`
+  - Image tools use native Web APIs (File API, ArrayBuffer, DataView)
   - Merge tool: `app/components/MergeTool.tsx`
   - Split tool: `app/components/SplitTool.tsx`
+  - Rearrange tool: `app/components/RearrangeTool.tsx`
+  - Compress tool: `app/components/CompressTool.tsx`
+  - EXIF Stripper: `app/components/ExifStripperTool.tsx`
 - **Next.js App Router**: Uses the new `/app` directory structure for routing
 - **Privacy-First**: No data leaves user's browser - processing is 100% local
 - **Zero Server Dependencies**: Purely static site deployment
@@ -24,9 +29,20 @@ This is a Next.js-based web application that provides local, privacy-focused PDF
   const [merging, setMerging] = useState(false);
   ```
 
+### Image Processing
+- EXIF/metadata stripping uses native Web APIs (no external libraries)
+- Ultra-performant binary parsing with DataView
+- Supports JPEG (strips APP1/APP2 markers) and PNG (removes metadata chunks)
+- Memory-efficient streaming approach
+- Example from `ExifStripperTool.tsx`:
+  ```typescript
+  const result = await stripImageMetadata(file);
+  downloadImage(result.blob, file.name);
+  ```
+
 ### UI/UX Conventions
 - Drag-and-drop interface with file reordering
-- Progress indicators during PDF operations
+- Progress indicators during operations
 - Error boundaries for graceful failure handling
 - Success messages with download prompts
 - Dark mode support via Tailwind CSS
@@ -43,11 +59,22 @@ app/
   components/           # Shared React components
     MergeTool.tsx      # PDF merge functionality
     SplitTool.tsx      # PDF split functionality
+    RearrangeTool.tsx  # PDF rearrange functionality
+    CompressTool.tsx   # PDF compress functionality
+    ExifStripperTool.tsx # Image EXIF/metadata stripping
     ErrorBoundary.tsx  # Error handling wrapper
     SuccessMessage.tsx # Operation completion UI
+  utils/               # Utility modules
+    pdfUtils.ts        # PDF processing helpers
+    imageUtils.ts      # Image processing helpers (EXIF stripping)
+    analytics.ts       # Analytics tracking helpers
   tools/               # Tool-specific pages
     merge/page.tsx     # Merge tool page
     split/page.tsx     # Split tool page
+    rearrange/page.tsx # Rearrange tool page
+    compress/page.tsx  # Compress tool page
+    exif-stripper/page.tsx # EXIF stripper page
+```
   page.tsx             # Landing page
 ```
 

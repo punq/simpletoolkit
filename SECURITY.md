@@ -26,7 +26,10 @@ We will acknowledge your email within 48 hours and provide a detailed response w
 
 ### Client-Side Processing
 
-This application processes PDFs entirely in the browser using `pdf-lib`. No files are uploaded to servers.
+This application processes files entirely in the browser:
+- PDFs use `pdf-lib` library
+- Images use native Web APIs (File API, ArrayBuffer, DataView)
+- No files are uploaded to servers
 
 ### Current Security Measures
 
@@ -41,14 +44,14 @@ This application processes PDFs entirely in the browser using `pdf-lib`. No file
 
 ### Known Limitations
 
-1. **Browser Memory**: Very large PDFs (>100MB) may cause browser memory issues
+1. **Browser Memory**: Very large files (PDFs >100MB, images >50MB) may cause browser memory issues
 2. **Encrypted PDFs**: Password-protected PDFs cannot be processed client-side
-3. **Malformed PDFs**: Corrupted PDFs may cause unexpected behavior
+3. **Malformed Files**: Corrupted PDFs or images may cause unexpected behavior
 
 ### Safe Usage Recommendations
 
 - Keep your browser updated
-- Only process PDFs from trusted sources
+- Only process files from trusted sources
 - Don't process sensitive documents on shared/public computers
 - Clear browser cache after processing sensitive files
 
@@ -58,6 +61,7 @@ We minimize dependencies and regularly update them:
 - `next` - React framework
 - `react` - UI library
 - `pdf-lib` - Client-side PDF manipulation
+- Native Web APIs - Image processing (no external libraries)
 - Development dependencies only for building/testing
 
 Run `npm audit` to check for vulnerabilities.

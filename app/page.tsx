@@ -128,6 +128,12 @@ export default function Home() {
                 title: "Compress PDFs",
                 description: "Reduce file size while maintaining quality. Perfect for email and web.",
                 category: "PDF"
+              },
+              {
+                href: "/tools/exif-stripper",
+                title: "Strip Image Metadata",
+                description: "Remove EXIF, GPS, and camera data from JPEG and PNG images for privacy.",
+                category: "IMAGE"
               }
             ].map((tool, index) => (
               <Link
@@ -164,10 +170,10 @@ export default function Home() {
               <div>
                 <h3 className="text-lg font-bold mb-2">More tools coming soon</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Image optimization, metadata stripping, JSON formatters, text utilities, and more.
+                  Image optimization, JSON formatters, text utilities, and more.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {['Image Tools', 'Dev Utilities', 'Text Tools', 'Data Tools'].map((cat) => (
+                  {['More Image Tools', 'Dev Utilities', 'Text Tools', 'Data Tools'].map((cat) => (
                     <span key={cat} className="px-3 py-1 bg-white border border-border text-xs font-semibold text-muted-foreground">
                       {cat}
                     </span>

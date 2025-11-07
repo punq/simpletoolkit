@@ -1,6 +1,7 @@
 {
   "name": "simpletoolkit",
   "version": "0.1.0",
+  "description": "Privacy-first, browser-based tools for PDFs, images, and more. 100% client-side processing.",
   "private": true,
   "license": "MIT",
   "repository": {

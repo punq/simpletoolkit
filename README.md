@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Privacy-first, browser-based tools for PDFs and more. All processing happens locally — your files never leave your device.
+Privacy-first, browser-based tools for PDFs, images, and more. All processing happens locally — your files never leave your device.
 
 **Live Demo**: [simpletoolkit.app](https://simpletoolkit.app)
 
@@ -16,10 +16,14 @@ Privacy-first, browser-based tools for PDFs and more. All processing happens loc
 
 ### Available Tools
 
+#### PDF Tools
 - **Merge PDF**: Combine multiple PDFs with drag-and-drop reordering
 - **Split PDF**: Extract pages, ranges, or split into individual files
 - **Rearrange PDF**: Reorder pages and rotate as needed
 - **Compress PDF**: Reduce file size with adjustable compression levels
+
+#### Image Tools
+- **EXIF Stripper**: Remove metadata (EXIF, GPS, camera info) from JPEG and PNG images
 
 ## Quick Start
 
@@ -38,8 +42,8 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ```
 app/
-  components/     # React components for PDF tools
-  utils/          # Shared utilities (pdfUtils, analytics)
+  components/     # React components for PDF and image tools
+  utils/          # Shared utilities (pdfUtils, imageUtils, analytics)
   tools/          # Individual tool pages
 public/           # Static assets
 __tests__/        # Test suites
@@ -51,12 +55,13 @@ __tests__/        # Test suites
 - **React 19**
 - **TypeScript** (strict mode)
 - **pdf-lib** for client-side PDF manipulation
+- **Native Web APIs** for image processing (File API, ArrayBuffer, DataView)
 - **Tailwind CSS 4** for styling
 - **Jest & Testing Library** for tests
 
 ## Architecture
 
-All PDF operations happen **100% client-side** using `pdf-lib`. No backend servers or file uploads required. This ensures:
+All file operations happen **100% client-side** using `pdf-lib` for PDFs and native Web APIs for images. No backend servers or file uploads required. This ensures:
 
 - **Privacy**: Files never leave the user's device
 - **Speed**: No network latency
