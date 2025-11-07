@@ -1,6 +1,16 @@
 # Contributing to Simple Toolkit
 
-Thank you for considering contributing to Simple Toolkit! We welcome contributions from the community.
+Thank you for your interest in Simple Toolkit! This project is **open source for transparency**, allowing anyone to verify our privacy and security claims.
+
+## Purpose of Open Source
+
+This repository exists primarily for:
+- **Transparency**: Anyone can verify files are processed locally in the browser
+- **Security Auditing**: Community can review code for vulnerabilities
+- **Trust Building**: Users can confirm privacy claims by reading the source
+- **Bug Reporting**: Help us identify and fix issues
+
+**We encourage contributions to improve the main application** rather than creating separate forks or deployments.
 
 ## Code of Conduct
 
@@ -26,27 +36,31 @@ We welcome feature suggestions! Please open an issue with:
 
 ### Pull Requests
 
-1. **Fork the repository** and create a new branch for your feature/fix
+We welcome pull requests that improve the main application! Before submitting:
+
+1. **Open an issue first** to discuss significant changes
 2. **Follow the existing code style** - run `npm run lint` before committing
 3. **Write tests** for new functionality (see `__tests__/` directory)
 4. **Update documentation** if needed
 5. **Keep commits atomic** and write clear commit messages
 6. **Ensure all tests pass** - run `npm test`
 
-#### Development Setup
+**Note**: We're looking for contributions to enhance the main app at simpletoolkit.app. If you're planning to deploy your own version, we recommend using the official app and contributing improvements back to the community.
+
+#### Development Setup (For Verification & Contributing)
 
 ```bash
-# Clone your fork
-git clone https://github.com/your-username/simpletoolkit.git
+# Clone the repository (or your fork if contributing code)
+git clone https://github.com/punq/simpletoolkit.git
 cd simpletoolkit
 
 # Install dependencies
 npm install
 
-# Start development server
+# Start development server (verify the app runs as described)
 npm run dev
 
-# Run tests
+# Run tests (verify test coverage and behavior)
 npm test
 
 # Run linter
@@ -93,9 +107,17 @@ Tools should follow this pattern:
 - **Privacy Analytics**: Only use Plausible (cookie-less, privacy-first)
 - **Static Export**: Site should be deployable as static files
 
+## Verification & Auditing
+
+You can verify our privacy and security claims by:
+- Running the app locally and inspecting network traffic (no uploads should occur)
+- Reviewing the source code in `/app` directories
+- Running tests with `npm test` to see expected behavior
+- Checking `package.json` for minimal, vetted dependencies
+
 ## Questions?
 
-Open an issue or discussion if you have questions about contributing!
+Open an issue or discussion if you have questions about the project, want to verify functionality, or propose improvements!
 
 ## License
 

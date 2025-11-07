@@ -1,5 +1,13 @@
 # Security Policy
 
+## Open Source for Transparency
+
+This project is open source to provide **verifiable transparency** about security and privacy practices. You can:
+- **Audit the code** to confirm files never leave your browser
+- **Review security measures** implemented throughout the codebase
+- **Verify privacy claims** by inspecting network traffic during local testing
+- **Report vulnerabilities** to help improve security for all users
+
 ## Supported Versions
 
 We release patches for security vulnerabilities in the current version.
@@ -68,10 +76,20 @@ Run `npm audit` to check for vulnerabilities.
 
 ## Privacy
 
-All processing happens locally. We do not:
+All processing happens locally in your browser. We do not:
 - Upload files to servers
 - Store files in databases
 - Access file contents server-side
-- Track file metadata
+- Track file metadata or content
 
 Optional analytics (Plausible) only track page views and events, never file data.
+
+**You can verify this yourself**:
+1. Clone this repository
+2. Run `npm install && npm run dev`
+3. Open browser DevTools Network tab
+4. Process a file and confirm no uploads occur
+5. Review source code in `/app/components` and `/app/utils`
+
+This transparency is why we're open source - so you can trust and verify our privacy claims.
+

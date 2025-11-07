@@ -28,11 +28,20 @@ Privacy-first, browser-based tools for PDFs, images, and more. All processing ha
 #### Data Tools
 - **Data Formatter & Validator**: Format, validate, and convert JSON, YAML, and XML with real-time syntax highlighting, detailed error reporting, and cross-format conversion — all processed instantly in your browser
 
-## Quick Start
+## Why Open Source?
 
-## Quick start
+This project is open source for **transparency and trust**, not to encourage creating your own version. Our code is public so you can:
 
-Install dependencies and run the dev server:
+- ** Verify Privacy Claims**: See for yourself that files never leave your browser
+- ** Audit Security**: Review our code for vulnerabilities or security issues
+- ** Trust the Process**: Understand exactly how your data is handled
+- ** Learn from Implementation**: See how client-side PDF/image processing works
+
+**We encourage using the live app at [simpletoolkit.app](https://simpletoolkit.app)** rather than self-hosting or forking. The source code is here for verification, not replication.
+
+## Local Development (For Verification)
+
+If you want to verify the code runs as described:
 
 ```powershell
 npm install
@@ -143,7 +152,9 @@ Analytics never run in development unless explicitly enabled.
 
 ## Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions that improve the project! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+**Note**: This project is open source for transparency and verification. We encourage contributions to improve the main app rather than creating forks for separate deployments.
 
 ### Development Guidelines
 
@@ -165,12 +176,24 @@ Found a security issue? Please read our [Security Policy](SECURITY.md) for respo
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## Support & Verification
 
-- 🐛 [Report a Bug](https://github.com/punq/simpletoolkit/issues)
-- 💡 [Request a Feature](https://github.com/punq/simpletoolkit/issues)
-- 💬 [Discussions](https://github.com/punq/simpletoolkit/discussions)
-- 💖 [Donate](https://simpletoolkit.app/donate)
+-  [Report a Bug](https://github.com/punq/simpletoolkit/issues)
+-  [Request a Feature](https://github.com/punq/simpletoolkit/issues)
+-  [Discussions](https://github.com/punq/simpletoolkit/discussions)
+-  [Verify Source Code](https://github.com/punq/simpletoolkit) - Review our code to confirm privacy claims
+-  [Donate](https://simpletoolkit.app/donate)
+
+## Transparency & Trust
+
+This repository exists to provide **verifiable transparency**. You can:
+- Inspect the source code to confirm files are processed locally
+- Audit security measures and privacy protections
+- Review test suites (266 tests) to understand behavior
+- Run the code locally to verify it matches the deployed app
+- Report security issues or privacy concerns
+
+**Use the live app**: We recommend using [simpletoolkit.app](https://simpletoolkit.app) for the best experience, with the confidence that you can verify everything in this repository.
 
 ## Acknowledgments
 

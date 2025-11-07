@@ -278,8 +278,8 @@ export default function Home() {
                 description: "Privacy-focused Plausible for page view stats only. No cookies. No fingerprinting. No personal data or IP addresses stored."
               },
               {
-                title: "Open source",
-                description: "Code is public on GitHub. Audit it yourself. Fork it. Build on it. This is how privacy tools should be built."
+                title: "Open source for transparency",
+                description: "Code is public on GitHub so you can verify our privacy claims. Audit the source, check network traffic, confirm files stay local. Trust through transparency."
               }
             ].map((item) => (
               <div key={item.title} className="border-l-2 border-black pl-4">
