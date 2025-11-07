@@ -2,287 +2,321 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Simple Toolkit — Privacy-First Tools | No Signup, No Tracking, Always Free",
+  title: "Simple Toolkit — Privacy-First Tools | No Signup, No Uploads, Always Free",
   description:
-    "Free browser-based tools for PDFs, images, and more. 100% private—files never leave your device. No uploads, no tracking, no ads, no watermarks. Professional tools that respect your privacy.",
+    "Free browser-based tools for PDFs, images, and more. Files never leave your device—everything runs in your browser. No uploads, no ads, no accounts, no watermarks. Professional tools that respect your privacy.",
   openGraph: {
     title: "Simple Toolkit — Privacy-First Tools",
-    description: "Free browser-based tools. 100% private, no uploads, no tracking. Professional tools that respect your privacy.",
+    description: "Free browser-based tools. Files never leave your device. No uploads, no ads, no accounts. Professional tools that respect your privacy.",
   },
 };
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center">
-      {/* Hero Section - Bold & Distinctive */}
-      <section aria-labelledby="hero-heading" className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-28 pb-16 sm:pb-20 relative overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-success/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-        
-        <div className="text-center space-y-8 relative z-10">
-          {/* Distinctive badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold shadow-sm" style={{ borderColor: 'var(--primary)', backgroundColor: 'var(--primary)/10', color: 'var(--primary)' }}>
-            <span className="relative flex h-2 w-2" aria-label="Active">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style={{ backgroundColor: 'var(--success)' }}></span>
-              <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: 'var(--success)' }}></span>
-            </span>
-            <span className="text-foreground">100% Private • No Servers • No Ads</span>
+    <div className="flex flex-col">
+      {/* Hero Section - Clean and Confident */}
+      <section className="w-full border-b border-border">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 pt-20 sm:pt-32 pb-16 sm:pb-24">
+          {/* Trust Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white text-xs font-semibold tracking-wide uppercase mb-8">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
+            </svg>
+            <span>100% Client-Side Processing</span>
           </div>
 
-          <div className="space-y-6">
-            <h1 id="hero-heading" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-              Simple Tools That
-              <br />
-              <span className="relative inline-block mt-2">
-                <span className="gradient-text font-black">
-                  Respect Your Privacy
-                </span>
-                <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 300 12" fill="none" preserveAspectRatio="none" aria-hidden="true">
-                  <path d="M2 10C50 3 100 2 150 5C200 8 250 3 298 7" stroke="var(--success)" strokeWidth="3" strokeLinecap="round"/>
-                </svg>
-              </span>
-            </h1>
-            
-            <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed px-4" style={{ color: 'var(--muted-foreground)' }}>
-              No signups. No uploads. No ads. No watermarks. No cost. No BS.
-              <br />
-              <strong className="text-foreground font-bold">Your files never leave your device.</strong>
-            </p>
-          </div>
+          {/* Main Value Prop */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-6 max-w-[900px]">
+            Professional tools that respect your{" "}
+            <span className="shimmer-text">privacy</span>
+          </h1>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-[600px] mb-8 leading-relaxed">
+            PDFs, images, text, and dev utilities—all running entirely in your browser. 
+            No uploads. No accounts. No ads. No compromises.
+          </p>
+
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-16">
             <Link 
-              href="/tools"
-              className="group inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 text-base sm:text-lg font-bold rounded-xl text-primary-foreground transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-lg hover:shadow-xl hover:scale-105 bg-primary hover:bg-primary-hover"
-              style={{ minWidth: '200px' }}
+              href="/tools" 
+              className="inline-flex items-center justify-center px-6 py-3 bg-black text-white text-sm font-semibold hover:bg-gray-dark transition-colors"
+              aria-label="Explore all available tools"
             >
-              Get Started Free
-              <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              Explore Tools
+              <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
             <Link 
-              href="/donate"
-              className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 text-base sm:text-lg font-bold rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 bg-background hover:bg-accent border-border hover:border-primary/30"
-              style={{ minWidth: '200px' }}
+              href="#verify" 
+              className="inline-flex items-center justify-center px-6 py-3 border-2 border-black text-black text-sm font-semibold hover:bg-black hover:text-white transition-colors"
+              aria-label="Learn how client-side processing works"
             >
-              Support This Project
+              See How It Works
             </Link>
           </div>
 
-          {/* Social proof / stats - The Hook */}
-          <div className="pt-12 sm:pt-16">
-            <p className="text-sm font-semibold uppercase tracking-wide mb-6" style={{ color: 'var(--muted)' }}>
-              What We Don&#39;t Do
+          {/* Proof Points */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-12 border-t border-border">
+            {[
+              { value: "0", label: "Files uploaded to servers" },
+              { value: "0", label: "Ads shown" },
+              { value: "0", label: "Accounts required" },
+              { value: "0", label: "Cookies used" }
+            ].map((stat) => (
+              <div key={stat.label}>
+                <div className="text-3xl font-bold mb-1 tabular-nums">{stat.value}</div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* What Makes Us Different */}
+      <section className="w-full bg-off-white border-b border-border">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
+          <div className="max-w-[800px] mx-auto text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">What makes us different</h2>
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+              Unlike typical online tools, your files <strong className="text-foreground">never touch our servers</strong>. 
+              Everything happens in your browser using JavaScript—no uploads, no storage, no server-side processing. 
+              We can&apos;t see your files because they never leave your device. This is the privacy guarantee.
             </p>
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-12">
-              <div className="flex flex-col items-center gap-2 min-w-[100px]">
-                <div className="text-4xl sm:text-5xl font-black text-foreground tabular-nums">0</div>
-                <div className="text-sm sm:text-base font-medium" style={{ color: 'var(--muted-foreground)' }}>Files Uploaded</div>
-              </div>
-              <div className="flex flex-col items-center gap-2 min-w-[100px]">
-                <div className="text-4xl sm:text-5xl font-black text-foreground tabular-nums">0</div>
-                <div className="text-sm sm:text-base font-medium" style={{ color: 'var(--muted-foreground)' }}>Ads Shown</div>
-              </div>
-              <div className="flex flex-col items-center gap-2 min-w-[100px]">
-                <div className="text-4xl sm:text-5xl font-black text-foreground tabular-nums">0</div>
-                <div className="text-sm sm:text-base font-medium" style={{ color: 'var(--muted-foreground)' }}>Logins Required</div>
-              </div>
-              <div className="flex flex-col items-center gap-2 min-w-[100px]">
-                <div className="text-4xl sm:text-5xl font-black text-foreground tabular-nums">0</div>
-                <div className="text-sm sm:text-base font-medium" style={{ color: 'var(--muted-foreground)' }}>Data Collected</div>
-              </div>
+            <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground">
+              <strong className="text-foreground">No ads.</strong> No affiliate links. No cookies. No premium tiers. No paywalls.
+              <br />
+              We use privacy-focused Plausible for anonymous page view stats. It&apos;s cookieless, GDPR-compliant, and doesn&apos;t track individuals.
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why We're Different - More Visual */}
-      <section aria-labelledby="features-heading" className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <div className="text-center mb-16">
-          <h2 id="features-heading" className="text-4xl sm:text-5xl font-bold mb-4">
-            Why We&#39;re <span className="text-primary">Different</span>
-          </h2>
-          <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-            We&#39;re not just another file utility. We&#39;re what you wish existed all along.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {/* Large featured card */}
-          <article className="md:col-span-2 relative overflow-hidden rounded-2xl border-2 p-8 sm:p-10 bg-gradient-to-br from-primary/5 via-background to-success/5 hover:shadow-xl transition-all group" style={{ borderColor: 'var(--primary)' }}>
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:scale-150 transition-transform duration-700" aria-hidden="true"></div>
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-xl bg-primary/10">
-                  <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <title>Lock icon</title>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-bold">Your Files Stay on Your Device</h3>
-              </div>
-              <p className="text-lg leading-relaxed max-w-3xl" style={{ color: 'var(--muted-foreground)' }}>
-                Unlike other file tools, we <strong className="text-foreground">literally cannot access your files</strong>. There&#39;s no server, no upload, no temporary storage. Your browser does all the work. It&#39;s not a feature—it&#39;s our architecture.
-              </p>
-            </div>
-          </article>
-
-          {/* Comparison cards */}
-          <article className="relative overflow-hidden rounded-2xl border p-6 bg-card-bg hover:shadow-lg transition-all group" style={{ borderColor: 'var(--card-border)' }}>
-            <div className="space-y-4">
-              <div className="flex items-start justify-between">
-                <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--icon-simple)' }}>
-                  <svg className="w-6 h-6 text-[#db2777]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <title>Cross icon</title>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </div>
-                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary">Others</span>
-              </div>
-              <h3 className="text-xl font-semibold">The Usual Suspects</h3>
-              <ul className="space-y-3 text-sm" style={{ color: 'var(--muted-foreground)' }}>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">✗</span>
-                  <span>Upload files to their servers</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">✗</span>
-                  <span>Add watermarks unless you pay</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">✗</span>
-                  <span>Track everything you do</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">✗</span>
-                  <span>Show ads everywhere</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">✗</span>
-                  <span>Require account creation</span>
-                </li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="relative overflow-hidden rounded-2xl border-2 p-6 bg-gradient-to-br from-success/5 to-background hover:shadow-xl transition-all group" style={{ borderColor: 'var(--success)' }}>
-            <div className="space-y-4">
-              <div className="flex items-start justify-between">
-                <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--icon-trust)' }}>
-                  <svg className="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <title>Check icon</title>
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success">Simple Toolkit</span>
-              </div>
-              <h3 className="text-xl font-semibold">How It Should Be</h3>
-              <ul className="space-y-3 text-sm" style={{ color: 'var(--muted-foreground)' }}>
-                <li className="flex items-start gap-2">
-                  <span className="text-success mt-0.5">✓</span>
-                  <span><strong className="text-foreground">Everything</strong> stays local</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-success mt-0.5">✓</span>
-                  <span><strong className="text-foreground">No watermarks</strong>, ever</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-success mt-0.5">✓</span>
-                  <span><strong className="text-foreground">No invasive tracking</strong>; optional privacy‑friendly analytics (Plausible) may be enabled</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-success mt-0.5">✓</span>
-                  <span><strong className="text-foreground">Ad-free</strong> forever</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-success mt-0.5">✓</span>
-                  <span><strong className="text-foreground">No account</strong> needed</span>
-                </li>
-              </ul>
-            </div>
-          </article>
-
-          {/* Bottom cards */}
-          <article className="rounded-2xl border p-6 bg-card-bg hover:shadow-lg transition-all" style={{ borderColor: 'var(--card-border)' }}>
-            <div className="flex items-start gap-4">
-              <div className="p-2 rounded-lg flex-shrink-0" style={{ backgroundColor: 'var(--icon-speed)' }}>
-                <svg className="w-6 h-6 text-[#d97706]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <title>Lightning icon</title>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Actually Fast</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                  No upload time, no queue, no waiting. Your browser is surprisingly powerful—we just let it do its job.
-                </p>
-              </div>
-            </div>
-          </article>
-
-          <article className="rounded-2xl border p-6 bg-card-bg hover:shadow-lg transition-all" style={{ borderColor: 'var(--card-border)' }}>
-            <div className="flex items-start gap-4">
-              <div className="p-2 rounded-lg flex-shrink-0" style={{ backgroundColor: 'var(--icon-community)' }}>
-                <svg className="w-6 h-6 text-[#dc2626]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <title>Heart icon</title>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Donation-Powered</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                  No investors to please, no users to monetize. Just tools that work, supported by people who appreciate that.
-                </p>
-              </div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      {/* CTA Section - Bold & Different */}
-      <section aria-labelledby="cta-heading" className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <div className="relative overflow-hidden rounded-3xl border-2 p-12 sm:p-16 text-center shadow-2xl" style={{ borderColor: 'var(--primary)', background: 'linear-gradient(135deg, var(--primary)/10 0%, var(--success)/5 100%)' }}>
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" aria-hidden="true"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-success/20 rounded-full blur-3xl" aria-hidden="true"></div>
-          
-          <div className="relative z-10 space-y-8">
-            <h2 id="cta-heading" className="text-3xl sm:text-4xl md:text-5xl font-bold text-left sm:text-center">
-              Stop uploading.
-              <br />
-              <span className="text-primary">Start creating.</span>
-            </h2>
-            <p className="text-lg sm:text-xl max-w-2xl mx-auto text-left sm:text-center" style={{ color: 'var(--muted-foreground)' }}>
-              They ask you to trust them with your files.
-              <br />
-              <strong className="text-foreground">We can&#39;t touch them even if we wanted to.</strong>
+      {/* Tools Grid */}
+      <section className="w-full bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
+          <div className="mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Essential Tools</h2>
+            <p className="text-lg text-muted-foreground max-w-[600px]">
+              Built for professionals who value their privacy. More tools added regularly.
             </p>
-            <div className="flex justify-start sm:justify-center">
-              <Link 
-                href="/tools"
-                className="group inline-flex items-center justify-center px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-bold rounded-xl bg-primary text-primary-foreground hover:bg-primary-hover transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 shadow-xl hover:shadow-2xl hover:scale-105"
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                href: "/tools/merge",
+                title: "Merge PDFs",
+                description: "Combine multiple PDF files into a single document. Drag to reorder before merging.",
+                category: "PDF"
+              },
+              {
+                href: "/tools/split",
+                title: "Split PDFs",
+                description: "Extract specific pages or split a PDF into multiple documents.",
+                category: "PDF"
+              },
+              {
+                href: "/tools/rearrange",
+                title: "Rearrange PDF Pages",
+                description: "Reorder, rotate, or remove pages from your PDF documents.",
+                category: "PDF"
+              },
+              {
+                href: "/tools/compress",
+                title: "Compress PDFs",
+                description: "Reduce file size while maintaining quality. Perfect for email and web.",
+                category: "PDF"
+              }
+            ].map((tool, index) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="group block p-8 border-2 border-black hover:bg-black transition-colors"
               >
-                Try It Now
-                <svg className="ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-mono text-gray-light group-hover:text-gray">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-xs font-semibold text-muted-foreground group-hover:text-gray-light uppercase tracking-wide">
+                      {tool.category}
+                    </span>
+                  </div>
+                  <svg className="w-5 h-5 text-black group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">
+                  {tool.title}
+                </h3>
+                <p className="text-sm text-gray leading-relaxed group-hover:text-gray-light transition-colors">
+                  {tool.description}
+                </p>
               </Link>
+            ))}
+          </div>
+
+          {/* Coming Soon Teaser */}
+          <div className="mt-12 p-8 border-2 border-border bg-off-white">
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="text-lg font-bold mb-2">More tools coming soon</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Image optimization, metadata stripping, JSON formatters, text utilities, and more.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {['Image Tools', 'Dev Utilities', 'Text Tools', 'Data Tools'].map((cat) => (
+                    <span key={cat} className="px-3 py-1 bg-white border border-border text-xs font-semibold text-muted-foreground">
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="text-2xl">🚀</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer Note */}
-      <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
-        <div className="text-center space-y-4">
-          <p className="text-sm text-muted">
-            Built with privacy and simplicity in mind. Your files are processed locally and never sent to any server.
+      {/* How It Works - Technical Proof */}
+      <section id="verify" className="w-full bg-black text-white">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+                Verify, don&apos;t trust
+              </h2>
+              <div className="space-y-4 text-gray-light">
+                <p className="text-base leading-relaxed">
+                  Open your browser&apos;s Network tab. Upload a file. Process it. Watch what happens.
+                </p>
+                <p className="text-base leading-relaxed">
+                  You&apos;ll see <strong className="text-white">zero file uploads to our servers</strong>. Your files stay on your device. 
+                  This isn&apos;t marketing—it&apos;s how the application is architecturally built.
+                </p>
+                <p className="text-base leading-relaxed">
+                  Everything runs using the File API and pdf-lib library entirely in your browser. 
+                  Your files are processed in memory and downloaded directly back to you.
+                </p>
+                <p className="text-sm leading-relaxed border-l-2 border-gray-dark pl-4 mt-6">
+                  <strong className="text-white">Note on analytics:</strong> We use Plausible for anonymous page view counts (not file processing). 
+                  No cookies, no personal data, no IP addresses stored. Just aggregated stats to understand which tools are useful.
+                </p>
+              </div>
+              
+              <div className="mt-8 pt-8 border-t border-gray-dark">
+                <h3 className="text-sm font-bold uppercase tracking-wide mb-4">Technical Stack</h3>
+                <div className="flex flex-wrap gap-3">
+                  {['Next.js', 'TypeScript', 'pdf-lib', 'File API', 'Client-side only'].map((tech) => (
+                    <span key={tech} className="px-3 py-1 bg-charcoal text-white text-xs font-mono border border-gray-dark">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-charcoal border border-gray-dark p-6">
+              <div className="font-mono text-xs sm:text-sm leading-relaxed space-y-1">
+                <div className="text-green">// All processing happens locally</div>
+                <div className="text-white">const <span className="text-blue-400">processFile</span> = async (file) =&gt; &#123;</div>
+                <div className="ml-4 text-green">// Read in browser memory</div>
+                <div className="ml-4 text-gray-light">const buffer = await file.arrayBuffer();</div>
+                <div className="ml-4 text-gray-light">const data = new Uint8Array(buffer);</div>
+                <div className="ml-4 text-gray-light"></div>
+                <div className="ml-4 text-green">// Process with Web APIs</div>
+                <div className="ml-4 text-gray-light">const result = await transform(data);</div>
+                <div className="ml-4 text-gray-light"></div>
+                <div className="ml-4 text-green">// Download directly - no server</div>
+                <div className="ml-4 text-gray-light">const blob = new Blob([result]);</div>
+                <div className="ml-4 text-gray-light">downloadFile(blob, &apos;output.pdf&apos;);</div>
+                <div className="text-white">&#125;;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why This Matters */}
+      <section className="w-full bg-white">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
+          <div className="mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-3">Why this matters</h2>
+            <p className="text-lg text-muted-foreground max-w-[600px]">
+              Most &quot;free&quot; tools aren&apos;t free—you pay with your data, privacy, and attention
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Your files stay private",
+                description: "Processing happens in your browser. No servers means no risk of data breaches, no terms of service changes, no one can access your documents."
+              },
+              {
+                title: "Works offline",
+                description: "After the page loads, disconnect from the internet and it still works. All processing happens locally in your browser."
+              },
+              {
+                title: "No paywalls",
+                description: "No \"upgrade to pro\" prompts. No feature locks. Actually free forever. Only limited by your device's capabilities."
+              },
+              {
+                title: "Genuinely free",
+                description: "Not free-to-try. Not freemium. Not ad-supported. Free. Optional donations keep it running."
+              },
+              {
+                title: "Minimal analytics",
+                description: "Privacy-focused Plausible for page view stats only. No cookies. No fingerprinting. No personal data or IP addresses stored."
+              },
+              {
+                title: "Open source",
+                description: "Code is public on GitHub. Audit it yourself. Fork it. Build on it. This is how privacy tools should be built."
+              }
+            ].map((item) => (
+              <div key={item.title} className="border-l-2 border-black pl-4">
+                <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Support CTA */}
+      <section className="w-full bg-off-white border-t border-border">
+        <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+            Support independent software
+          </h2>
+          <p className="text-base text-muted-foreground max-w-[500px] mx-auto mb-8">
+            SimpleToolkit is free and always will be. If you find it useful, 
+            consider supporting the hosting and development costs.
           </p>
-          <div className="text-sm text-muted">
-            <Link className="underline hover:text-foreground transition-colors" href="/privacy">Privacy Policy</Link>
-            {" · "}
-            <Link className="underline hover:text-foreground transition-colors" href="/donate">Support This Project</Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link 
+              href="/donate" 
+              className="inline-flex items-center justify-center px-6 py-3 bg-black text-white text-sm font-semibold hover:bg-gray-dark transition-colors"
+              aria-label="Support SimpleToolkit development"
+            >
+              Support This Project
+            </Link>
+            <Link 
+              href="https://github.com/punq/pdfmerger" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 border-2 border-black text-black text-sm font-semibold hover:bg-black hover:text-white transition-colors"
+              aria-label="View source code on GitHub"
+            >
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd"/>
+              </svg>
+              View on GitHub
+            </Link>
           </div>
         </div>
       </section>

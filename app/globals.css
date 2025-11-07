@@ -1,98 +1,84 @@
 @import "tailwindcss";
 
 :root {
-  /* Base colors - warmer neutrals */
-  --background: #fafafa;
-  --foreground: #1a1a1a;
-  --muted: #737373;
-  --muted-foreground: #525252;
+  /* Sharp monochrome palette */
+  --black: #000000;
+  --charcoal: #1a1a1a;
+  --gray-dark: #2a2a2a;
+  --gray: #666666;
+  --gray-light: #999999;
+  --white: #ffffff;
+  --off-white: #fafafa;
   --border: #e5e5e5;
-  --radius: 0.5rem;
+  --green: #00b300;
   
-  /* Primary - deeper, more trustworthy blue */
-  --primary: #0066cc;
-  --primary-hover: #0052a3;
+  /* Base colors */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --muted: #999999;
+  --muted-foreground: #666666;
+  --radius: 0;
+  
+  /* Primary - pure black */
+  --primary: #000000;
+  --primary-hover: #1a1a1a;
   --primary-foreground: #ffffff;
   
   /* Accent colors */
-  --accent: #f5f5f5;
-  --accent-foreground: #171717;
-  
-  /* Subtle warm accents for visual interest */
-  --warm-accent: #fef3c7;
-  --warm-accent-hover: #fde68a;
+  --accent: #fafafa;
+  --accent-foreground: #000000;
   
   /* Success/positive actions */
-  --success: #059669;
+  --success: #00b300;
   --success-foreground: #ffffff;
   
-  /* Feature card backgrounds - subtle color hints */
+  /* Feature card backgrounds */
   --card-bg: #ffffff;
-  --card-border: #e5e5e5;
-  --card-hover-border: #d4d4d4;
+  --card-border: #000000;
+  --card-hover-border: #000000;
   
-  /* Icon backgrounds - colorful but subtle */
-  --icon-privacy: #dbeafe;
-  --icon-speed: #fef3c7;
-  --icon-simple: #fce7f3;
-  --icon-trust: #d1fae5;
-  --icon-access: #e0e7ff;
-  --icon-community: #fecaca;
+  /* Shadows - none for flat design */
+  --shadow-sm: none;
+  --shadow: none;
+  --shadow-md: none;
+  --shadow-lg: none;
   
-  /* Shadows - softer, more natural */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
-  
-  /* Animation */
-  --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Animation - quick and sharp */
+  --transition-all: all 0.15s ease;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Base colors */
-    --background: #0a0a0a;
-    --foreground: #f5f5f5;
-    --muted: #a3a3a3;
-    --muted-foreground: #d4d4d4;
-    --border: #262626;
+    /* Base colors - inverted sharp palette */
+    --background: #000000;
+    --foreground: #fafafa;
+    --muted: #999999;
+    --muted-foreground: #d0d0d0;
+    --border: #2a2a2a;
     
-    /* Primary - brighter for dark mode */
-    --primary: #3b82f6;
-    --primary-hover: #60a5fa;
-    --primary-foreground: #ffffff;
+    /* Primary - white in dark mode */
+    --primary: #ffffff;
+    --primary-hover: #fafafa;
+    --primary-foreground: #000000;
     
     /* Accent colors */
     --accent: #1a1a1a;
-    --accent-foreground: #f5f5f5;
-    
-    /* Warm accents - toned down for dark mode */
-    --warm-accent: #422006;
-    --warm-accent-hover: #713f12;
+    --accent-foreground: #ffffff;
     
     /* Success */
-    --success: #10b981;
-    --success-foreground: #ffffff;
+    --success: #00b300;
+    --success-foreground: #000000;
     
     /* Cards */
-    --card-bg: #141414;
-    --card-border: #262626;
-    --card-hover-border: #404040;
+    --card-bg: #000000;
+    --card-border: #ffffff;
+    --card-hover-border: #ffffff;
     
-    /* Icon backgrounds - darker but still colorful */
-    --icon-privacy: #1e3a5f;
-    --icon-speed: #422006;
-    --icon-simple: #4a1942;
-    --icon-trust: #064e3b;
-    --icon-access: #312e81;
-    --icon-community: #7f1d1d;
-    
-    /* Shadows - more prominent in dark mode */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
+    /* Shadows - none */
+    --shadow-sm: none;
+    --shadow: none;
+    --shadow-md: none;
+    --shadow-lg: none;
   }
 }
 
@@ -113,25 +99,15 @@ body {
 
 /* Gradient text with proper fallback */
 .gradient-text {
-  /* Solid color fallback */
-  color: var(--primary);
+  color: var(--foreground);
   font-weight: 900;
-  
-  /* Gradient effect for supporting browsers */
-  background: linear-gradient(135deg, var(--primary) 0%, var(--success) 50%, var(--primary) 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient 8s ease infinite;
+  font-style: normal;
 }
 
-/* Reset for older browsers */
+/* Remove old reset */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .gradient-text {
-    background: none;
-    -webkit-text-fill-color: var(--primary);
-    color: var(--primary);
+    color: var(--foreground);
   }
 }
 
@@ -421,5 +397,90 @@ html {
   a, button {
     min-height: 44px;
     min-width: 44px;
+  }
+}
+
+/* Additional color utilities for sharp design */
+.text-gray {
+  color: var(--gray);
+}
+
+.text-gray-light {
+  color: var(--gray-light);
+}
+
+.text-gray-dark {
+  color: var(--gray-dark);
+}
+
+.bg-charcoal {
+  background-color: var(--charcoal);
+}
+
+.bg-off-white {
+  background-color: var(--off-white);
+}
+
+.text-green {
+  color: var(--green);
+}
+
+.border-black {
+  border-color: var(--black);
+}
+
+.border-gray-dark {
+  border-color: var(--gray-dark);
+}
+
+/* Sharp, professional hover effects */
+.hover\:bg-off-white:hover {
+  background-color: var(--off-white);
+}
+
+/* Remove rounded corners globally for sharp aesthetic */
+button, a, input, textarea, select {
+  border-radius: 0 !important;
+}
+
+/* Better link hover for code links */
+a code:hover {
+  text-decoration: underline;
+}
+
+/* Elegant shimmer effect for privacy text */
+.shimmer-text {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    var(--foreground) 0%,
+    var(--foreground) 40%,
+    var(--gray-light) 50%,
+    var(--foreground) 60%,
+    var(--foreground) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 200% center;
+  }
+  50% {
+    background-position: -200% center;
+  }
+}
+
+/* Fallback for browsers that don't support background-clip: text */
+@supports not (background-clip: text) {
+  .shimmer-text {
+    background: none;
+    -webkit-text-fill-color: var(--foreground);
+    color: var(--foreground);
+    animation: none;
   }
 }

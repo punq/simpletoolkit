@@ -112,7 +112,7 @@ export default function RootLayout({
               "100% Browser-based Processing",
               "No File Uploads Required",
               "No Watermarks Ever",
-              "No Ads or Tracking",
+              "No Ads",
               "Privacy-First Architecture"
             ],
             "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge."
