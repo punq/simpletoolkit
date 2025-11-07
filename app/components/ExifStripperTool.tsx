@@ -496,7 +496,7 @@ export default function ExifStripperTool() {
           {results.filter(r => r.result.hadExif).length === 0 && (
             <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-lg">
               <p className="text-sm text-blue-700">
-                <strong>Good news!</strong> None of your images contained EXIF metadata. They're already privacy-safe.
+                <strong>Good news!</strong> None of your images contained EXIF metadata. They&apos;re already privacy-safe.
                 The cleaned versions have been downloaded anyway for your peace of mind.
               </p>
             </div>

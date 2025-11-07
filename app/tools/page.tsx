@@ -126,6 +126,31 @@ export default function ToolsPage() {
           </div>
         </section>
 
+        {/* Category: Developer Tools */}
+        <section aria-labelledby="developer-tools" className="mt-12">
+          <div className="flex items-baseline justify-between mb-6">
+            <h2 id="developer-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Developer Tools</h2>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Data Formatter & Validator */}
+            <Link
+              href="/tools/data-formatter"
+              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Format and validate JSON, YAML, XML locally"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Data Formatter & Validator</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                Format, validate, and convert between JSON, YAML, and XML—<strong className="text-foreground">zero uploads</strong>, instant validation.
+              </p>
+            </Link>
+          </div>
+        </section>
+
         {/* Category: Privacy Tools */}
         <section aria-labelledby="privacy-tools" className="mt-12">
           <div className="flex items-baseline justify-between mb-6">

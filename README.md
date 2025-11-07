@@ -25,6 +25,9 @@ Privacy-first, browser-based tools for PDFs, images, and more. All processing ha
 #### Image Tools
 - **EXIF Stripper**: Remove metadata (EXIF, GPS, camera info) from JPEG and PNG images
 
+#### Data Tools
+- **Data Formatter & Validator**: Format, validate, and convert JSON, YAML, and XML with real-time syntax highlighting, detailed error reporting, and cross-format conversion — all processed instantly in your browser
+
 ## Quick Start
 
 ## Quick start
@@ -42,40 +45,77 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ```
 app/
-  components/     # React components for PDF and image tools
-  utils/          # Shared utilities (pdfUtils, imageUtils, analytics)
-  tools/          # Individual tool pages
+  components/     # React components for all tools
+    MergeTool.tsx              # PDF merge functionality
+    SplitTool.tsx              # PDF split functionality
+    RearrangeTool.tsx          # PDF rearrange functionality
+    CompressTool.tsx           # PDF compression functionality
+    ExifStripperTool.tsx       # Image EXIF metadata removal
+    DataFormatterValidator.tsx # JSON/YAML/XML formatter & validator
+  utils/          # Shared utilities
+    pdfUtils.ts         # PDF processing helpers
+    imageUtils.ts       # Image processing helpers (EXIF stripping)
+    dataFormatterUtils.ts # Data formatting, validation, conversion
+    analytics.ts        # Analytics tracking helpers
+  tools/          # Individual tool pages (Next.js routes)
+    merge/
+    split/
+    rearrange/
+    compress/
+    exif-stripper/
+    data-formatter/   # NEW: JSON/YAML/XML formatter
 public/           # Static assets
-__tests__/        # Test suites
+__tests__/        # Comprehensive test suites (266 tests)
+  components/     # Component tests
+  utils/          # Utility function tests
 ```
 
 ## Tech Stack
 
-- **Next.js 16** (App Router)
+- **Next.js 16** (App Router) with Turbopack
 - **React 19**
 - **TypeScript** (strict mode)
 - **pdf-lib** for client-side PDF manipulation
-- **Native Web APIs** for image processing (File API, ArrayBuffer, DataView)
+- **Native Web APIs** for all processing:
+  - PDF: `pdf-lib` library
+  - Images: File API, ArrayBuffer, DataView
+  - JSON: Native `JSON.parse()` / `JSON.stringify()`
+  - XML: `DOMParser` / `XMLSerializer`
+  - YAML: Custom lightweight parser (no dependencies)
 - **Tailwind CSS 4** for styling
-- **Jest & Testing Library** for tests
+- **Jest & Testing Library** for tests (266 tests, 100% passing)
 
 ## Architecture
 
-All file operations happen **100% client-side** using `pdf-lib` for PDFs and native Web APIs for images. No backend servers or file uploads required. This ensures:
+All operations happen **100% client-side** with zero server uploads:
 
-- **Privacy**: Files never leave the user's device
-- **Speed**: No network latency
-- **Security**: No server-side vulnerabilities
-- **Simplicity**: Static site deployment
+- **PDFs**: `pdf-lib` for manipulation (merge, split, compress, rearrange)
+- **Images**: Native Web APIs for EXIF stripping (File API, ArrayBuffer, DataView)
+- **Data**: Native browser APIs for formatting and validation
+  - JSON: V8-optimized `JSON.parse()` / `JSON.stringify()`
+  - XML: `DOMParser` / `XMLSerializer`
+  - YAML: Custom lightweight parser (no external dependencies)
+
+This architecture ensures:
+
+- **🔒 Privacy**: Files and data never leave the user's device
+- **⚡ Speed**: No network latency, instant processing
+- **🛡️ Security**: No server-side vulnerabilities or data breaches
+- **📦 Simplicity**: Static site deployment (Vercel, Netlify, etc.)
+- **💰 Cost-Effective**: No backend infrastructure required
 
 ### Security Measures
 
 - Content Security Policy (CSP) headers
 - Input validation and sanitization
-- File size limits (50MB per file)
-- No `eval()` or `innerHTML`
-- Encrypted PDF detection
-- Regular dependency audits
+- Size limits enforced:
+  - PDFs: 50MB per file
+  - Images: Standard browser limits
+  - Data formatter: 10MB input text
+- No `eval()` or `innerHTML` usage
+- Encrypted PDF detection and graceful handling
+- XSS prevention in data formatter
+- Regular dependency audits (`npm audit`)
 
 ## Learn More
 
@@ -108,10 +148,12 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for gu
 ### Development Guidelines
 
 1. Follow TypeScript strict mode
-2. Write tests for new features
-3. Ensure all tools work client-side only
-4. Maintain accessibility standards
-5. Run `npm run lint` before committing
+2. Write comprehensive tests for new features (use Jest + Testing Library)
+3. Ensure all tools work client-side only (no server uploads)
+4. Maintain WCAG 2.1 AA accessibility standards
+5. Run `npm run lint` and `npm test` before committing
+6. Document all exported functions with JSDoc comments
+7. Keep bundle size minimal (avoid large dependencies)
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
