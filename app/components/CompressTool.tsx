@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-// import Link from "next/link";
 import SuccessMessage from "./SuccessMessage";
 import { 
   isPdfFile,
@@ -27,7 +26,6 @@ export default function CompressTool() {
   const [success, setSuccess] = useState(false);
   const [operationId, setOperationId] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [addedMessage, setAddedMessage] = useState<string | null>(null);
 
   // Compression-specific state
   const [compressing, setCompressing] = useState(false);
@@ -37,8 +35,6 @@ export default function CompressTool() {
   const [progress, setProgress] = useState<ProgressData>({ processed: 0, total: 0, percent: 0 });
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  
-  const triggerFilePicker = () => fileInputRef.current?.click();
 
   const handleFileSelect = async (selected: File) => {
     if (!selected) return;
@@ -85,11 +81,6 @@ export default function CompressTool() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-  };
-
-  const handleDragEnter = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
   };
 
   const handleDragOver = (e: React.DragEvent) => {

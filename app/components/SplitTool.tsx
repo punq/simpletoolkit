@@ -1,10 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import SuccessMessage from "./SuccessMessage";
 import { 
-  MAX_FILE_SIZE,
   isPdfFile,
   isValidFileSize,
   formatFileSize,
@@ -31,8 +29,6 @@ export default function SplitTool() {
   const [everyN, setEveryN] = useState("1");
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const triggerFilePicker = () => fileInputRef.current?.click();
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
@@ -81,11 +77,6 @@ export default function SplitTool() {
   };
 
   const [isDragging, setIsDragging] = useState(false);
-
-  const handleDragEnter = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();

@@ -41,7 +41,11 @@ async function merge(paths, outPath) {
     await createPdf('First PDF - page 1', a);
     // create a 2-page PDF for variety
     const docb = await PDFDocument.create();
-    docb.addPage([300, 200]).drawText && docb.addPage([300, 200]);
+    const page1 = docb.addPage([300, 200]);
+    const page2 = docb.addPage([300, 200]);
+    if (page1.drawText && page2) {
+      // Pages created successfully
+    }
     const bBytes = await docb.save();
     fs.writeFileSync(b, Buffer.from(bBytes));
 

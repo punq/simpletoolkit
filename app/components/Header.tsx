@@ -80,13 +80,16 @@ export default function Header() {
     // Prevent background scroll
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    
+    // Capture current ref value for cleanup
+    const toggleElement = toggleRef.current;
 
     return () => {
       clearTimeout(t);
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = originalOverflow;
       // Restore keyboard focus to the toggle button
-      toggleRef.current?.focus();
+      toggleElement?.focus();
     };
   }, [open]);
 

@@ -220,16 +220,16 @@ export default function Home() {
 
             <div className="bg-charcoal border border-gray-dark p-6">
               <div className="font-mono text-xs sm:text-sm leading-relaxed space-y-1">
-                <div className="text-green">// All processing happens locally</div>
+                <div className="text-green">{'//'} All processing happens locally</div>
                 <div className="text-white">const <span className="text-blue-400">processFile</span> = async (file) =&gt; &#123;</div>
-                <div className="ml-4 text-green">// Read in browser memory</div>
+                <div className="ml-4 text-green">{'//'} Read in browser memory</div>
                 <div className="ml-4 text-gray-light">const buffer = await file.arrayBuffer();</div>
                 <div className="ml-4 text-gray-light">const data = new Uint8Array(buffer);</div>
                 <div className="ml-4 text-gray-light"></div>
-                <div className="ml-4 text-green">// Process with Web APIs</div>
+                <div className="ml-4 text-green">{'//'} Process with Web APIs</div>
                 <div className="ml-4 text-gray-light">const result = await transform(data);</div>
                 <div className="ml-4 text-gray-light"></div>
-                <div className="ml-4 text-green">// Download directly - no server</div>
+                <div className="ml-4 text-green">{'//'} Download directly - no server</div>
                 <div className="ml-4 text-gray-light">const blob = new Blob([result]);</div>
                 <div className="ml-4 text-gray-light">downloadFile(blob, &apos;output.pdf&apos;);</div>
                 <div className="text-white">&#125;;</div>
@@ -306,7 +306,7 @@ export default function Home() {
               Support This Project
             </Link>
             <Link 
-              href="https://github.com/punq/pdfmerger" 
+              href="https://github.com/punq/simpletoolkit" 
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-6 py-3 border-2 border-black text-black text-sm font-semibold hover:bg-black hover:text-white transition-colors"

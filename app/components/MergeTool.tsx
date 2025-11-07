@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import SuccessMessage from "./SuccessMessage";
 import { 
   MAX_FILE_SIZE,
