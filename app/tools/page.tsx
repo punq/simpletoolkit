@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All Tools — Privacy-First, No-Upload Utilities | Simple Toolkit",
   description:
-    "Explore our fast, browser-based tools for PDFs and more. 100% private—no logins, no ads, no tracking, no watermarks. Files never leave your device.",
+    "Explore our fast, browser-based tools for PDFs, images, and more. 100% private—no logins, no ads, no tracking, no watermarks. Files never leave your device.",
   keywords: [
     "privacy-first tools",
     "no upload tools",
@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     "rearrange pdf",
     "rotate pdf",
     "offline pdf editor",
+    "exif remover",
+    "metadata stripper",
+    "image privacy tools",
     "browser tools",
     "no tracking",
     "no login",
@@ -118,6 +121,31 @@ export default function ToolsPage() {
               </div>
               <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
                 Reduce file size with smart, client-side compression—<strong className="text-foreground">no watermarks</strong>.
+              </p>
+            </Link>
+          </div>
+        </section>
+
+        {/* Category: Privacy Tools */}
+        <section aria-labelledby="privacy-tools" className="mt-12">
+          <div className="flex items-baseline justify-between mb-6">
+            <h2 id="privacy-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Privacy Tools</h2>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* EXIF/Metadata Stripper */}
+            <Link
+              href="/tools/exif-stripper"
+              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Strip EXIF and metadata from images locally"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">EXIF/Metadata Stripper</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                Remove EXIF data, GPS location, timestamps, and device info from JPEG/PNG images—<strong className="text-foreground">100% private</strong>.
               </p>
             </Link>
           </div>
