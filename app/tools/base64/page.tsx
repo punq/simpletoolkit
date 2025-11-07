@@ -42,138 +42,307 @@ export default function Base64Page() {
   return (
     <>
       <TrackView event="Page View" props={{ page: "/tools/base64" }} />
-      <div className="min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-8">
-        <ErrorBoundary>
-          <Base64UrlEncoder />
+      <main className="min-h-screen bg-white">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
+          {/* Breadcrumb */}
+          <nav className="mb-6 text-sm" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2 text-gray-500">
+              <li>
+                <Link href="/" className="hover:text-gray-900 transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li>
+                <Link href="/tools" className="hover:text-gray-900 transition-colors">
+                  Tools
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li className="text-gray-900 font-medium">Base64 Encoder</li>
+            </ol>
+          </nav>
 
-          {/* Footer Navigation */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <div className="max-w-7xl mx-auto">
+          {/* Hero Section */}
+          <div className="mb-8 sm:mb-12">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+              Base64 Encoder/Decoder
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-[700px]">
+              Encode and decode Base64 strings with standard and URL-safe support. 
+              All processing happens in your browser — no uploads, no tracking, completely private.
+            </p>
+          </div>
+
+          {/* Tool Component */}
+          <ErrorBoundary>
+            <Base64UrlEncoder />
+
+            {/* Footer Navigation */}
+            <div className="mt-12 pt-8 border-t border-gray-200">
               <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600">
-                <Link
-                  href="/tools"
-                  className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
-                >
-                  ← Back to Tools
-                </Link>
-                <span className="text-gray-300">|</span>
-                <Link
-                  href="/tools/data-formatter"
-                  className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
-                >
-                  Data Formatter
-                </Link>
-                <span className="text-gray-300">|</span>
-                <Link
-                  href="/tools/exif-stripper"
-                  className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
-                >
-                  EXIF Stripper
-                </Link>
-                <span className="text-gray-300">|</span>
-                <Link
-                  href="/privacy"
-                  className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
-                >
-                  Privacy Policy
-                </Link>
+              <Link
+                href="/tools"
+                className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
+              >
+                ← Back to Tools
+              </Link>
+              <span className="text-gray-300">|</span>
+              <Link
+                href="/tools/data-formatter"
+                className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
+              >
+                Data Formatter
+              </Link>
+              <span className="text-gray-300">|</span>
+              <Link
+                href="/tools/exif-stripper"
+                className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
+              >
+                EXIF Stripper
+              </Link>
+              <span className="text-gray-300">|</span>
+              <Link
+                href="/privacy"
+                className="hover:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1"
+              >
+                Privacy Policy
+              </Link>
               </div>
 
-              {/* SEO Content */}
-              <div className="mt-12 prose prose-sm max-w-none text-gray-600">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  About Base64 Encoding
+              {/* Privacy Badge */}
+                <div className="mt-12 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      100% Private, Instant Processing
+                    </h3>
+                    <p className="text-gray-700 leading-relaxed">
+                      All encoding and decoding happens locally in your browser using native Web APIs. 
+                      Your data never leaves your device, is never uploaded to any server, or transmitted over the internet. 
+                      Complete privacy guaranteed.
+                    </p>
+                  </div>
+                  </div>
+                </div>
+
+              {/* FAQ */}
+              <div className="mt-16 pt-16 border-t border-gray-200">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-8">
+                  Frequently Asked Questions
                 </h2>
-                
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      What is Base64?
-                    </h3>
-                    <p className="mb-4">
-                      Base64 is a binary-to-text encoding scheme that converts binary data into
-                      ASCII string format. It's widely used for encoding data in emails, data URIs,
-                      web tokens (JWT), and anywhere binary data needs to be transmitted as text.
-                    </p>
-                    <p>
-                      Our tool supports both standard Base64 (RFC 4648 Section 4) and URL-safe
-                      Base64 (RFC 4648 Section 5) encoding and decoding.
-                    </p>
-                  </div>
+                <div className="space-y-6">
+                  <details className="group border border-gray-200 rounded-lg">
+                    <summary className="cursor-pointer text-lg font-semibold flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+                      <span>What is Base64 encoding?</span>
+                      <svg
+                        className="w-5 h-5 transform group-open:rotate-180 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </summary>
+                    <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                      Base64 is a binary-to-text encoding scheme that converts binary data into ASCII string format. 
+                      It&apos;s widely used for encoding data in emails, data URIs, web tokens (JWT), and anywhere 
+                      binary data needs to be transmitted as text. Our tool supports both standard Base64 
+                      (RFC 4648 Section 4) and URL-safe Base64 (RFC 4648 Section 5).
+                    </div>
+                  </details>
 
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Standard vs URL-Safe Base64
-                    </h3>
-                    <ul className="list-disc list-inside space-y-1">
-                      <li>
-                        <strong>Standard Base64:</strong> Uses +, /, and = for padding. Best for
-                        general use cases like email attachments and data URIs.
-                      </li>
-                      <li>
-                        <strong>URL-Safe Base64:</strong> Uses -, _, and no padding. Safe for URLs,
-                        filenames, and web applications where + and / might cause issues.
-                      </li>
-                    </ul>
-                  </div>
+                  <details className="group border border-gray-200 rounded-lg">
+                    <summary className="cursor-pointer text-lg font-semibold flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+                      <span>What&apos;s the difference between Standard and URL-Safe Base64?</span>
+                      <svg
+                        className="w-5 h-5 transform group-open:rotate-180 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </summary>
+                    <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                      <p className="mb-3"><strong>Standard Base64 (RFC 4648 Section 4):</strong></p>
+                      <ul className="list-disc list-inside space-y-1 mb-4">
+                        <li>Uses characters: A-Z, a-z, 0-9, +, /</li>
+                        <li>Includes = padding</li>
+                        <li>Best for general use cases like email attachments and data URIs</li>
+                      </ul>
+                      <p className="mb-3"><strong>URL-Safe Base64 (RFC 4648 Section 5):</strong></p>
+                      <ul className="list-disc list-inside space-y-1">
+                        <li>Uses characters: A-Z, a-z, 0-9, -, _</li>
+                        <li>No padding characters</li>
+                        <li>Safe for URLs, filenames, and web applications where + and / might cause issues</li>
+                      </ul>
+                    </div>
+                  </details>
+
+                  <details className="group border border-gray-200 rounded-lg">
+                    <summary className="cursor-pointer text-lg font-semibold flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+                      <span>Does this tool support Unicode characters?</span>
+                      <svg
+                        className="w-5 h-5 transform group-open:rotate-180 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </summary>
+                    <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                      Yes, absolutely! Unlike many online tools, our encoder properly handles full Unicode text 
+                      including emojis, Chinese characters, Arabic text, and special symbols using modern 
+                      TextEncoder/TextDecoder APIs. This ensures accurate encoding and decoding of any text.
+                    </div>
+                  </details>
+
+                  <details className="group border border-gray-200 rounded-lg">
+                    <summary className="cursor-pointer text-lg font-semibold flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+                      <span>What&apos;s the maximum input size?</span>
+                      <svg
+                        className="w-5 h-5 transform group-open:rotate-180 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </summary>
+                    <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                      The tool supports inputs up to 10MB in size. For larger inputs, we automatically 
+                      debounce the encoding/decoding operations to maintain smooth performance. The tool 
+                      also displays the current input size to help you stay within limits.
+                    </div>
+                  </details>
+
+                  <details className="group border border-gray-200 rounded-lg">
+                    <summary className="cursor-pointer text-lg font-semibold flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+                      <span>Is my data safe? Does it get uploaded anywhere?</span>
+                      <svg
+                        className="w-5 h-5 transform group-open:rotate-180 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </summary>
+                    <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                      Yes, your data is completely safe. All encoding and decoding happens locally in your browser 
+                      using native JavaScript APIs (TextEncoder, TextDecoder, btoa, atob). No data is ever sent to 
+                      our servers or any third party. You can even disconnect from the internet after loading the 
+                      page and the tool will continue to work perfectly.
+                    </div>
+                  </details>
+
+                  <details className="group border border-gray-200 rounded-lg">
+                    <summary className="cursor-pointer text-lg font-semibold flex items-center justify-between p-6 hover:bg-gray-50 transition-colors">
+                      <span>What are common use cases for Base64?</span>
+                      <svg
+                        className="w-5 h-5 transform group-open:rotate-180 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </summary>
+                    <div className="px-6 pb-6 text-gray-700 leading-relaxed">
+                      Base64 is commonly used for:
+                      <ul className="list-disc list-inside space-y-1 mt-2">
+                        <li>Embedding images in HTML/CSS (data URIs)</li>
+                        <li>JWT tokens for authentication</li>
+                        <li>Email attachments (MIME encoding)</li>
+                        <li>URL parameters and cookies</li>
+                        <li>API request/response data</li>
+                        <li>Storing binary data in text-based formats like JSON or XML</li>
+                      </ul>
+                    </div>
+                  </details>
                 </div>
+              </div>
 
-                <div className="mt-8 grid md:grid-cols-3 gap-6">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Full Unicode Support
-                    </h3>
-                    <p>
-                      Unlike many online tools, our encoder properly handles full Unicode text
-                      including emojis, Chinese characters, and special symbols using modern
-                      TextEncoder/TextDecoder APIs.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      100% Client-Side
-                    </h3>
-                    <p>
-                      All encoding and decoding happens in your browser using native Web APIs.
-                      No data is ever uploaded to a server, ensuring complete privacy and security.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Common Use Cases
-                    </h3>
-                    <ul className="list-disc list-inside space-y-1 text-sm">
-                      <li>Embedding images in HTML/CSS</li>
-                      <li>JWT tokens for authentication</li>
-                      <li>Email attachments (MIME)</li>
-                      <li>URL parameters and cookies</li>
-                      <li>API request/response data</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Why Use Our Base64 Encoder?
-                  </h3>
-                  <ul className="list-disc list-inside space-y-1">
-                    <li>Real-time encoding/decoding as you type</li>
-                    <li>Auto-detection of Base64 format</li>
-                    <li>Support for large files (up to 10MB)</li>
-                    <li>Copy to clipboard with one click</li>
-                    <li>Download encoded/decoded output</li>
-                    <li>Keyboard shortcuts for power users</li>
-                    <li>No ads, no tracking, no sign-up required</li>
-                    <li>Works offline after initial page load</li>
-                  </ul>
+              {/* Related Tools */}
+              <div className="mt-16 pt-16 border-t border-gray-200">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6">
+                  More Tools
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    { href: "/tools/data-formatter", label: "Data Formatter" },
+                    { href: "/tools/exif-stripper", label: "Strip Image Metadata" },
+                    { href: "/tools/merge", label: "Merge PDFs" },
+                    { href: "/tools/split", label: "Split PDFs" },
+                  ].map((tool) => (
+                    <Link
+                      key={tool.href}
+                      href={tool.href}
+                      className="p-4 border border-gray-200 rounded-lg hover:border-black transition-colors text-center font-medium"
+                    >
+                      {tool.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
-        </ErrorBoundary>
-      </div>
+          </ErrorBoundary>
+        </div>
+      </main>
     </>
   );
 }

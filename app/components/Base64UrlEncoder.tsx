@@ -222,22 +222,6 @@ export default function Base64UrlEncoder() {
     setSuccess(false);
   }, []);
 
-  // Switch direction
-  const handleDirectionSwitch = useCallback(() => {
-    setDirection(prev => prev === 'encode' ? 'decode' : 'encode');
-    setError(null);
-    setSuccess(false);
-    
-    // Focus appropriate input
-    setTimeout(() => {
-      if (direction === 'encode') {
-        base64InputRef.current?.focus();
-      } else {
-        rawInputRef.current?.focus();
-      }
-    }, 0);
-  }, [direction]);
-
   // Swap input and output
   const handleSwap = useCallback(() => {
     const tempRaw = rawInput;
@@ -347,23 +331,11 @@ export default function Base64UrlEncoder() {
         e.preventDefault();
         handleClear();
       }
-      // Ctrl/Cmd + D: Switch direction
-      if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-        e.preventDefault();
-        handleDirectionSwitch();
-      }
-      // Ctrl/Cmd + C: Copy (when not in textarea)
-      if ((e.ctrlKey || e.metaKey) && e.key === 'c' && 
-          e.target !== rawInputRef.current && 
-          e.target !== base64InputRef.current) {
-        e.preventDefault();
-        handleCopy();
-      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleClear, handleDirectionSwitch, handleCopy]);
+  }, [handleClear]);
 
   // Input size info
   const inputSizeInfo = useMemo(() => {
@@ -383,394 +355,227 @@ export default function Base64UrlEncoder() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold text-gray-900">Base64 URL Encoder/Decoder</h1>
-        <p className="text-lg text-gray-600">
-          Encode and decode Base64 strings with URL-safe support. 100% client-side processing.
-        </p>
+      {/* Mode Toggle: Format vs Convert */}
+      <div className="flex items-center justify-center gap-2 p-1 bg-gray-100 rounded-lg w-fit mx-auto">
+        <button
+          onClick={() => setDirection('encode')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+            direction === 'encode'
+              ? "bg-black text-white"
+              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+          }`}
+          aria-pressed={direction === 'encode'}
+          aria-label="Switch to encode mode"
+        >
+          Encode
+        </button>
+        <button
+          onClick={() => setDirection('decode')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+            direction === 'decode'
+              ? "bg-black text-white"
+              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+          }`}
+          aria-pressed={direction === 'decode'}
+          aria-label="Switch to decode mode"
+        >
+          Decode
+        </button>
       </div>
 
-      {/* Controls */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 space-y-4">
-        {/* Direction Toggle */}
-        <div className="flex items-center justify-center gap-4">
-          <label className="text-sm font-medium text-gray-700">Direction:</label>
-          <div className="flex items-center gap-2">
+      {/* Format Selection */}
+      <div className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="flex-1">
+          <label className="block text-sm font-medium text-gray-700 mb-2" id="base64-mode-label">
+            Base64 Mode
+          </label>
+          <div className="flex gap-2" role="group" aria-labelledby="base64-mode-label">
             <button
-              onClick={() => setDirection('encode')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                direction === 'encode'
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-              aria-pressed={direction === 'encode'}
+              onClick={() => setMode('standard')}
+              disabled={autoDetect && direction === 'decode'}
+              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                mode === 'standard'
+                  ? "bg-black text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              aria-pressed={mode === 'standard'}
+              title="RFC 4648 Section 4: Uses +, /, with = padding"
             >
-              Encode
+              Standard
+              {autoDetect && detectedMode === 'standard' && (
+                <span className="ml-1 text-xs opacity-75">(auto)</span>
+              )}
             </button>
             <button
-              onClick={handleDirectionSwitch}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              title="Switch direction (Ctrl/Cmd + D)"
-              aria-label="Switch encoding direction"
+              onClick={() => setMode('url-safe')}
+              disabled={autoDetect && direction === 'decode'}
+              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                mode === 'url-safe'
+                  ? "bg-black text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              aria-pressed={mode === 'url-safe'}
+              title="RFC 4648 Section 5: Uses -, _, no = padding. Safe for URLs"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-              </svg>
-            </button>
-            <button
-              onClick={() => setDirection('decode')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                direction === 'decode'
-                  ? 'bg-black text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-              aria-pressed={direction === 'decode'}
-            >
-              Decode
+              URL-Safe
+              {autoDetect && detectedMode === 'url-safe' && (
+                <span className="ml-1 text-xs opacity-75">(auto)</span>
+              )}
             </button>
           </div>
-        </div>
-
-        {/* Mode Selection with Tooltips */}
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          <label className="text-sm font-medium text-gray-700">Base64 Mode:</label>
-          <div className="flex items-center gap-2">
-            <div className="relative group">
-              <button
-                onClick={() => setMode('standard')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  mode === 'standard'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                disabled={autoDetect && direction === 'decode'}
-                aria-pressed={mode === 'standard'}
-                aria-describedby="standard-tooltip"
-              >
-                Standard (+, /, =)
-              </button>
-              <div 
-                id="standard-tooltip"
-                role="tooltip"
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10"
-              >
-                RFC 4648 Section 4: Uses +, /, with = padding
-                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
-              </div>
-            </div>
-            <div className="relative group">
-              <button
-                onClick={() => setMode('url-safe')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  mode === 'url-safe'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                disabled={autoDetect && direction === 'decode'}
-                aria-pressed={mode === 'url-safe'}
-                aria-describedby="urlsafe-tooltip"
-              >
-                URL-Safe (-, _, no padding)
-              </button>
-              <div 
-                id="urlsafe-tooltip"
-                role="tooltip"
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10"
-              >
-                RFC 4648 Section 5: Uses -, _, no = padding. Safe for URLs
-                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Auto-detect toggle (only for decode) */}
-        {direction === 'decode' && (
-          <div className="flex items-center justify-center gap-2">
-            <label htmlFor="auto-detect" className="flex items-center gap-2 cursor-pointer">
+          
+          {direction === 'decode' && (
+            <label className="flex items-center gap-2 mt-3 cursor-pointer">
               <input
                 id="auto-detect"
                 type="checkbox"
                 checked={autoDetect}
                 onChange={(e) => setAutoDetect(e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                className="cursor-pointer focus:ring-2 focus:ring-black focus:ring-offset-2"
               />
-              <span className="text-sm text-gray-700">Auto-detect Base64 format</span>
-            </label>
-            {detectedMode && autoDetect && (
-              <span className="text-xs text-blue-600 font-medium">
-                (Detected: {detectedMode === 'url-safe' ? 'URL-Safe' : 'Standard'})
+              <span className="text-xs text-gray-600">
+                Auto-detect format from input
               </span>
-            )}
-          </div>
-        )}
+            </label>
+          )}
+        </div>
 
-        {/* Input size info */}
         {inputSizeInfo && (
-          <div className="text-center text-sm text-gray-500">
+          <div className="flex items-center justify-end text-xs text-gray-500">
             Input size: {inputSizeInfo}
           </div>
         )}
       </div>
 
-      {/* Input/Output Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Raw Text Panel */}
+      {/* Split Panel: Input and Output */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Input Panel */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="raw-input" className="block text-sm font-medium text-gray-900">
-              Raw Text
-              {direction === 'encode' && <span className="text-red-500 ml-1">*</span>}
+            <label htmlFor="input-editor" className="text-sm font-medium text-gray-700">
+              {direction === 'encode' ? 'Raw Text' : 'Base64 Input'}
             </label>
-            {rawInput && (
-              <span className="text-xs text-gray-500">
-                {rawInput.length.toLocaleString()} chars
-              </span>
-            )}
+            <div className="flex gap-2 items-center">
+              {(direction === 'encode' ? rawInput : base64Input) && (
+                <>
+                  <button
+                    onClick={handleClear}
+                    className="text-xs text-gray-500 hover:text-gray-700 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    aria-label="Clear input"
+                  >
+                    Clear
+                  </button>
+                  <span className="text-xs text-gray-400" aria-live="polite">
+                    {(direction === 'encode' ? rawInput : base64Input).length.toLocaleString()} chars
+                  </span>
+                </>
+              )}
+            </div>
           </div>
           <textarea
-            id="raw-input"
-            ref={rawInputRef}
-            value={rawInput}
-            onChange={(e) => handleRawInputChange(e.target.value)}
-            placeholder={direction === 'encode' ? "Enter text to encode..." : "Decoded output will appear here..."}
-            readOnly={direction === 'decode'}
-            className={`w-full h-96 p-4 border rounded-lg font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent ${
-              direction === 'decode' 
-                ? 'bg-gray-50 text-gray-700' 
-                : 'bg-white text-gray-900'
-            }`}
+            id="input-editor"
+            ref={direction === 'encode' ? rawInputRef : base64InputRef}
+            value={direction === 'encode' ? rawInput : base64Input}
+            onChange={(e) => direction === 'encode' ? handleRawInputChange(e.target.value) : handleBase64InputChange(e.target.value)}
+            placeholder={direction === 'encode' 
+              ? `Enter text to encode...\n\nKeyboard shortcuts:\n• Ctrl/Cmd + K: Clear`
+              : `Paste Base64 string to decode...\n\nKeyboard shortcuts:\n• Ctrl/Cmd + K: Clear`
+            }
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black resize-y"
             spellCheck={false}
-            aria-label="Raw text input"
-            aria-required={direction === 'encode'}
-            aria-readonly={direction === 'decode'}
+            aria-label={direction === 'encode' ? "Raw text input" : "Base64 input"}
           />
         </div>
 
-        {/* Base64 Panel with Syntax Highlighting */}
+        {/* Output Panel */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="base64-input" className="block text-sm font-medium text-gray-900">
-              Base64 {mode === 'url-safe' ? '(URL-Safe)' : '(Standard)'}
-              {direction === 'decode' && <span className="text-red-500 ml-1">*</span>}
+            <label htmlFor="output-display" className="text-sm font-medium text-gray-700">
+              {direction === 'encode' ? 'Base64 Output' : 'Decoded Text'}
             </label>
-            {base64Input && (
-              <span className="text-xs text-gray-500">
-                {base64Input.length.toLocaleString()} chars
-              </span>
+            <div className="flex gap-2 items-center">
+              {(direction === 'encode' ? base64Input : rawInput) && (
+                <>
+                  <button
+                    onClick={handleSwap}
+                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    aria-label="Swap input and output"
+                    title="Swap input and output"
+                  >
+                    Swap
+                  </button>
+                  <button
+                    onClick={handleCopy}
+                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded relative"
+                    aria-label="Copy output to clipboard"
+                  >
+                    {showCopiedFeedback ? "Copied!" : "Copy"}
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    aria-label="Download output as file"
+                  >
+                    Download
+                  </button>
+                  <span className="text-xs text-gray-400" aria-live="polite">
+                    {(direction === 'encode' ? base64Input : rawInput).length.toLocaleString()} chars
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
+          <div
+            id="output-display"
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg bg-gray-50 overflow-auto"
+            role="region"
+            aria-label="Output display"
+            aria-live="polite"
+            tabIndex={0}
+          >
+            {(direction === 'encode' ? base64Input : rawInput) ? (
+              <pre className="m-0 whitespace-pre-wrap break-all text-gray-700">
+                {direction === 'encode' ? base64Input : rawInput}
+              </pre>
+            ) : (
+              <p className="text-gray-400 text-center mt-20">
+                Output will appear here...
+              </p>
             )}
           </div>
-          {direction === 'encode' && base64Input ? (
-            // Read-only output with syntax highlighting
-            <div className="relative">
-              <div 
-                className="w-full h-96 p-4 border rounded-lg font-mono text-sm overflow-auto bg-gray-50 border-gray-300"
-                role="textbox"
-                aria-label="Base64 encoded output"
-                aria-readonly="true"
-              >
-                <pre className="m-0 whitespace-pre-wrap break-all">
-                  <code className="base64-highlight">
-                    {base64Input.split('').map((char, idx) => {
-                      let colorClass = 'text-gray-700';
-                      
-                      // Highlight special characters
-                      if (mode === 'standard') {
-                        if (char === '+') colorClass = 'text-blue-600 font-semibold';
-                        else if (char === '/') colorClass = 'text-purple-600 font-semibold';
-                        else if (char === '=') colorClass = 'text-orange-600 font-bold';
-                      } else {
-                        if (char === '-') colorClass = 'text-blue-600 font-semibold';
-                        else if (char === '_') colorClass = 'text-purple-600 font-semibold';
-                      }
-                      
-                      return <span key={idx} className={colorClass}>{char}</span>;
-                    })}
-                  </code>
-                </pre>
-              </div>
-              {/* Copy overlay button */}
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(base64Input);
-                  setShowCopiedFeedback(true);
-                  setTimeout(() => setShowCopiedFeedback(false), 2000);
-                }}
-                className="absolute top-2 right-2 p-2 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
-                title="Copy to clipboard"
-                aria-label="Copy Base64 output to clipboard"
-              >
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </button>
-            </div>
-          ) : (
-            // Editable input for decoding
-            <textarea
-              id="base64-input"
-              ref={base64InputRef}
-              value={base64Input}
-              onChange={(e) => handleBase64InputChange(e.target.value)}
-              placeholder={direction === 'decode' ? "Paste Base64 string to decode..." : "Encoded output will appear here..."}
-              readOnly={direction === 'encode' && !base64Input}
-              className={`w-full h-96 p-4 border rounded-lg font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent ${
-                direction === 'encode' && !base64Input
-                  ? 'bg-gray-50 text-gray-700' 
-                  : 'bg-white text-gray-900'
-              }`}
-              spellCheck={false}
-              aria-label="Base64 input"
-              aria-required={direction === 'decode'}
-              aria-readonly={direction === 'encode'}
-            />
-          )}
         </div>
       </div>
 
-      {/* Action Buttons - Dedicated Encode/Decode/Swap */}
-      <div className="flex items-center justify-center gap-4 flex-wrap">
-        {/* Primary Action: Encode or Decode */}
-        {direction === 'encode' ? (
-          <button
-            onClick={() => {
-              if (rawInput) {
-                const result = encode(rawInput, mode);
-                if (result.isValid) {
-                  setBase64Input(result.output);
-                  setSuccess(true);
-                  setTimeout(() => setSuccess(false), 3000);
-                }
-              }
-            }}
-            disabled={!rawInput}
-            className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            title="Encode raw text to Base64"
-          >
-            <span className="flex items-center gap-2">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              Encode to Base64
-            </span>
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              if (base64Input) {
-                const effectiveMode = autoDetect && detectedMode ? detectedMode : mode;
-                const result = decode(base64Input, effectiveMode);
-                if (result.isValid) {
-                  setRawInput(result.output);
-                  setSuccess(true);
-                  setTimeout(() => setSuccess(false), 3000);
-                }
-              }
-            }}
-            disabled={!base64Input}
-            className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-semibold hover:from-green-700 hover:to-green-800 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-            title="Decode Base64 to raw text"
-          >
-            <span className="flex items-center gap-2">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-              </svg>
-              Decode from Base64
-            </span>
-          </button>
-        )}
-
-        {/* Swap Button */}
-        <button
-          onClick={handleSwap}
-          disabled={!rawInput && !base64Input}
-          className="px-6 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-          title="Swap input and output fields"
-        >
-          <span className="flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-            </svg>
-            Swap
-          </span>
-        </button>
-
-        {/* Secondary Actions */}
-        <button
-          onClick={handleCopy}
-          disabled={direction === 'encode' ? !base64Input : !rawInput}
-          className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-          title="Copy output to clipboard"
-        >
-          <span className="flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-            Copy
-          </span>
-        </button>
-
-        <button
-          onClick={handleDownload}
-          disabled={direction === 'encode' ? !base64Input : !rawInput}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          title="Download output as file"
-        >
-          <span className="flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Download
-          </span>
-        </button>
-
-        <button
-          onClick={handleClear}
-          disabled={!rawInput && !base64Input}
-          className="px-6 py-3 bg-gray-200 text-gray-900 rounded-lg font-medium hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-          title="Clear all inputs (Ctrl/Cmd + K)"
-        >
-          Clear All
-        </button>
-      </div>
-
-      {/* Error Message - Non-breaking, dismissible alert */}
+      {/* Error Message */}
       {error && (
         <div 
-          className="p-4 bg-red-50 border border-red-200 rounded-lg animate-fadeIn" 
+          className="p-4 bg-gray-50 border border-gray-300 rounded-lg" 
           role="alert"
           aria-live="polite"
-          aria-atomic="true"
         >
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 flex-shrink-0 mt-0.5 text-red-600"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
+              className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
               <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
-                clipRule="evenodd"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
             <div className="flex-1">
-              <h3 className="text-sm font-medium text-red-900 mb-1">Input Error</h3>
-              <p className="text-sm text-red-700 leading-relaxed">{error}</p>
-              <p className="mt-2 text-xs text-red-600">
-                💡 Tip: {direction === 'decode' 
-                  ? 'Make sure your Base64 string contains only valid characters (A-Z, a-z, 0-9, ' + (mode === 'url-safe' ? '-, _' : '+, /, =') + ')' 
-                  : 'Try reducing the input size or checking for special characters'}
-              </p>
+              <p className="text-sm text-gray-700">{error}</p>
             </div>
             <button
               onClick={() => setError(null)}
-              className="flex-shrink-0 p-1 hover:bg-red-100 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+              className="flex-shrink-0 p-1 hover:bg-gray-100 rounded transition-colors"
               aria-label="Dismiss error"
             >
-              <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -778,134 +583,71 @@ export default function Base64UrlEncoder() {
         </div>
       )}
 
-      {/* Copied Feedback */}
-      {showCopiedFeedback && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-lg" role="status">
-          <div className="flex items-center gap-3">
-            <svg
-              className="w-5 h-5 text-green-600"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <p className="text-sm font-medium text-green-900">Copied to clipboard!</p>
-          </div>
-        </div>
-      )}
-
       {/* Success Message */}
-      {success && !showCopiedFeedback && (
+      {success && (
         <SuccessMessage
-          message={`Successfully ${direction === 'encode' ? 'encoded' : 'decoded'} and downloaded your file`}
+          message={`Successfully ${direction === 'encode' ? 'encoded' : 'decoded'} and downloaded`}
           onClose={() => setSuccess(false)}
-          trackingEvent="Base64 Success"
+          trackingEvent="Base64 Operation"
           operationId={operationId || undefined}
           tool="base64-encoder"
         />
       )}
 
-      {/* Privacy Notice */}
-      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
-        <div className="flex items-start gap-3">
-          <svg
-            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-            />
+      {/* Info Section */}
+      <div className="border rounded-lg p-6 space-y-4 bg-gray-50">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
+          About Base64 Encoding
+        </h3>
+        
+        <div className="space-y-3 text-sm text-gray-600">
           <div>
-            <p className="font-medium text-gray-900 mb-1">Private & Secure</p>
-            <p className="text-gray-600 leading-relaxed">
-              All encoding and decoding happens locally in your browser using native Web APIs. No data is uploaded to any server.
-            </p>
+            <p className="font-medium text-gray-900 mb-1">Standard Base64 (RFC 4648 Section 4):</p>
+            <ul className="list-disc list-inside space-y-1 ml-2">
+              <li>Uses characters: A-Z, a-z, 0-9, +, /</li>
+              <li>Includes = padding</li>
+              <li>Suitable for email, data URIs, general encoding</li>
+            </ul>
           </div>
+          
+          <div>
+            <p className="font-medium text-gray-900 mb-1">URL-Safe Base64 (RFC 4648 Section 5):</p>
+            <ul className="list-disc list-inside space-y-1 ml-2">
+              <li>Uses characters: A-Z, a-z, 0-9, -, _</li>
+              <li>No padding characters</li>
+              <li>Safe for URLs, filenames, and web applications</li>
+            </ul>
+          </div>
+
+          <p className="pt-2 border-t border-gray-300">
+            <strong className="text-gray-900">Privacy:</strong> All encoding and decoding happens locally in your browser using native Web APIs. 
+            No data is uploaded to any server.
+          </p>
         </div>
       </div>
 
-      {/* Info & Help */}
-      <details className="p-4 bg-white border border-gray-200 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
-          About Base64 Encoding
-        </summary>
-        <div className="mt-3 space-y-3 text-sm text-gray-600">
-          <div>
-            <h4 className="font-medium text-gray-900 mb-1">Standard Base64 (RFC 4648 Section 4)</h4>
-            <p>Uses characters A-Z, a-z, 0-9, +, / with = padding. Suitable for most use cases including email, data URIs, and general encoding.</p>
-          </div>
-          <div>
-            <h4 className="font-medium text-gray-900 mb-1">URL-Safe Base64 (RFC 4648 Section 5)</h4>
-            <p>Uses characters A-Z, a-z, 0-9, -, _ without padding. Safe for URLs, filenames, and web applications where + and / might cause issues.</p>
-          </div>
-          <div>
-            <h4 className="font-medium text-gray-900 mb-1">Unicode Support</h4>
-            <p>This tool properly handles full Unicode text (including emojis and special characters) by using TextEncoder/TextDecoder APIs.</p>
-          </div>
-        </div>
-      </details>
-
       {/* Keyboard Shortcuts */}
-      <details className="p-4 bg-white border border-gray-200 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+      <div className="border rounded-lg p-6 space-y-4 bg-white">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+          </svg>
           Keyboard Shortcuts
-        </summary>
-        <div className="mt-3 space-y-2 text-sm text-gray-600">
+        </h3>
+        <div className="space-y-2 text-sm text-gray-600">
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + D</kbd>
-            <span>Switch direction (Encode ↔ Decode)</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + K</kbd>
+            <kbd className="px-2 py-1 bg-gray-50 border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + K</kbd>
             <span>Clear all inputs</span>
           </div>
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Tab</kbd>
+            <kbd className="px-2 py-1 bg-gray-50 border border-gray-300 rounded text-xs font-mono">Tab</kbd>
             <span>Navigate between elements</span>
           </div>
         </div>
-      </details>
-
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-        
-        /* Tooltip arrow */
-        [role="tooltip"]::after {
-          content: '';
-          position: absolute;
-          top: 100%;
-          left: 50%;
-          transform: translateX(-50%);
-          border: 6px solid transparent;
-          border-top-color: #1f2937;
-        }
-      `}</style>
+      </div>
     </div>
   );
 }
