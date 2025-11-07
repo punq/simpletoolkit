@@ -440,14 +440,14 @@ describe('MergeTool - Core Functionality', () => {
       render(<MergeTool />);
       const dropZone = screen.getByRole('button', { name: 'Choose PDFs or drag and drop' });
       
-      expect(dropZone).not.toHaveClass('border-green-500');
+      expect(dropZone).not.toHaveClass('border-gray-400');
       
       const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
       uploadFiles(fileInput, createMockPDFFiles(1));
       
       await waitFor(() => {
-        expect(dropZone).toHaveClass('border-green-500');
-        expect(dropZone).toHaveClass('bg-green-50');
+        expect(dropZone).toHaveClass('border-gray-400');
+        expect(dropZone).toHaveClass('bg-gray-50');
       });
     });
 

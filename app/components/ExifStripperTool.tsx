@@ -484,7 +484,7 @@ export default function ExifStripperTool() {
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold">Processing Results</h3>
             {results.filter(r => r.result.hadExif).length === 0 && (
-              <span className="text-xs px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 font-medium flex items-center gap-1">
+              <span className="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-700 font-medium flex items-center gap-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -494,8 +494,8 @@ export default function ExifStripperTool() {
           </div>
           
           {results.filter(r => r.result.hadExif).length === 0 && (
-            <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-              <p className="text-sm text-blue-700">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+              <p className="text-sm text-gray-700">
                 <strong>Good news!</strong> None of your images contained EXIF metadata. They&apos;re already privacy-safe.
                 The cleaned versions have been downloaded anyway for your peace of mind.
               </p>

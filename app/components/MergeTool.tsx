@@ -198,7 +198,7 @@ export default function MergeTool() {
       {/* File Drop Zone */}
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
-          isDragging ? "border-black bg-gray-50" : files.length > 0 ? "border-green-500 bg-green-50" : "border-gray-300 hover:border-gray-400"
+          isDragging ? "border-black bg-gray-50" : files.length > 0 ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
         }`}
         onDragEnter={onDragOver}
         onDragOver={onDragOver}
@@ -276,7 +276,7 @@ export default function MergeTool() {
         )}
 
         {addedMessage && (
-          <div className="absolute -bottom-6 left-0 text-xs text-green-600">
+          <div className="absolute -bottom-6 left-0 text-xs text-gray-600">
             {addedMessage}
           </div>
         )}
@@ -313,13 +313,13 @@ export default function MergeTool() {
 
       {/* Skipped Files Details */}
       {skipped.length > 0 && (
-        <details className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-sm">
-          <summary className="cursor-pointer font-medium text-yellow-800 hover:text-yellow-900 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 rounded px-2 py-1">
-            ⚠️ Skipped files details ({skipped.length})
+        <details className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm">
+          <summary className="cursor-pointer font-medium text-gray-800 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 rounded px-2 py-1">
+            Skipped files details ({skipped.length})
           </summary>
-          <ul className="mt-3 space-y-1 text-yellow-700">
+          <ul className="mt-3 space-y-1 text-gray-700">
             {skipped.map((s, idx) => (
-              <li key={idx} className="break-words pl-2 border-l-2 border-yellow-300">{s}</li>
+              <li key={idx} className="break-words pl-2 border-l-2 border-gray-300">{s}</li>
             ))}
           </ul>
         </details>

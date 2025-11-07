@@ -120,9 +120,9 @@ export default function DataFormatterPage() {
               ].map((feature, index) => (
                 <div
                   key={index}
-                  className="p-6 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors"
+                  className="p-6 border border-gray-200 rounded-lg hover:border-black transition-colors"
                 >
-                  <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                  <h3 className="text-base font-semibold mb-2">{feature.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">
                     {feature.description}
                   </p>
@@ -139,7 +139,7 @@ export default function DataFormatterPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-6 bg-white border border-gray-200 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Developers</h3>
-                <ul className="space-y-2 text-gray-700">
+                <ul className="space-y-2 text-gray-600">
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 mt-1">•</span>
                     <span>Debug API responses and configuration files</span>
@@ -160,7 +160,7 @@ export default function DataFormatterPage() {
               </div>
               <div className="p-6 bg-white border border-gray-200 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Data Analysts</h3>
-                <ul className="space-y-2 text-gray-700">
+                <ul className="space-y-2 text-gray-600">
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 mt-1">•</span>
                     <span>Clean and format exported data for analysis</span>
