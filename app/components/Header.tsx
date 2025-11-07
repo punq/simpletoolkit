@@ -115,14 +115,14 @@ export default function Header() {
       <header
         className={`sticky top-0 z-50 w-full transition-all duration-200 ${
           scrolled 
-            ? "bg-white/95 backdrop-blur-xl border-b border-gray-200" 
-            : "bg-white/95 backdrop-blur-xl border-b border-gray-100"
+            ? "bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-gray-200 dark:border-zinc-800" 
+            : "bg-white/95 dark:bg-black/95 backdrop-blur-xl border-b border-gray-100 dark:border-zinc-900"
         }`}
       >
       {/* Skip to content */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-4 focus:z-[100] focus:bg-black focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-4 focus:z-[100] focus:bg-black dark:focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white dark:focus:text-black"
       >
         Skip to content
       </a>
@@ -131,13 +131,13 @@ export default function Header() {
         {/* Brand */}
         <Link
           href="/"
-          className="group flex items-center gap-2.5 transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+          className="group flex items-center gap-2.5 transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
           aria-label="Simple Toolkit Home"
         >
-          <div className="hidden sm:flex h-7 w-7 items-center justify-center bg-black transition-opacity">
-            <span className="text-white text-sm font-bold">ST</span>
+          <div className="hidden sm:flex h-7 w-7 items-center justify-center bg-black dark:bg-white transition-opacity">
+            <span className="text-white dark:text-black text-sm font-bold">ST</span>
           </div>
-          <span className="text-base sm:text-lg font-semibold tracking-tight text-black">
+          <span className="text-base sm:text-lg font-semibold tracking-tight text-black dark:text-white">
             Simple Toolkit
           </span>
         </Link>
@@ -152,14 +152,14 @@ export default function Header() {
                 onClick={onClick}
                 className={`relative inline-flex items-center justify-center px-4 py-2 text-sm font-semibold tracking-tight transition-opacity ${
                   isActive(href)
-                    ? "text-black"
-                    : "text-gray-600 hover:text-black hover:opacity-70"
+                    ? "text-black dark:text-white"
+                    : "text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:opacity-70"
                 }`}
                 aria-current={isActive(href) ? "page" : undefined}
               >
                 {label}
                 {isActive(href) && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-black" aria-hidden="true" />
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-black dark:bg-white" aria-hidden="true" />
                 )}
               </Link>
             ))}
@@ -168,7 +168,7 @@ export default function Header() {
           {/* Desktop CTA */}
           <Link
             href="/tools"
-            className="hidden md:inline-flex items-center justify-center px-5 py-2.5 bg-black text-white text-sm font-semibold hover:bg-gray-900 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+            className="hidden md:inline-flex items-center justify-center px-5 py-2.5 bg-black dark:bg-white text-white dark:text-black text-sm font-semibold hover:bg-gray-900 dark:hover:bg-gray-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black"
             aria-label="Get started with the tools"
           >
             Get Started
@@ -178,7 +178,7 @@ export default function Header() {
           <button
             ref={toggleRef}
             type="button"
-            className="md:hidden inline-flex items-center justify-center w-11 h-11 -mr-2.5 text-black hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+            className="md:hidden inline-flex items-center justify-center w-11 h-11 -mr-2.5 text-black dark:text-white hover:opacity-70 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:ring-offset-2 dark:focus-visible:ring-offset-white"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -211,14 +211,14 @@ export default function Header() {
           {/* Full-page backdrop */}
           <div
             onClick={() => setOpen(false)}
-            className="md:hidden fixed inset-0 z-40 bg-black/20 backdrop-blur-sm animate-in fade-in duration-200"
+            className="md:hidden fixed inset-0 z-40 bg-black/20 dark:bg-black/40 backdrop-blur-sm animate-in fade-in duration-200"
             aria-hidden="true"
           />
 
           <div
             ref={panelRef}
             id="mobile-menu"
-            className="md:hidden fixed inset-x-0 top-[3rem] z-50 mx-auto max-w-lg overflow-hidden bg-white border-x border-b border-gray-200 shadow-2xl animate-in slide-in-from-top-2 fade-in duration-200 focus:outline-none"
+            className="md:hidden fixed inset-x-0 top-[3rem] z-50 mx-auto max-w-lg overflow-hidden bg-white dark:bg-zinc-900 border-x border-b border-gray-200 dark:border-zinc-800 shadow-2xl animate-in slide-in-from-top-2 fade-in duration-200 focus:outline-none"
             role="dialog"
             aria-modal="true"
             aria-labelledby="mobile-menu-title"
@@ -232,10 +232,10 @@ export default function Header() {
                   onClick={onClick}
                   role="menuitem"
                   ref={idx === 0 ? firstLinkRef : idx === navLinks.length - 1 ? lastLinkRef : undefined}
-                  className={`px-6 py-4 text-[15px] font-semibold transition-colors border-b border-gray-100 last:border-b-0 ${
+                  className={`px-6 py-4 text-[15px] font-semibold transition-colors border-b border-gray-100 dark:border-zinc-800 last:border-b-0 ${
                     isActive(href) 
-                      ? "text-black bg-gray-50" 
-                      : "text-gray-600 hover:text-black hover:bg-gray-50"
+                      ? "text-black dark:text-white bg-gray-50 dark:bg-zinc-800" 
+                      : "text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800"
                   }`}
                   aria-current={isActive(href) ? "page" : undefined}
                 >
@@ -244,11 +244,11 @@ export default function Header() {
               ))}
 
               {/* Mobile CTA */}
-              <div className="p-4 bg-gray-50">
+              <div className="p-4 bg-gray-50 dark:bg-zinc-950">
                 <Link
                   href="/tools"
                   role="menuitem"
-                  className="flex items-center justify-center w-full px-6 py-3.5 text-[15px] font-semibold text-white bg-black hover:bg-gray-900 transition-colors active:scale-[0.98]"
+                  className="flex items-center justify-center w-full px-6 py-3.5 text-[15px] font-semibold text-white dark:text-black bg-black dark:bg-white hover:bg-gray-900 dark:hover:bg-gray-200 transition-colors active:scale-[0.98]"
                   aria-label="Get started with the tools"
                 >
                   Get Started

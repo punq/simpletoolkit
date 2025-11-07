@@ -18,7 +18,7 @@ export default function Home() {
       <section className="w-full border-b border-border">
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 pt-20 sm:pt-32 pb-16 sm:pb-24">
           {/* Trust Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white text-xs font-semibold tracking-wide uppercase mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black text-xs font-semibold tracking-wide uppercase mb-8">
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
             </svg>
@@ -31,7 +31,7 @@ export default function Home() {
             <span className="shimmer-text">privacy</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-[600px] mb-8 leading-relaxed">
+          <p className="text-lg sm:text-xl text-muted-foreground dark:text-gray-300 max-w-[600px] mb-8 leading-relaxed">
             PDFs, images, text, and dev utilities—all running entirely in your browser. 
             No uploads. No accounts. No ads. No compromises.
           </p>
@@ -40,7 +40,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 mb-16">
             <Link 
               href="/tools" 
-              className="inline-flex items-center justify-center px-6 py-3 bg-black text-white text-sm font-semibold hover:bg-gray-dark transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 bg-black dark:bg-white text-white dark:text-black text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
               aria-label="Explore all available tools"
             >
               Explore Tools
@@ -50,7 +50,7 @@ export default function Home() {
             </Link>
             <Link 
               href="#verify" 
-              className="inline-flex items-center justify-center px-6 py-3 border-2 border-black text-black text-sm font-semibold hover:bg-black hover:text-white transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 border-2 border-black dark:border-white text-black dark:text-white text-sm font-semibold hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
               aria-label="Learn how client-side processing works"
             >
               See How It Works
@@ -67,7 +67,7 @@ export default function Home() {
             ].map((stat) => (
               <div key={stat.label}>
                 <div className="text-3xl font-bold mb-1 tabular-nums">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-sm text-muted-foreground dark:text-gray-300">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -75,16 +75,16 @@ export default function Home() {
       </section>
 
       {/* What Makes Us Different */}
-      <section className="w-full bg-off-white border-b border-border">
+      <section className="w-full bg-off-white dark:bg-zinc-900 border-b border-border dark:border-zinc-800">
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
           <div className="max-w-[800px] mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">What makes us different</h2>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground dark:text-gray-300 leading-relaxed">
               Unlike typical online tools, your files <strong className="text-foreground">never touch our servers</strong>. 
               Everything happens in your browser using JavaScript—no uploads, no storage, no server-side processing. 
               We can&apos;t see your files because they never leave your device. This is the privacy guarantee.
             </p>
-            <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground">
+            <div className="mt-6 pt-6 border-t border-border dark:border-zinc-700 text-sm text-muted-foreground dark:text-gray-300">
               <strong className="text-foreground">No ads.</strong> No affiliate links. No cookies. No premium tiers. No paywalls.
               <br />
               We use privacy-focused Plausible for anonymous page view stats. It&apos;s cookieless, GDPR-compliant, and doesn&apos;t track individuals.
@@ -94,11 +94,11 @@ export default function Home() {
       </section>
 
       {/* Tools Grid */}
-      <section className="w-full bg-white">
+      <section className="w-full bg-white dark:bg-black">
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
           <div className="mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-3">Essential Tools</h2>
-            <p className="text-lg text-muted-foreground max-w-[600px]">
+            <p className="text-lg text-muted-foreground dark:text-gray-300 max-w-[600px]">
               Built for professionals who value their privacy. More tools added regularly.
             </p>
           </div>
@@ -139,25 +139,25 @@ export default function Home() {
               <Link
                 key={tool.href}
                 href={tool.href}
-                className="group block p-8 border-2 border-black hover:bg-black transition-colors"
+                className="group block p-8 border-2 border-black dark:border-white hover:bg-black dark:hover:bg-white transition-colors"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-gray-light group-hover:text-gray">
+                    <span className="text-xs font-mono text-gray-400 dark:text-gray-500 group-hover:text-gray-500 dark:group-hover:text-gray-400">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <span className="text-xs font-semibold text-muted-foreground group-hover:text-gray-light uppercase tracking-wide">
+                    <span className="text-xs font-semibold text-muted-foreground dark:text-gray-400 group-hover:text-gray-300 dark:group-hover:text-gray-600 uppercase tracking-wide">
                       {tool.category}
                     </span>
                   </div>
-                  <svg className="w-5 h-5 text-black group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-black dark:text-white group-hover:text-white dark:group-hover:text-black transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">
+                <h3 className="text-xl font-bold mb-2 group-hover:text-white dark:group-hover:text-black transition-colors">
                   {tool.title}
                 </h3>
-                <p className="text-sm text-gray leading-relaxed group-hover:text-gray-light transition-colors">
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed group-hover:text-gray-200 dark:group-hover:text-gray-700 transition-colors">
                   {tool.description}
                 </p>
               </Link>
@@ -165,16 +165,16 @@ export default function Home() {
           </div>
 
           {/* Coming Soon Teaser */}
-          <div className="mt-12 p-8 border-2 border-border bg-off-white">
+          <div className="mt-12 p-8 border-2 border-border dark:border-zinc-700 bg-off-white dark:bg-zinc-900">
             <div className="flex items-start justify-between">
               <div>
                 <h3 className="text-lg font-bold mb-2">More tools coming soon</h3>
-                <p className="text-sm text-muted-foreground mb-4">
+                <p className="text-sm text-muted-foreground dark:text-gray-300 mb-4">
                   Image optimization, JSON formatters, text utilities, and more.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {['More Image Tools', 'Dev Utilities', 'Text Tools', 'Data Tools'].map((cat) => (
-                    <span key={cat} className="px-3 py-1 bg-white border border-border text-xs font-semibold text-muted-foreground">
+                    <span key={cat} className="px-3 py-1 bg-white dark:bg-zinc-800 border border-border dark:border-zinc-700 text-xs font-semibold text-muted-foreground dark:text-gray-300">
                       {cat}
                     </span>
                   ))}
@@ -194,7 +194,7 @@ export default function Home() {
               <h2 className="text-3xl sm:text-4xl font-bold mb-6">
                 Verify, don&apos;t trust
               </h2>
-              <div className="space-y-4 text-gray-light">
+              <div className="space-y-4 text-gray-300 dark:text-gray-400">
                 <p className="text-base leading-relaxed">
                   Open your browser&apos;s Network tab. Upload a file. Process it. Watch what happens.
                 </p>
@@ -206,17 +206,17 @@ export default function Home() {
                   Everything runs using the File API and pdf-lib library entirely in your browser. 
                   Your files are processed in memory and downloaded directly back to you.
                 </p>
-                <p className="text-sm leading-relaxed border-l-2 border-gray-dark pl-4 mt-6">
+                <p className="text-sm leading-relaxed border-l-2 border-zinc-700 dark:border-zinc-600 pl-4 mt-6">
                   <strong className="text-white">Note on analytics:</strong> We use Plausible for anonymous page view counts (not file processing). 
                   No cookies, no personal data, no IP addresses stored. Just aggregated stats to understand which tools are useful.
                 </p>
               </div>
               
-              <div className="mt-8 pt-8 border-t border-gray-dark">
+              <div className="mt-8 pt-8 border-t border-zinc-700 dark:border-zinc-600">
                 <h3 className="text-sm font-bold uppercase tracking-wide mb-4">Technical Stack</h3>
                 <div className="flex flex-wrap gap-3">
                   {['Next.js', 'TypeScript', 'pdf-lib', 'File API', 'Client-side only'].map((tech) => (
-                    <span key={tech} className="px-3 py-1 bg-charcoal text-white text-xs font-mono border border-gray-dark">
+                    <span key={tech} className="px-3 py-1 bg-zinc-900 dark:bg-zinc-800 text-white text-xs font-mono border border-zinc-700 dark:border-zinc-600">
                       {tech}
                     </span>
                   ))}
@@ -224,20 +224,20 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-charcoal border border-gray-dark p-6">
+            <div className="bg-zinc-900 dark:bg-zinc-950 border border-zinc-700 dark:border-zinc-600 p-6">
               <div className="font-mono text-xs sm:text-sm leading-relaxed space-y-1">
-                <div className="text-green">{'//'} All processing happens locally</div>
+                <div className="text-green-400 dark:text-green-500">{'//'} All processing happens locally</div>
                 <div className="text-white">const <span className="text-blue-400">processFile</span> = async (file) =&gt; &#123;</div>
-                <div className="ml-4 text-green">{'//'} Read in browser memory</div>
-                <div className="ml-4 text-gray-light">const buffer = await file.arrayBuffer();</div>
-                <div className="ml-4 text-gray-light">const data = new Uint8Array(buffer);</div>
-                <div className="ml-4 text-gray-light"></div>
-                <div className="ml-4 text-green">{'//'} Process with Web APIs</div>
-                <div className="ml-4 text-gray-light">const result = await transform(data);</div>
-                <div className="ml-4 text-gray-light"></div>
-                <div className="ml-4 text-green">{'//'} Download directly - no server</div>
-                <div className="ml-4 text-gray-light">const blob = new Blob([result]);</div>
-                <div className="ml-4 text-gray-light">downloadFile(blob, &apos;output.pdf&apos;);</div>
+                <div className="ml-4 text-green-400 dark:text-green-500">{'//'} Read in browser memory</div>
+                <div className="ml-4 text-gray-300 dark:text-gray-400">const buffer = await file.arrayBuffer();</div>
+                <div className="ml-4 text-gray-300 dark:text-gray-400">const data = new Uint8Array(buffer);</div>
+                <div className="ml-4 text-gray-300 dark:text-gray-400"></div>
+                <div className="ml-4 text-green-400 dark:text-green-500">{'//'} Process with Web APIs</div>
+                <div className="ml-4 text-gray-300 dark:text-gray-400">const result = await transform(data);</div>
+                <div className="ml-4 text-gray-300 dark:text-gray-400"></div>
+                <div className="ml-4 text-green-400 dark:text-green-500">{'//'} Download directly - no server</div>
+                <div className="ml-4 text-gray-300 dark:text-gray-400">const blob = new Blob([result]);</div>
+                <div className="ml-4 text-gray-300 dark:text-gray-400">downloadFile(blob, &apos;output.pdf&apos;);</div>
                 <div className="text-white">&#125;;</div>
               </div>
             </div>
@@ -246,11 +246,11 @@ export default function Home() {
       </section>
 
       {/* Why This Matters */}
-      <section className="w-full bg-white">
+      <section className="w-full bg-white dark:bg-black">
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
           <div className="mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold mb-3">Why this matters</h2>
-            <p className="text-lg text-muted-foreground max-w-[600px]">
+            <p className="text-lg text-muted-foreground dark:text-gray-300 max-w-[600px]">
               Most &quot;free&quot; tools aren&apos;t free—you pay with your data, privacy, and attention
             </p>
           </div>
@@ -282,9 +282,9 @@ export default function Home() {
                 description: "Code is public on GitHub so you can verify our privacy claims. Audit the source, check network traffic, confirm files stay local. Trust through transparency."
               }
             ].map((item) => (
-              <div key={item.title} className="border-l-2 border-black pl-4">
+              <div key={item.title} className="border-l-2 border-black dark:border-white pl-4">
                 <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-muted-foreground dark:text-gray-300 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -294,19 +294,19 @@ export default function Home() {
       </section>
 
       {/* Support CTA */}
-      <section className="w-full bg-off-white border-t border-border">
+      <section className="w-full bg-off-white dark:bg-zinc-900 border-t border-border dark:border-zinc-800">
         <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-20 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             Support independent software
           </h2>
-          <p className="text-base text-muted-foreground max-w-[500px] mx-auto mb-8">
+          <p className="text-base text-muted-foreground dark:text-gray-300 max-w-[500px] mx-auto mb-8">
             SimpleToolkit is free and always will be. If you find it useful, 
             consider supporting the hosting and development costs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               href="/donate" 
-              className="inline-flex items-center justify-center px-6 py-3 bg-black text-white text-sm font-semibold hover:bg-gray-dark transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 bg-black dark:bg-white text-white dark:text-black text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
               aria-label="Support SimpleToolkit development"
             >
               Support This Project
@@ -315,7 +315,7 @@ export default function Home() {
               href="https://github.com/punq/simpletoolkit" 
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 border-2 border-black text-black text-sm font-semibold hover:bg-black hover:text-white transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 border-2 border-black dark:border-white text-black dark:text-white text-sm font-semibold hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors"
               aria-label="View source code on GitHub"
             >
               <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

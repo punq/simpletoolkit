@@ -49,16 +49,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Base colors - inverted sharp palette */
+    /* Base colors - inverted sharp palette with better contrast */
     --background: #000000;
     --foreground: #fafafa;
-    --muted: #999999;
-    --muted-foreground: #d0d0d0;
+    --muted: #a3a3a3;
+    --muted-foreground: #d4d4d4;
     --border: #2a2a2a;
     
     /* Primary - white in dark mode */
     --primary: #ffffff;
-    --primary-hover: #fafafa;
+    --primary-hover: #e5e5e5;
     --primary-foreground: #000000;
     
     /* Accent colors */
@@ -66,11 +66,11 @@
     --accent-foreground: #ffffff;
     
     /* Success */
-    --success: #00b300;
+    --success: #22c55e;
     --success-foreground: #000000;
     
     /* Cards */
-    --card-bg: #000000;
+    --card-bg: #0a0a0a;
     --card-border: #ffffff;
     --card-hover-border: #ffffff;
     
