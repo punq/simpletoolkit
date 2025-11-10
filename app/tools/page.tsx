@@ -123,6 +123,21 @@ export default function ToolsPage() {
                 Reduce file size with smart, client-side compression—<strong className="text-foreground">no watermarks</strong>.
               </p>
             </Link>
+
+            {/* Redact */}
+            <Link
+              href="/tools/redact"
+              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Redact sensitive information from PDFs locally"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Redact PDF</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                Remove sensitive information with visual and text redaction—<strong className="text-foreground">high-security processing</strong>.
+              </p>
+            </Link>
           </div>
         </section>
 
