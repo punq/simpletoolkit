@@ -15,11 +15,13 @@
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "postinstall": "node scripts/copy-pdf-worker.js"
   },
   "dependencies": {
     "next": "16.0.1",
     "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.4.394",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },

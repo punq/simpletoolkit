@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ClientSidePDFRedactor from "../../components/ClientSidePDFRedactor";
+import ClientSidePDFRedactor from "../../components/PDFRedactor";
 import { ErrorBoundary } from "../../components/ErrorBoundary";
 import TrackView from "@/app/components/TrackView";
 import type { Metadata } from "next";

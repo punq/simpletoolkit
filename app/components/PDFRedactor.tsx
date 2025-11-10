@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import SuccessMessage from "./SuccessMessage";
 import {
   validatePdfFile,
@@ -65,12 +65,31 @@ export default function ClientSidePDFRedactor() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(null);
   const [redactionResult, setRedactionResult] = useState<RedactionResult | null>(null);
+  const [isRenderingPage, setIsRenderingPage] = useState(false);
+  
+  // Cache the rendered page image to avoid re-rendering on every mouse move
+  const [cachedPageImage, setCachedPageImage] = useState<ImageData | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  
+  // Ref to track current render operation for cancellation
+  const renderAbortController = useRef<AbortController | null>(null);
+  
+  // Ref to track the current PDF.js render task for proper cancellation
+  const renderTaskRef = useRef<any>(null);
+  
+  // Animation frame ID for throttling mouse move events
+  const rafId = useRef<number | null>(null);
 
   const triggerFilePicker = () => fileInputRef.current?.click();
+
+  // Memoize current page boxes to avoid recalculation on every render
+  const currentPageBoxes = useMemo(
+    () => redactionBoxes.filter((box) => box.pageNumber === currentPage),
+    [redactionBoxes, currentPage]
+  );
 
   /**
    * Load PDF and extract page metadata
@@ -182,75 +201,161 @@ export default function ClientSidePDFRedactor() {
 
   /**
    * Render current page to canvas for preview and interaction
+   * Uses abort controller for proper cleanup and cancellation
    */
   const renderCurrentPage = useCallback(async () => {
     if (!file || !canvasRef.current || currentPage < 1 || currentPage > pages.length) {
       return;
     }
 
+    // Cancel any in-flight render operation
+    if (renderTaskRef.current) {
+      try {
+        renderTaskRef.current.cancel();
+      } catch (e) {
+        // Ignore cancellation errors
+      }
+      renderTaskRef.current = null;
+    }
+
+    if (renderAbortController.current) {
+      renderAbortController.current.abort();
+    }
+
+    const abortController = new AbortController();
+    renderAbortController.current = abortController;
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const currentPageMeta = pages[currentPage - 1];
+    setIsRenderingPage(true);
+
+    let pdf: any = null;
 
     try {
-      const { PDFDocument } = await import("pdf-lib");
+      // Use PDF.js for actual rendering
+      const pdfjsLib = await import("pdfjs-dist");
+      
+      // Check if cancelled
+      if (abortController.signal.aborted) return;
+      
+      // Set worker source to use local file from public directory
+      // This avoids CDN issues and keeps everything self-contained
+      if (typeof window !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf-worker/pdf.worker.min.mjs';
+      }
+
       const arrayBuffer = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
+      
+      // Check if cancelled
+      if (abortController.signal.aborted) return;
+      
+      const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+      pdf = await loadingTask.promise;
+      
+      // Check if cancelled
+      if (abortController.signal.aborted) {
+        pdf.destroy();
+        return;
+      }
+      
+      const page = await pdf.getPage(currentPage);
 
-      // Create a temporary single-page PDF for rendering
-      const singlePageDoc = await PDFDocument.create();
-      const [copiedPage] = await singlePageDoc.copyPages(pdfDoc, [currentPage - 1]);
-      singlePageDoc.addPage(copiedPage);
+      const viewport = page.getViewport({ scale: 1.5 });
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.style.width = `${viewport.width}px`;
+      canvas.style.height = `${viewport.height}px`;
 
-      const pdfBytes = await singlePageDoc.save();
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport,
+      };
 
-      // Create an image from the PDF page
-      // Note: For production-grade rendering, consider using PDF.js
-      // For now, we'll use a simpler approach with canvas dimensions
-      const scale = 2; // Higher DPI for better quality
-      canvas.width = currentPageMeta.width * scale;
-      canvas.height = currentPageMeta.height * scale;
-      canvas.style.width = `${currentPageMeta.width}px`;
-      canvas.style.height = `${currentPageMeta.height}px`;
+      // Store the render task so we can cancel it if needed
+      const renderTask = page.render(renderContext as any);
+      renderTaskRef.current = renderTask;
 
-      // Fill with white background
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Draw placeholder text (in production, use PDF.js for actual rendering)
-      ctx.fillStyle = "#000000";
-      ctx.font = "16px monospace";
-      ctx.fillText(
-        `Page ${currentPage} Preview`,
-        20 * scale,
-        30 * scale
-      );
-      ctx.fillText(
-        `(${currentPageMeta.width.toFixed(0)} × ${currentPageMeta.height.toFixed(0)} pts)`,
-        20 * scale,
-        50 * scale
-      );
-
-      URL.revokeObjectURL(url);
+      await renderTask.promise;
+      
+      // Clear the render task reference after completion
+      renderTaskRef.current = null;
+      
+      // Check if cancelled before caching
+      if (abortController.signal.aborted) {
+        if (pdf) pdf.destroy();
+        return;
+      }
+      
+      // Cache the rendered page for fast redrawing during mouse interaction
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      setCachedPageImage(imageData);
+      
+      // Clean up PDF.js resources
+      if (pdf) pdf.destroy();
     } catch (err) {
+      // Ignore abort/cancel errors
+      const errorName = (err as Error).name;
+      if (errorName === 'AbortError' || errorName === 'RenderingCancelledException') {
+        if (pdf) pdf.destroy();
+        return;
+      }
+      
       console.error("Failed to render page:", err);
+      setError(`Failed to render page ${currentPage}. ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      if (renderAbortController.current === abortController) {
+        setIsRenderingPage(false);
+        renderAbortController.current = null;
+      }
     }
-  }, [file, currentPage, pages]);
+  }, [file, currentPage, pages.length]);
 
   useEffect(() => {
     if (file && pages.length > 0) {
       renderCurrentPage();
     }
-  }, [file, pages, currentPage, renderCurrentPage]);
+    
+    // Cleanup function to abort render on unmount or page change
+    return () => {
+      // Cancel the PDF.js render task
+      if (renderTaskRef.current) {
+        try {
+          renderTaskRef.current.cancel();
+        } catch (e) {
+          // Ignore cancellation errors
+        }
+        renderTaskRef.current = null;
+      }
+      
+      // Abort the operation
+      if (renderAbortController.current) {
+        renderAbortController.current.abort();
+      }
+    };
+  }, [file, pages.length, currentPage, renderCurrentPage]);
+
+  /**
+   * Draw existing redaction boxes on canvas
+   * Memoized to prevent unnecessary re-renders
+   */
+  const drawExistingBoxes = useCallback((ctx: CanvasRenderingContext2D, pageNum: number, boxes: RedactionBox[]) => {
+    const pageBoxes = boxes.filter((box) => box.pageNumber === pageNum);
+
+    pageBoxes.forEach((box) => {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+      ctx.fillRect(box.x, box.y, box.width, box.height);
+      ctx.strokeStyle = "#FF0000";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(box.x, box.y, box.width, box.height);
+    });
+  }, []);
 
   /**
    * Canvas mouse handlers for drawing redaction boxes
    */
-  const onCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const onCanvasMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!canvasRef.current) return;
 
     const rect = canvasRef.current.getBoundingClientRect();
@@ -259,37 +364,48 @@ export default function ClientSidePDFRedactor() {
 
     setIsDrawing(true);
     setDrawStart({ x, y });
-  };
+  }, []);
 
-  const onCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !drawStart || !canvasRef.current) return;
+  const onCanvasMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || !drawStart || !canvasRef.current || !cachedPageImage) return;
 
-    const rect = canvasRef.current.getBoundingClientRect();
-    const currentX = e.clientX - rect.left;
-    const currentY = e.clientY - rect.top;
+    // Cancel any pending animation frame
+    if (rafId.current !== null) {
+      cancelAnimationFrame(rafId.current);
+    }
 
-    // Draw temporary rectangle
-    const ctx = canvasRef.current.getContext("2d");
-    if (!ctx) return;
+    // Throttle canvas redraws using requestAnimationFrame
+    rafId.current = requestAnimationFrame(() => {
+      if (!canvasRef.current || !cachedPageImage) return;
 
-    // Re-render the page and existing boxes
-    renderCurrentPage();
-    drawExistingBoxes(ctx);
+      const rect = canvasRef.current.getBoundingClientRect();
+      const currentX = e.clientX - rect.left;
+      const currentY = e.clientY - rect.top;
 
-    // Draw current box being created
-    ctx.strokeStyle = "#000000";
-    ctx.lineWidth = 2;
-    ctx.setLineDash([5, 5]);
-    ctx.strokeRect(
-      drawStart.x,
-      drawStart.y,
-      currentX - drawStart.x,
-      currentY - drawStart.y
-    );
-    ctx.setLineDash([]);
-  };
+      const ctx = canvasRef.current.getContext("2d");
+      if (!ctx) return;
 
-  const onCanvasMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
+      // Restore the cached page image (fast!)
+      ctx.putImageData(cachedPageImage, 0, 0);
+      
+      // Draw existing boxes
+      drawExistingBoxes(ctx, currentPage, redactionBoxes);
+
+      // Draw current box being created
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 5]);
+      ctx.strokeRect(
+        drawStart.x,
+        drawStart.y,
+        currentX - drawStart.x,
+        currentY - drawStart.y
+      );
+      ctx.setLineDash([]);
+    });
+  }, [isDrawing, drawStart, cachedPageImage, drawExistingBoxes, currentPage, redactionBoxes]);
+
+  const onCanvasMouseUp = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing || !drawStart || !canvasRef.current) return;
 
     const rect = canvasRef.current.getBoundingClientRect();
@@ -324,60 +440,55 @@ export default function ClientSidePDFRedactor() {
 
     setIsDrawing(false);
     setDrawStart(null);
-  };
+  }, [isDrawing, drawStart, currentPage]);
 
   /**
-   * Draw existing redaction boxes on canvas
-   */
-  const drawExistingBoxes = (ctx: CanvasRenderingContext2D) => {
-    const currentPageBoxes = redactionBoxes.filter(
-      (box) => box.pageNumber === currentPage
-    );
-
-    currentPageBoxes.forEach((box) => {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-      ctx.fillRect(box.x, box.y, box.width, box.height);
-      ctx.strokeStyle = "#FF0000";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(box.x, box.y, box.width, box.height);
-    });
-  };
-
-  /**
-   * Redraw canvas with existing boxes
+   * Redraw canvas with existing boxes when boxes change or cache updates
+   * Only runs when not actively drawing to avoid interference
    */
   useEffect(() => {
-    if (canvasRef.current && !isDrawing) {
+    if (canvasRef.current && !isDrawing && file && pages.length > 0 && cachedPageImage) {
       const ctx = canvasRef.current.getContext("2d");
       if (ctx) {
-        renderCurrentPage().then(() => {
-          drawExistingBoxes(ctx);
-        });
+        // Restore cached page image
+        ctx.putImageData(cachedPageImage, 0, 0);
+        // Draw existing boxes on top
+        drawExistingBoxes(ctx, currentPage, redactionBoxes);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [redactionBoxes, currentPage]);
+  }, [redactionBoxes, cachedPageImage, isDrawing, file, pages.length, drawExistingBoxes, currentPage]);
+
+  /**
+   * Cleanup animation frame on unmount
+   */
+  useEffect(() => {
+    return () => {
+      if (rafId.current !== null) {
+        cancelAnimationFrame(rafId.current);
+      }
+    };
+  }, []);
 
   /**
    * Remove a specific redaction box
    */
-  const removeBox = (boxId: string) => {
+  const removeBox = useCallback((boxId: string) => {
     setRedactionBoxes((prev) => prev.filter((box) => box.id !== boxId));
-  };
+  }, []);
 
   /**
    * Clear all redaction boxes
    */
-  const clearAllBoxes = () => {
+  const clearAllBoxes = useCallback(() => {
     setRedactionBoxes([]);
     setRedactionResult(null);
     setSuccess(false);
-  };
+  }, []);
 
   /**
    * Apply redactions to PDF
    */
-  const applyRedactions = async (flatten: boolean) => {
+  const applyRedactions = useCallback(async (flatten: boolean) => {
     if (!file || redactionBoxes.length === 0) {
       setError("Please select at least one area to redact.");
       return;
@@ -407,12 +518,12 @@ export default function ClientSidePDFRedactor() {
       setProcessing(false);
       setProcessingMessage("");
     }
-  };
+  }, [file, redactionBoxes]);
 
   /**
    * Download redacted PDF
    */
-  const downloadRedactedPdf = (flatten: boolean) => {
+  const downloadRedactedPdf = useCallback((flatten: boolean) => {
     if (!redactionResult || !file) return;
 
     const baseFilename = getBaseFilename(file.name);
@@ -431,21 +542,17 @@ export default function ClientSidePDFRedactor() {
       originalSize: redactionResult.originalSize,
       redactedSize: redactionResult.redactedSize,
     });
-  };
+  }, [redactionResult, file]);
 
   /**
    * Page navigation
    */
-  const goToPage = (pageNum: number) => {
+  const goToPage = useCallback((pageNum: number) => {
     if (pageNum >= 1 && pageNum <= pages.length) {
       setCurrentPage(pageNum);
+      setCachedPageImage(null); // Clear cache when changing pages
     }
-  };
-
-  // Get current page boxes for display
-  const currentPageBoxes = redactionBoxes.filter(
-    (box) => box.pageNumber === currentPage
-  );
+  }, [pages.length]);
 
   return (
     <div className="space-y-6">
@@ -587,13 +694,24 @@ export default function ClientSidePDFRedactor() {
           </div>
 
           {/* Canvas for Drawing Redaction Areas */}
-          <div ref={containerRef} className="border-2 border-gray-300 rounded-lg overflow-hidden bg-white">
+          <div ref={containerRef} className="border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-100 relative min-h-[500px] flex items-center justify-center">
+            {isRenderingPage && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
+                <div className="flex items-center gap-3">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black" />
+                  <p className="text-sm text-gray-700">Rendering page {currentPage}...</p>
+                </div>
+              </div>
+            )}
+            {!isRenderingPage && (!canvasRef.current || canvasRef.current.width === 0) && (
+              <p className="text-gray-500 text-sm">Loading page preview...</p>
+            )}
             <canvas
               ref={canvasRef}
               onMouseDown={onCanvasMouseDown}
               onMouseMove={onCanvasMouseMove}
               onMouseUp={onCanvasMouseUp}
-              className="cursor-crosshair max-w-full"
+              className="cursor-crosshair max-w-full mx-auto"
               style={{ display: "block" }}
             />
           </div>

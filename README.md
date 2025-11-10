@@ -21,6 +21,7 @@ Privacy-first, browser-based tools for PDFs, images, and more. All processing ha
 - **Split PDF**: Extract pages, ranges, or split into individual files
 - **Rearrange PDF**: Reorder pages and rotate as needed
 - **Compress PDF**: Reduce file size with adjustable compression levels
+- **Redact PDF**: Securely redact sensitive content with visual black boxes and text removal
 
 #### Image Tools
 - **EXIF Stripper**: Remove metadata (EXIF, GPS, camera info) from JPEG and PNG images
@@ -44,11 +45,13 @@ This project is open source for **transparency and trust**, not to encourage cre
 If you want to verify the code runs as described:
 
 ```powershell
-npm install
+npm install   # Automatically copies PDF.js worker via postinstall script
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+**Note**: The `npm install` command automatically copies the PDF.js worker file needed for the PDF Redactor tool. If you encounter rendering issues, run `node scripts/copy-pdf-worker.js` to manually copy the worker.
 
 ## Project Structure
 
@@ -59,6 +62,7 @@ app/
     SplitTool.tsx              # PDF split functionality
     RearrangeTool.tsx          # PDF rearrange functionality
     CompressTool.tsx           # PDF compression functionality
+    PDFRedactor.tsx            # PDF redaction functionality
     ExifStripperTool.tsx       # Image EXIF metadata removal
     DataFormatterValidator.tsx # JSON/YAML/XML formatter & validator
   utils/          # Shared utilities
@@ -71,9 +75,11 @@ app/
     split/
     rearrange/
     compress/
+    redact/            # PDF redactor tool
     exif-stripper/
-    data-formatter/   # NEW: JSON/YAML/XML formatter
+    data-formatter/
 public/           # Static assets
+  pdf-worker/     # PDF.js worker for client-side rendering
 __tests__/        # Comprehensive test suites (266 tests)
   components/     # Component tests
   utils/          # Utility function tests
@@ -85,8 +91,9 @@ __tests__/        # Comprehensive test suites (266 tests)
 - **React 19**
 - **TypeScript** (strict mode)
 - **pdf-lib** for client-side PDF manipulation
+- **pdfjs-dist** for PDF rendering (Redactor tool)
 - **Native Web APIs** for all processing:
-  - PDF: `pdf-lib` library
+  - PDF: `pdf-lib` library for manipulation, `pdfjs-dist` for rendering
   - Images: File API, ArrayBuffer, DataView
   - JSON: Native `JSON.parse()` / `JSON.stringify()`
   - XML: `DOMParser` / `XMLSerializer`

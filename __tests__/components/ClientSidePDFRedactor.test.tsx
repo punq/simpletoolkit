@@ -7,7 +7,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ClientSidePDFRedactor from '@/app/components/ClientSidePDFRedactor';
+import ClientSidePDFRedactor from '@/app/components/PDFRedactor';
 
 // Mock pdf-lib
 jest.mock('pdf-lib', () => {
