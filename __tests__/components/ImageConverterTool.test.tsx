@@ -387,7 +387,6 @@ describe('ImageConverterTool - Conversion Process', () => {
     });
     
     expect(screen.getByText(/Successfully converted 3 images/i)).toBeInTheDocument();
-    expect(screen.getByText(/Conversion Complete/i)).toBeInTheDocument();
   });
 
   test('applies quality setting for JPEG', async () => {
@@ -487,8 +486,8 @@ describe('ImageConverterTool - Results Display', () => {
     fireEvent.click(convertButton);
     
     await waitFor(() => {
-      expect(screen.getByText(/Conversion Complete/i)).toBeInTheDocument();
-      expect(screen.getAllByText(/smaller/i).length).toBeGreaterThan(0);
+  expect(screen.getByText(/Successfully converted 1 image to JPEG!/i)).toBeInTheDocument();
+  expect(screen.getAllByText(/Smaller/i).length).toBeGreaterThan(0);
     });
   });
 
@@ -504,8 +503,8 @@ describe('ImageConverterTool - Results Display', () => {
     fireEvent.click(convertButton);
     
     await waitFor(() => {
-      expect(screen.getByText(/Conversion Complete/i)).toBeInTheDocument();
-      expect(screen.getByText(/larger/i)).toBeInTheDocument();
+  expect(screen.getByText(/Successfully converted 1 image to PNG!/i)).toBeInTheDocument();
+  expect(screen.getByText(/larger/i)).toBeInTheDocument();
     });
   });
 });

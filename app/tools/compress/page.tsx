@@ -250,7 +250,7 @@ export default function CompressPage() {
 
               <details className="group border border-gray-200 rounded-lg overflow-hidden">
                 <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors">
-                  <span>What's the maximum file size?</span>
+                  <span>What&apos;s the maximum file size?</span>
                   <svg
                     className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform"
                     fill="none"
@@ -290,7 +290,7 @@ export default function CompressPage() {
                   </svg>
                 </summary>
                 <div className="p-4 pt-0 text-gray-600 leading-relaxed">
-                  Most PDFs compress in seconds. Larger files may take longer. You'll see real-time progress as each page is processed.
+                  Most PDFs compress in seconds. Larger files may take longer. You&apos;ll see real-time progress as each page is processed.
                 </div>
               </details>
             </div>

@@ -445,7 +445,7 @@ describe('imageConverterUtils - Image Conversion', () => {
 
       try {
         await convertImage(file, options);
-      } catch (error) {
+  } catch {
         // Expected to fail
       }
 

@@ -175,7 +175,7 @@ export default function TextListUtility() {
       setTimeout(() => {
         setShowCopiedFeedback(false);
       }, 2000);
-    } catch (err) {
+    } catch {
       setError("Failed to copy to clipboard");
     }
   }, [output, result]);
@@ -202,7 +202,7 @@ export default function TextListUtility() {
         outputLength: output.length,
         lineCount: result?.outputLineCount || 0,
       });
-    } catch (err) {
+    } catch {
       setError("Failed to download file");
     }
   }, [output, result]);
@@ -227,19 +227,7 @@ export default function TextListUtility() {
   }, [handleClear, handleProcess]);
 
   // Input size display
-  const inputSizeInfo = useMemo(() => {
-    const size = new Blob([input]).size;
-    
-    if (size === 0) return null;
-    
-    if (size < 1024) {
-      return `${size} bytes`;
-    } else if (size < 1024 * 1024) {
-      return `${(size / 1024).toFixed(1)} KB`;
-    } else {
-      return `${(size / (1024 * 1024)).toFixed(2)} MB`;
-    }
-  }, [input]);
+  // Removed unused variable inputSizeInfo
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">

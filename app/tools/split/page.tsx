@@ -238,7 +238,7 @@ export default function SplitPage() {
 
               <details className="group border border-gray-200 rounded-lg overflow-hidden">
                 <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors">
-                  <span>What's the maximum file size?</span>
+                  <span>What&apos;s the maximum file size?</span>
                   <svg
                     className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform"
                     fill="none"
@@ -278,7 +278,7 @@ export default function SplitPage() {
                   </svg>
                 </summary>
                 <div className="p-4 pt-0 text-gray-600 leading-relaxed">
-                  No, encrypted or password-protected PDFs cannot be processed. You'll need to remove the password first.
+                  No, encrypted or password-protected PDFs cannot be processed. You&apos;ll need to remove the password first.
                 </div>
               </details>
 
@@ -301,7 +301,7 @@ export default function SplitPage() {
                   </svg>
                 </summary>
                 <div className="p-4 pt-0 text-gray-600 leading-relaxed">
-                  Use commas to separate individual pages and hyphens for ranges. For example: "1,3,5-7" extracts pages 1, 3, 5, 6, and 7.
+                  Use commas to separate individual pages and hyphens for ranges. For example: &quot;1,3,5-7&quot; extracts pages 1, 3, 5, 6, and 7.
                 </div>
               </details>
             </div>

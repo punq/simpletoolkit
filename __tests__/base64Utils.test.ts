@@ -21,7 +21,6 @@ import {
   isValidBase64,
   isValidInputSize,
   MAX_INPUT_SIZE,
-  type Base64Mode,
 } from '@/app/utils/base64Utils';
 
 describe('Base64 Utilities - Production Test Suite', () => {
