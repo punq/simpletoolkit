@@ -416,7 +416,7 @@ export default function MergeTool() {
           </div>
           <div>
             <p className="font-medium text-gray-900 mb-1">3. Merge</p>
-            <p>Click "Merge PDFs" and your merged file will download automatically as "merged.pdf".</p>
+            <p>Click &quot;Merge PDFs&quot; and your merged file will download automatically as &quot;merged.pdf&quot;.</p>
           </div>
         </div>
       </details>

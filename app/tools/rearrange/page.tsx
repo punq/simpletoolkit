@@ -229,8 +229,8 @@ export default function RearrangePage() {
                     />
                   </svg>
                 </summary>
-                <div className="p-4 pt-0 text-gray-600 leading-relaxed">
-                  Click the rotate button on individual page thumbnails to rotate them 90° clockwise. You can also rotate all pages at once using the "Rotate All" button.
+                  <div className="p-4 pt-0 text-gray-600 leading-relaxed">
+                    Click the rotate button on individual page thumbnails to rotate them 90° clockwise. You can also rotate all pages at once using the &quot;Rotate All&quot; button.
                 </div>
               </details>
 
@@ -259,7 +259,7 @@ export default function RearrangePage() {
 
               <details className="group border border-gray-200 rounded-lg overflow-hidden">
                 <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors">
-                  <span>What's the maximum file size?</span>
+                  <span>What&apos;s the maximum file size?</span>
                   <svg
                     className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform"
                     fill="none"

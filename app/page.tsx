@@ -107,6 +107,12 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {[
               {
+                href: "/tools/image-converter",
+                title: "Convert Images",
+                description: "Convert between JPEG, PNG, and WebP formats. Adjust quality and batch process.",
+                category: "IMAGE"
+              },
+              {
                 href: "/tools/merge",
                 title: "Merge PDFs",
                 description: "Combine multiple PDF files into a single document. Drag to reorder before merging.",
@@ -116,12 +122,6 @@ export default function Home() {
                 href: "/tools/split",
                 title: "Split PDFs",
                 description: "Extract specific pages or split a PDF into multiple documents.",
-                category: "PDF"
-              },
-              {
-                href: "/tools/compress",
-                title: "Compress PDFs",
-                description: "Reduce file size while maintaining quality. Perfect for email and web.",
                 category: "PDF"
               },
               {
@@ -164,7 +164,7 @@ export default function Home() {
             <div>
               <h3 className="text-xl font-bold mb-2 text-black dark:text-white">More Tools Available</h3>
               <p className="text-sm text-gray-700 dark:text-gray-200 mb-3">
-                Rearrange PDFs • Data Formatter • Base64 Encoder • Text List Utilities
+                Compress PDFs • Rearrange PDFs • Data Formatter • Base64 Encoder • Text List Utilities
               </p>
               <Link 
                 href="/tools" 

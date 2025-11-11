@@ -24,8 +24,6 @@ import {
   getTextStats,
   isValidInputSize,
   MAX_INPUT_SIZE,
-  type SortDirection,
-  type CaseConversion,
   type ListProcessingOptions,
 } from '@/app/utils/textListUtils';
 

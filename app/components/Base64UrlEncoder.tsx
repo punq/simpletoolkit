@@ -88,7 +88,8 @@ export default function Base64UrlEncoder() {
   // Apply detected mode
   useEffect(() => {
     if (detectedMode && detectedMode !== mode) {
-      setMode(detectedMode);
+      // Avoid direct setState in effect body; use a microtask to defer
+      Promise.resolve().then(() => setMode(detectedMode));
     }
   }, [detectedMode, mode]);
 
@@ -96,13 +97,19 @@ export default function Base64UrlEncoder() {
   useEffect(() => {
     if (direction !== 'encode') return;
     if (!rawInput.trim()) {
-      setBase64Input('');
-      setError(null);
+      // Avoid direct setState in effect body; use a microtask to defer
+      Promise.resolve().then(() => {
+        setBase64Input('');
+        setError(null);
+      });
       return;
     }
 
     if (inputTooLarge) {
-      setError(`Input is too large. Maximum size is ${(MAX_INPUT_SIZE / (1024 * 1024)).toFixed(1)}MB`);
+      // Avoid direct setState in effect body; use a microtask to defer
+      Promise.resolve().then(() => {
+        setError(`Input is too large. Maximum size is ${(MAX_INPUT_SIZE / (1024 * 1024)).toFixed(1)}MB`);
+      });
       return;
     }
 
@@ -125,9 +132,9 @@ export default function Base64UrlEncoder() {
           setBase64Input('');
           setError(result.error || 'Encoding failed');
         }
-      } catch (err) {
+      } catch {
         setBase64Input('');
-        setError(`Encoding error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+        setError('Encoding error');
       }
     };
 
@@ -148,13 +155,19 @@ export default function Base64UrlEncoder() {
   useEffect(() => {
     if (direction !== 'decode') return;
     if (!base64Input.trim()) {
-      setRawInput('');
-      setError(null);
+      // Avoid direct setState in effect body; use a microtask to defer
+      Promise.resolve().then(() => {
+        setRawInput('');
+        setError(null);
+      });
       return;
     }
 
     if (inputTooLarge) {
-      setError(`Input is too large. Maximum size is ${(MAX_INPUT_SIZE / (1024 * 1024)).toFixed(1)}MB`);
+      // Avoid direct setState in effect body; use a microtask to defer
+      Promise.resolve().then(() => {
+        setError(`Input is too large. Maximum size is ${(MAX_INPUT_SIZE / (1024 * 1024)).toFixed(1)}MB`);
+      });
       return;
     }
 
@@ -266,7 +279,7 @@ export default function Base64UrlEncoder() {
       setTimeout(() => {
         setShowCopiedFeedback(false);
       }, 2000);
-    } catch (err) {
+    } catch {
       setError("Failed to copy to clipboard");
     }
   }, [direction, base64Input, rawInput, mode]);
@@ -302,7 +315,7 @@ export default function Base64UrlEncoder() {
         mode,
         outputLength: textToDownload.length,
       });
-    } catch (err) {
+    } catch {
       setError("Failed to download file");
     }
   }, [direction, base64Input, rawInput, mode]);
