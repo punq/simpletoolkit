@@ -191,6 +191,32 @@ export default function ToolsPage() {
           </div>
         </section>
 
+
+        {/* Category: Image Tools */}
+        <section aria-labelledby="image-tools" className="mt-12">
+          <div className="flex items-baseline justify-between mb-6">
+            <h2 id="image-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Image Tools</h2>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Image Format Converter */}
+            <Link
+              href="/tools/image-converter"
+              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Convert images between JPEG, PNG, WebP formats locally"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Image Format Converter</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                Convert between JPEG, PNG, and WebP formats with quality control—<strong className="text-foreground">no uploads</strong>, batch processing supported.
+              </p>
+            </Link>
+          </div>
+        </section>
+
         {/* Category: Privacy Tools */}
         <section aria-labelledby="privacy-tools" className="mt-12">
           <div className="flex items-baseline justify-between mb-6">
