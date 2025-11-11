@@ -375,10 +375,10 @@ export default function MergeTool() {
       </button>
 
       {/* Privacy Notice */}
-      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
+      <div className="p-4 bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg text-sm text-gray-700 dark:text-gray-300">
         <div className="flex items-start gap-3">
           <svg
-            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
+            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900 dark:text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -392,8 +392,8 @@ export default function MergeTool() {
             />
           </svg>
           <div>
-            <p className="font-medium text-gray-900 mb-1">Private & Secure</p>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="font-medium text-gray-900 dark:text-white mb-1">Private & Secure</p>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
               All processing happens locally in your browser. No files are uploaded to any server.
             </p>
           </div>
@@ -401,21 +401,21 @@ export default function MergeTool() {
       </div>
 
       {/* How to Use */}
-      <details className="p-4 bg-white border border-gray-200 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+      <details className="p-4 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900 dark:text-white hover:text-black dark:hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 rounded px-2 py-1">
           How to Use
         </summary>
-        <div className="mt-3 space-y-3 text-sm text-gray-600">
+        <div className="mt-3 space-y-3 text-sm text-gray-600 dark:text-gray-300">
           <div>
-            <p className="font-medium text-gray-900 mb-1">1. Add PDFs</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">1. Add PDFs</p>
             <p>Click the drop zone or drag and drop PDF files (up to 20 files, 50MB each).</p>
           </div>
           <div>
-            <p className="font-medium text-gray-900 mb-1">2. Reorder (Optional)</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">2. Reorder (Optional)</p>
             <p>Drag files to change their order in the final merged PDF.</p>
           </div>
           <div>
-            <p className="font-medium text-gray-900 mb-1">3. Merge</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">3. Merge</p>
             <p>Click &quot;Merge PDFs&quot; and your merged file will download automatically as &quot;merged.pdf&quot;.</p>
           </div>
         </div>

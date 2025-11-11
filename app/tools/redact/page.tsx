@@ -76,7 +76,7 @@ export default function RedactPage() {
           </ErrorBoundary>
 
           {/* Features Grid */}
-          <div className="mt-16 pt-16 border-t border-gray-200">
+          <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8">
               Features
             </h2>
@@ -115,10 +115,10 @@ export default function RedactPage() {
               ].map((feature, index) => (
                 <div
                   key={index}
-                  className="p-6 border border-gray-200 rounded-lg hover:border-black transition-colors"
+                  className="p-6 border border-gray-200 dark:border-zinc-800 rounded-lg hover:border-black dark:hover:border-white transition-colors"
                 >
                   <h3 className="text-base font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -127,85 +127,85 @@ export default function RedactPage() {
           </div>
 
           {/* Use Cases Section */}
-          <div className="mt-16 pt-16 border-t border-gray-200">
+          <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8">
               Common Use Cases
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Legal Documents</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Redact client names and case numbers</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Remove confidential information from filings</span>
                   </li>
                 </ul>
               </div>
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Financial Records</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Remove account numbers and SSNs</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Redact sensitive financial data</span>
                   </li>
                 </ul>
               </div>
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Medical Records</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Protect patient privacy and PHI</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Redact names and dates of birth</span>
                   </li>
                 </ul>
               </div>
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Government Documents</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Redact classified information</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Remove PII before FOIA releases</span>
                   </li>
                 </ul>
               </div>
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Business Contracts</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Protect proprietary terms and pricing</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Redact partner names from templates</span>
                   </li>
                 </ul>
               </div>
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Research Papers</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Anonymize participant information</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Redact confidential research data</span>
                   </li>
                 </ul>
@@ -214,11 +214,11 @@ export default function RedactPage() {
           </div>
 
           {/* Privacy Notice */}
-          <div className="mt-16 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="mt-16 p-6 bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <svg
-                  className="w-6 h-6 text-gray-900"
+                  className="w-6 h-6 text-gray-900 dark:text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -233,15 +233,15 @@ export default function RedactPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   Your Privacy is Protected
                 </h3>
-                <p className="text-gray-600 leading-relaxed mb-3">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-3">
                   This tool runs entirely in your browser using the pdf-lib library. 
                   Your PDFs are never uploaded to any server, stored, or transmitted over the internet. 
                   All redaction happens locally on your device.
                 </p>
-                <p className="text-gray-600 leading-relaxed text-sm">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm">
                   In addition to visual redaction, the tool attempts to mask text content from the PDF&apos;s 
                   internal content streams within redacted areas. When you select the flattened option, 
                   all PDF layers are merged into a single, non-editable representation. This ensures that 

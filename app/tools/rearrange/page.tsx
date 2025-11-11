@@ -34,24 +34,24 @@ export default function RearrangePage() {
   return (
     <>
       <TrackView event="Tool Viewed" props={{ tool: "rearrange" }} />
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-white dark:bg-black">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
           {/* Breadcrumb */}
           <nav className="mb-6 text-sm" aria-label="Breadcrumb">
-            <ol className="flex items-center gap-2 text-gray-500">
+            <ol className="flex items-center gap-2 text-gray-500 dark:text-zinc-400">
               <li>
-                <Link href="/" className="hover:text-gray-900 transition-colors">
+                <Link href="/" className="hover:text-gray-900 dark:hover:text-zinc-100 transition-colors">
                   Home
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
               <li>
-                <Link href="/tools" className="hover:text-gray-900 transition-colors">
+                <Link href="/tools" className="hover:text-gray-900 dark:hover:text-zinc-100 transition-colors">
                   Tools
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
-              <li className="text-gray-900 font-medium">Rearrange PDF</li>
+              <li className="text-gray-900 dark:text-white font-medium">Rearrange PDF</li>
             </ol>
           </nav>
 
@@ -72,7 +72,7 @@ export default function RearrangePage() {
           </ErrorBoundary>
 
           {/* Features Grid */}
-          <div className="mt-16 pt-16 border-t border-gray-200">
+          <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8">
               Features
             </h2>
@@ -111,10 +111,10 @@ export default function RearrangePage() {
               ].map((feature, index) => (
                 <div
                   key={index}
-                  className="p-6 border border-gray-200 rounded-lg hover:border-black transition-colors"
+                  className="p-6 border border-gray-200 dark:border-zinc-800 rounded-lg hover:border-black dark:hover:border-white transition-colors"
                 >
                   <h3 className="text-base font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
@@ -123,49 +123,49 @@ export default function RearrangePage() {
           </div>
 
           {/* Use Cases */}
-          <div className="mt-16 pt-16 border-t border-gray-200">
+          <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8">
               Common Use Cases
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Business</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Fix scanned documents with upside-down pages</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Reorganize reports for better flow</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Correct page orientation before printing</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Reorder presentation slides</span>
                   </li>
                 </ul>
               </div>
-              <div className="p-6 bg-white border border-gray-200 rounded-lg">
+              <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
                 <h3 className="text-lg font-semibold mb-3">Personal</h3>
-                <ul className="space-y-2 text-gray-600">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Fix rotated pages from mobile scans</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Reorganize book chapters or articles</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Arrange photo album pages</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-gray-400 mt-1">•</span>
+                    <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
                     <span>Reorder assignment pages</span>
                   </li>
                 </ul>
@@ -174,11 +174,11 @@ export default function RearrangePage() {
           </div>
 
           {/* Privacy Notice */}
-          <div className="mt-16 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="mt-16 p-6 bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <svg
-                  className="w-6 h-6 text-gray-900"
+                  className="w-6 h-6 text-gray-900 dark:text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -193,10 +193,10 @@ export default function RearrangePage() {
                 </svg>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   Your Privacy is Protected
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                   This tool runs entirely in your browser using the pdf-lib library. 
                   Your PDFs are never uploaded to any server, stored, or transmitted over the internet. 
                   All rearranging and rotating happens locally on your device.
@@ -206,16 +206,16 @@ export default function RearrangePage() {
           </div>
 
           {/* FAQ */}
-          <div className="mt-16 pt-16 border-t border-gray-200">
+          <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8">
               Frequently Asked Questions
             </h2>
             <div className="space-y-6">
-              <details className="group border border-gray-200 rounded-lg overflow-hidden">
-                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors">
+              <details className="group border border-gray-200 dark:border-zinc-800 rounded-lg overflow-hidden">
+                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
                   <span>How do I rotate pages?</span>
                   <svg
-                    className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform"
+                    className="w-5 h-5 text-gray-400 dark:text-zinc-500 transform group-open:rotate-180 transition-transform"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -229,16 +229,16 @@ export default function RearrangePage() {
                     />
                   </svg>
                 </summary>
-                  <div className="p-4 pt-0 text-gray-600 leading-relaxed">
+                  <div className="p-4 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
                     Click the rotate button on individual page thumbnails to rotate them 90° clockwise. You can also rotate all pages at once using the &quot;Rotate All&quot; button.
                 </div>
               </details>
 
-              <details className="group border border-gray-200 rounded-lg overflow-hidden">
-                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors">
+              <details className="group border border-gray-200 dark:border-zinc-800 rounded-lg overflow-hidden">
+                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
                   <span>How do I reorder pages?</span>
                   <svg
-                    className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform"
+                    className="w-5 h-5 text-gray-400 dark:text-zinc-500 transform group-open:rotate-180 transition-transform"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -252,16 +252,16 @@ export default function RearrangePage() {
                     />
                   </svg>
                 </summary>
-                <div className="p-4 pt-0 text-gray-600 leading-relaxed">
+                <div className="p-4 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
                   Simply drag and drop page thumbnails to rearrange them in your desired order. The new page numbers will update automatically.
                 </div>
               </details>
 
-              <details className="group border border-gray-200 rounded-lg overflow-hidden">
-                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors">
+              <details className="group border border-gray-200 dark:border-zinc-800 rounded-lg overflow-hidden">
+                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
                   <span>What&apos;s the maximum file size?</span>
                   <svg
-                    className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform"
+                    className="w-5 h-5 text-gray-400 dark:text-zinc-500 transform group-open:rotate-180 transition-transform"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -275,16 +275,16 @@ export default function RearrangePage() {
                     />
                   </svg>
                 </summary>
-                <div className="p-4 pt-0 text-gray-600 leading-relaxed">
+                <div className="p-4 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
                   You can process PDFs up to 50MB with a maximum of 1000 pages. This ensures optimal performance in the browser.
                 </div>
               </details>
 
-              <details className="group border border-gray-200 rounded-lg overflow-hidden">
-                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white hover:bg-gray-50 transition-colors">
+              <details className="group border border-gray-200 dark:border-zinc-800 rounded-lg overflow-hidden">
+                <summary className="cursor-pointer text-base font-medium flex items-center justify-between p-4 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors">
                   <span>Can I rotate only some pages?</span>
                   <svg
-                    className="w-5 h-5 text-gray-400 transform group-open:rotate-180 transition-transform"
+                    className="w-5 h-5 text-gray-400 dark:text-zinc-500 transform group-open:rotate-180 transition-transform"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -298,7 +298,7 @@ export default function RearrangePage() {
                     />
                   </svg>
                 </summary>
-                <div className="p-4 pt-0 text-gray-600 leading-relaxed">
+                <div className="p-4 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
                   Yes. Each page has its own rotate button, so you can rotate individual pages independently without affecting others.
                 </div>
               </details>
@@ -306,7 +306,7 @@ export default function RearrangePage() {
           </div>
 
           {/* Related Tools */}
-          <div className="mt-16 pt-16 border-t border-gray-200">
+          <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
             <h2 className="text-2xl sm:text-3xl font-bold mb-6">
               More PDF Tools
             </h2>
@@ -320,7 +320,7 @@ export default function RearrangePage() {
                 <Link
                   key={tool.href}
                   href={tool.href}
-                  className="p-4 border border-gray-200 rounded-lg hover:border-black transition-colors text-center font-medium"
+                  className="p-4 border border-gray-200 dark:border-zinc-800 rounded-lg hover:border-black dark:hover:border-white transition-colors text-center font-medium"
                 >
                   {tool.label}
                 </Link>
