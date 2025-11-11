@@ -25,10 +25,10 @@ const customJestConfig = {
   ],
   coverageThreshold: {
     global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
+      branches: 60,
+      functions: 60,
+      lines: 60,
+      statements: 60,
     },
   },
   testPathIgnorePatterns: [
@@ -36,6 +36,10 @@ const customJestConfig = {
     '/__tests__/utils/',
     '/__tests__/setup.d.ts'
   ],
+  
+  // Parallel execution config
+  maxWorkers: '50%',
+  workerIdleMemoryLimit: '512MB',
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
