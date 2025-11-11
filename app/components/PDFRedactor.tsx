@@ -838,21 +838,21 @@ export default function ClientSidePDFRedactor() {
       )}
 
       {/* How to Use */}
-      <details className="p-4 bg-white border border-gray-200 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+      <details className="p-4 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900 dark:text-white hover:text-black dark:hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 rounded px-2 py-1">
           How to Use
         </summary>
-        <div className="mt-3 space-y-3 text-sm text-gray-600">
+        <div className="mt-3 space-y-3 text-sm text-gray-600 dark:text-gray-300">
           <div>
-            <p className="font-medium text-gray-900 mb-1">1. Upload PDF</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">1. Upload PDF</p>
             <p>Click the drop zone or drag and drop your PDF file (max 50MB, 500 pages).</p>
           </div>
           <div>
-            <p className="font-medium text-gray-900 mb-1">2. Draw Redaction Boxes</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">2. Draw Redaction Boxes</p>
             <p>Click and drag on the page preview to draw rectangles over sensitive content. Navigate between pages to redact multiple areas.</p>
           </div>
           <div>
-            <p className="font-medium text-gray-900 mb-1">3. Apply & Download</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">3. Apply & Download</p>
             <p>Choose &quot;Unflattened&quot; for further editing or &quot;Flattened&quot; (recommended) for maximum security before sharing.</p>
           </div>
         </div>

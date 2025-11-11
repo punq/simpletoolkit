@@ -75,7 +75,7 @@ export default function SplitPage() {
 
           {/* Features Grid */}
           <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-black dark:text-white">
               Features
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -115,7 +115,7 @@ export default function SplitPage() {
                   key={index}
                   className="p-6 border border-gray-200 dark:border-zinc-800 rounded-lg hover:border-black dark:hover:border-white transition-colors"
                 >
-                  <h3 className="text-base font-semibold mb-2">{feature.title}</h3>
+                  <h3 className="text-base font-semibold mb-2 text-black dark:text-white">{feature.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                     {feature.description}
                   </p>
@@ -126,12 +126,12 @@ export default function SplitPage() {
 
           {/* Use Cases */}
           <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-black dark:text-white">
               Common Use Cases
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
-                <h3 className="text-lg font-semibold mb-3">Business</h3>
+                <h3 className="text-lg font-semibold mb-3 text-black dark:text-white">Business</h3>
                 <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
@@ -152,7 +152,7 @@ export default function SplitPage() {
                 </ul>
               </div>
               <div className="p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
-                <h3 className="text-lg font-semibold mb-3">Personal</h3>
+                <h3 className="text-lg font-semibold mb-3 text-black dark:text-white">Personal</h3>
                 <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                   <li className="flex items-start gap-2">
                     <span className="text-gray-400 dark:text-zinc-500 mt-1">•</span>
@@ -209,7 +209,7 @@ export default function SplitPage() {
 
           {/* FAQ */}
           <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-black dark:text-white">
               Frequently Asked Questions
             </h2>
             <div className="space-y-6">
@@ -309,7 +309,7 @@ export default function SplitPage() {
 
           {/* Related Tools */}
           <div className="mt-16 pt-16 border-t border-gray-200 dark:border-zinc-800">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-black dark:text-white">
               More PDF Tools
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -322,7 +322,7 @@ export default function SplitPage() {
                 <Link
                   key={tool.href}
                   href={tool.href}
-                  className="p-4 border border-gray-200 dark:border-zinc-800 rounded-lg hover:border-black dark:hover:border-white transition-colors text-center font-medium"
+                  className="p-4 border border-gray-200 dark:border-zinc-800 rounded-lg hover:border-black dark:hover:border-white transition-colors text-center font-medium text-black dark:text-white"
                 >
                   {tool.label}
                 </Link>

@@ -225,12 +225,12 @@ export default function ImageConverterTool() {
       </div>
 
       {/* Conversion Settings */}
-      <div className="space-y-4 p-6 border border-gray-200 rounded-lg bg-white">
-        <h3 className="font-semibold text-base">Conversion Settings</h3>
+      <div className="space-y-4 p-6 border border-gray-200 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900">
+        <h3 className="font-semibold text-base text-black dark:text-white">Conversion Settings</h3>
         
         {/* Output Format */}
         <div>
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-sm font-medium mb-2 text-black dark:text-white">
             Output Format
           </label>
           <div className="flex gap-2">
@@ -241,8 +241,8 @@ export default function ImageConverterTool() {
                 disabled={converting}
                 className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                   outputFormat === fmt
-                    ? 'bg-black text-white'
-                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-100'
+                    ? 'bg-black dark:bg-white text-white dark:text-black'
+                    : 'bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 {fmt.toUpperCase()}
@@ -254,7 +254,7 @@ export default function ImageConverterTool() {
         {/* Quality Slider (for JPEG/WebP) */}
         {showQualitySlider && (
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-black dark:text-white">
               Quality: {quality}%
             </label>
             <input
@@ -264,9 +264,9 @@ export default function ImageConverterTool() {
               value={quality}
               onChange={(e) => setQuality(Number(e.target.value))}
               disabled={converting}
-              className="w-full accent-black disabled:opacity-50"
+              className="w-full accent-black dark:accent-white disabled:opacity-50"
             />
-            <div className="flex justify-between text-xs text-gray-600 mt-1">
+            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-300 mt-1">
               <span>Smaller file</span>
               <span>Better quality</span>
             </div>
@@ -274,7 +274,7 @@ export default function ImageConverterTool() {
         )}
 
         {outputFormat === 'png' && (
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-gray-600 dark:text-gray-300">
             PNG is a lossless format. Quality setting does not apply.
           </p>
         )}
@@ -287,12 +287,12 @@ export default function ImageConverterTool() {
         onDragLeave={onDragLeave}
         className={`
           border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer
-          ${isDragging ? "border-black bg-gray-50 scale-[1.01]" : "border-gray-300 hover:border-gray-400"}
+          ${isDragging ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900 scale-[1.01]" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"}
         `}
         onClick={triggerFilePicker}
       >
         <svg
-          className="w-12 h-12 mx-auto mb-4 text-gray-400"
+          className="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-zinc-500"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -305,13 +305,13 @@ export default function ImageConverterTool() {
             d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
           />
         </svg>
-        <p className="text-base mb-1">
-          <span className="font-semibold text-black">
+        <p className="text-base mb-1 text-black dark:text-white">
+          <span className="font-semibold">
             Click to select images
           </span>{" "}
           or drag and drop
         </p>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-gray-300">
           JPEG, PNG, WebP, BMP, GIF, ICO • Max {formatSize(MAX_IMAGE_SIZE)} per file • Up to 20 images
         </p>
         <input
@@ -329,13 +329,13 @@ export default function ImageConverterTool() {
       {files.length > 0 && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold">
+            <h3 className="text-sm font-semibold text-black dark:text-white">
               {files.length} image{files.length > 1 ? 's' : ''} ready
             </h3>
             <button
               onClick={clearAll}
               disabled={converting}
-              className="text-sm text-gray-600 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Clear All
             </button>
@@ -344,11 +344,11 @@ export default function ImageConverterTool() {
             {files.map((file, index) => (
               <div
                 key={`${file.name}-${index}`}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200"
+                className="flex items-center justify-between p-3 bg-gray-50 dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-800"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{file.name}</p>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-sm font-medium truncate text-black dark:text-white">{file.name}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
                     {getFormatDisplayName(file.type)} • {formatSize(file.size)}
                   </p>
                 </div>
@@ -358,7 +358,7 @@ export default function ImageConverterTool() {
                     removeFile(index);
                   }}
                   disabled={converting}
-                  className="ml-4 text-gray-600 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="ml-4 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label={`Remove ${file.name}`}
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

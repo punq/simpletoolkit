@@ -428,16 +428,16 @@ export default function DataFormatterValidator() {
     <div className="w-full space-y-4 sm:space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-lg sm:text-xl font-medium">Data Formatter & Validator</h2>
+        <h2 className="text-lg sm:text-xl font-medium text-black dark:text-white">Data Formatter & Validator</h2>
         
         {/* Mode Toggle */}
         <div className="flex gap-2">
           <button
             onClick={() => handleModeChange("format")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
               mode === "format"
-                ? "bg-black text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "bg-black dark:bg-white text-white dark:text-black"
+                : "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700"
             }`}
             aria-pressed={mode === "format"}
             aria-label="Switch to format and validate mode"
@@ -446,10 +446,10 @@ export default function DataFormatterValidator() {
           </button>
           <button
             onClick={() => handleModeChange("convert")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
               mode === "convert"
-                ? "bg-black text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "bg-black dark:bg-white text-white dark:text-black"
+                : "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700"
             }`}
             aria-pressed={mode === "convert"}
             aria-label="Switch to format conversion mode"
@@ -460,9 +460,9 @@ export default function DataFormatterValidator() {
       </div>
 
       {/* Format Selection */}
-      <div className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <div className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-800">
         <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2" id="source-format-label">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" id="source-format-label">
             Source Format
           </label>
           <div className="flex gap-2" role="group" aria-labelledby="source-format-label">
@@ -476,10 +476,10 @@ export default function DataFormatterValidator() {
                   setValidation(null);
                   track("Source Format Changed", { format });
                 }}
-                className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                   sourceFormat === format
-                    ? "bg-black text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                    ? "bg-black dark:bg-white text-white dark:text-black"
+                    : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
                 }`}
                 aria-pressed={sourceFormat === format}
                 aria-label={`Set source format to ${formatNames[format]}`}
@@ -500,10 +500,10 @@ export default function DataFormatterValidator() {
                 setAutoDetect(e.target.checked);
                 track("Auto-Detect Toggled", { enabled: e.target.checked });
               }}
-              className="cursor-pointer focus:ring-2 focus:ring-black focus:ring-offset-2"
+              className="cursor-pointer focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2"
               aria-describedby="auto-detect-description"
             />
-            <span className="text-xs text-gray-600" id="auto-detect-description">
+            <span className="text-xs text-gray-600 dark:text-gray-300" id="auto-detect-description">
               Auto-detect format from input
             </span>
           </label>
@@ -513,7 +513,7 @@ export default function DataFormatterValidator() {
           <>
             <div className="flex items-center justify-center" aria-hidden="true">
               <svg
-                className="w-6 h-6 text-gray-400"
+                className="w-6 h-6 text-gray-400 dark:text-zinc-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -528,7 +528,7 @@ export default function DataFormatterValidator() {
             </div>
 
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2" id="target-format-label">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" id="target-format-label">
                 Target Format
               </label>
               <div className="flex gap-2" role="group" aria-labelledby="target-format-label">
@@ -541,10 +541,10 @@ export default function DataFormatterValidator() {
                       setValidation(null);
                       track("Target Format Changed", { format });
                     }}
-                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                       targetFormat === format
-                        ? "bg-black text-white"
-                        : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                        ? "bg-black dark:bg-white text-white dark:text-black"
+                        : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
                     }`}
                     aria-pressed={targetFormat === format}
                     aria-label={`Set target format to ${formatNames[format]}`}
@@ -563,7 +563,7 @@ export default function DataFormatterValidator() {
         {/* Input Panel */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="input-editor" className="text-sm font-medium text-gray-700">
+            <label htmlFor="input-editor" className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Input {mode === "format" ? `(${formatNames[sourceFormat]})` : ""}
             </label>
             <div className="flex gap-2 items-center">
@@ -571,12 +571,12 @@ export default function DataFormatterValidator() {
                 <>
                   <button
                     onClick={handleClear}
-                    className="text-xs text-gray-500 hover:text-gray-700 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Clear input"
                   >
                     Clear
                   </button>
-                  <span className="text-xs text-gray-400" aria-live="polite">
+                  <span className="text-xs text-gray-400 dark:text-zinc-500" aria-live="polite">
                     {input.length.toLocaleString()} chars
                   </span>
                 </>
@@ -589,7 +589,7 @@ export default function DataFormatterValidator() {
             value={input}
             onChange={(e) => handleInputChange(e.target.value)}
             placeholder={`Paste your ${formatNames[sourceFormat]} data here...\n\nKeyboard shortcuts:\n• Ctrl/Cmd + Enter: Format/Convert\n• Ctrl/Cmd + M: Minify\n• Ctrl/Cmd + K: Clear`}
-            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black resize-y"
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white resize-y"
             spellCheck={false}
             aria-label={`Input data in ${formatNames[sourceFormat]} format`}
             aria-describedby="input-help"
@@ -602,7 +602,7 @@ export default function DataFormatterValidator() {
         {/* Output Panel with Syntax Highlighting */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="output-display" className="text-sm font-medium text-gray-700">
+            <label htmlFor="output-display" className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Output {mode === "convert" ? `(${formatNames[targetFormat]})` : "(Formatted)"}
             </label>
             <div className="flex gap-2 items-center">
@@ -610,7 +610,7 @@ export default function DataFormatterValidator() {
                 <>
                   <button
                     onClick={handleSwap}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Swap input and output"
                     title="Swap input and output (use output as new input)"
                   >
@@ -618,19 +618,19 @@ export default function DataFormatterValidator() {
                   </button>
                   <button
                     onClick={handleCopyOutput}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded relative"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded relative"
                     aria-label="Copy formatted output to clipboard"
                   >
                     {showCopiedFeedback ? "✓ Copied!" : "Copy"}
                   </button>
                   <button
                     onClick={handleDownloadOutput}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Download formatted output as file"
                   >
                     Download
                   </button>
-                  <span className="text-xs text-gray-400" aria-live="polite">
+                  <span className="text-xs text-gray-400 dark:text-zinc-500" aria-live="polite">
                     {output.length.toLocaleString()} chars
                   </span>
                 </>
@@ -640,7 +640,7 @@ export default function DataFormatterValidator() {
           <div
             id="output-display"
             ref={outputRef}
-            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg bg-gray-50 overflow-auto syntax-highlighted"
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 dark:border-zinc-800 rounded-lg bg-gray-50 dark:bg-zinc-900 overflow-auto syntax-highlighted"
             role="region"
             aria-label={`Formatted output in ${mode === "format" ? formatNames[sourceFormat] : formatNames[targetFormat]} format`}
             aria-live="polite"
@@ -653,7 +653,7 @@ export default function DataFormatterValidator() {
                 aria-label="Syntax highlighted output"
               />
             ) : (
-              <p className="text-gray-400 select-none">
+              <p className="text-gray-400 dark:text-zinc-500 select-none">
                 Formatted output will appear here with syntax highlighting...
               </p>
             )}
@@ -666,7 +666,7 @@ export default function DataFormatterValidator() {
         <button
           onClick={mode === "format" ? handleFormat : handleConvert}
           disabled={processing || !input.trim() || inputTooLarge}
-          className="flex-1 bg-black text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          className="flex-1 bg-black dark:bg-white text-white dark:text-black px-6 py-3 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2"
           aria-busy={processing}
           aria-label={mode === "format" ? "Format and validate data" : `Convert ${formatNames[sourceFormat]} to ${formatNames[targetFormat]}`}
         >
@@ -705,7 +705,7 @@ export default function DataFormatterValidator() {
         <button
           onClick={handleMinify}
           disabled={processing || !input.trim() || inputTooLarge}
-          className="sm:w-auto px-6 py-3 bg-gray-800 text-white rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity focus:outline-none focus:ring-2 focus:ring-gray-800 focus:ring-offset-2"
+          className="sm:w-auto px-6 py-3 bg-gray-800 dark:bg-zinc-700 text-white dark:text-white rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity focus:outline-none focus:ring-2 focus:ring-gray-800 dark:focus:ring-zinc-600 focus:ring-offset-2"
           aria-label="Minify data by removing unnecessary whitespace"
         >
           Minify
@@ -715,13 +715,13 @@ export default function DataFormatterValidator() {
       {/* Error Display with Enhanced Messaging */}
       {validation && !validation.isValid && (
         <div
-          className="p-4 rounded-lg bg-red-50 border border-red-200 text-sm space-y-2"
+          className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm space-y-2"
           role="alert"
           aria-live="assertive"
         >
           <div className="flex items-start gap-2">
             <svg
-              className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"
+              className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -735,13 +735,13 @@ export default function DataFormatterValidator() {
               />
             </svg>
             <div className="flex-1">
-              <p className="font-medium text-red-800">{validation.error}</p>
+              <p className="font-medium text-red-800 dark:text-red-300">{validation.error}</p>
               {(validation.errorLine || validation.errorColumn) && (
-                <p className="text-red-700 mt-2 font-mono text-xs bg-red-100 p-2 rounded">
+                <p className="text-red-700 dark:text-red-300 mt-2 font-mono text-xs bg-red-100 dark:bg-red-900/30 p-2 rounded">
                   <strong>Location:</strong> Line {validation.errorLine || '?'}
                   {validation.errorColumn && `, Column ${validation.errorColumn}`}
                   <br />
-                  <span className="text-red-600 mt-1 block">
+                  <span className="text-red-600 dark:text-red-400 mt-1 block">
                     Tip: Check your syntax at the indicated line. Common issues include missing commas, 
                     unclosed brackets, or invalid characters.
                   </span>
@@ -749,10 +749,10 @@ export default function DataFormatterValidator() {
               )}
               {validation.errorDetails && (
                 <details className="mt-2">
-                  <summary className="cursor-pointer text-red-700 hover:text-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 rounded px-2 py-1">
+                  <summary className="cursor-pointer text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 focus:ring-offset-1 rounded px-2 py-1">
                     Show technical details
                   </summary>
-                  <pre className="mt-2 text-xs text-red-700 overflow-x-auto p-3 bg-red-100 rounded border border-red-200 max-h-40">
+                  <pre className="mt-2 text-xs text-red-700 dark:text-red-300 overflow-x-auto p-3 bg-red-100 dark:bg-red-900/30 rounded border border-red-200 dark:border-red-800 max-h-40">
                     {validation.errorDetails}
                   </pre>
                 </details>
@@ -778,10 +778,10 @@ export default function DataFormatterValidator() {
       )}
 
       {/* Privacy Notice */}
-      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
+      <div className="p-4 bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg text-sm text-gray-700 dark:text-gray-300">
         <div className="flex items-start gap-3">
           <svg
-            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
+            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900 dark:text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -795,8 +795,8 @@ export default function DataFormatterValidator() {
             />
           </svg>
           <div>
-            <p className="font-medium text-gray-900 mb-1">Private & Secure</p>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="font-medium text-gray-900 dark:text-white mb-1">Private & Secure</p>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
               All processing happens locally in your browser. No data is uploaded to any server.
             </p>
           </div>
@@ -804,25 +804,25 @@ export default function DataFormatterValidator() {
       </div>
 
       {/* Keyboard Shortcuts Help */}
-      <details className="p-4 bg-white border border-gray-200 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+      <details className="p-4 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900 dark:text-white hover:text-black dark:hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 rounded px-2 py-1">
           Keyboard Shortcuts
         </summary>
-        <div className="mt-3 space-y-2 text-sm text-gray-600">
+        <div className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + Enter</kbd>
+            <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Ctrl/Cmd + Enter</kbd>
             <span>Format or Convert</span>
           </div>
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + M</kbd>
+            <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Ctrl/Cmd + M</kbd>
             <span>Minify</span>
           </div>
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + K</kbd>
+            <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Ctrl/Cmd + K</kbd>
             <span>Clear</span>
           </div>
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Tab</kbd>
+            <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Tab</kbd>
             <span>Navigate between elements</span>
           </div>
         </div>

@@ -233,56 +233,56 @@ export default function TextListUtility() {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
           Text List Utility
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-300">
           Clean, sort, and organize your lists - 100% private, instant processing
         </p>
       </div>
 
       {/* Statistics Summary */}
       {input && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-white border border-gray-300 rounded-lg">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-800 rounded-lg">
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-900" aria-live="polite">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white" aria-live="polite">
               {inputStats.lineCount.toLocaleString()}
             </div>
-            <div className="text-xs text-gray-600 font-medium">Original Lines</div>
+            <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">Original Lines</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-900" aria-live="polite">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white" aria-live="polite">
               {inputStats.uniqueLines.toLocaleString()}
             </div>
-            <div className="text-xs text-gray-600 font-medium">Unique Lines</div>
+            <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">Unique Lines</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-900" aria-live="polite">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white" aria-live="polite">
               {(inputStats.lineCount - inputStats.uniqueLines).toLocaleString()}
             </div>
-            <div className="text-xs text-gray-600 font-medium">Duplicates Found</div>
+            <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">Duplicates Found</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-gray-900" aria-live="polite">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white" aria-live="polite">
               {result ? result.outputLineCount.toLocaleString() : '—'}
             </div>
-            <div className="text-xs text-gray-600 font-medium">Output Lines</div>
+            <div className="text-xs text-gray-600 dark:text-gray-300 font-medium">Output Lines</div>
           </div>
         </div>
       )}
 
       {/* Control Panel */}
-      <div className="p-6 bg-white rounded-lg border border-gray-300 space-y-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Processing Options</h2>
+      <div className="p-6 bg-white dark:bg-zinc-900 rounded-lg border border-gray-300 dark:border-zinc-800 space-y-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Processing Options</h2>
         
         {/* Primary Actions Row */}
         <div className="flex flex-wrap gap-3">
           <button
             onClick={() => setRemoveDuplicates(!removeDuplicates)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
               removeDuplicates
-                ? "bg-black text-white"
-                : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                ? "bg-black dark:bg-white text-white dark:text-black"
+                : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
             }`}
             aria-pressed={removeDuplicates}
             aria-label={removeDuplicates ? "Remove duplicates enabled" : "Remove duplicates disabled"}
@@ -292,10 +292,10 @@ export default function TextListUtility() {
 
           <button
             onClick={() => setSortDirection(sortDirection === 'asc' ? 'none' : 'asc')}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
               sortDirection === 'asc'
-                ? "bg-black text-white"
-                : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                ? "bg-black dark:bg-white text-white dark:text-black"
+                : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
             }`}
             aria-pressed={sortDirection === 'asc'}
             aria-label={sortDirection === 'asc' ? "Sort A-Z enabled" : "Sort A-Z disabled"}
@@ -305,10 +305,10 @@ export default function TextListUtility() {
 
           <button
             onClick={() => setRemoveEmpty(!removeEmpty)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
               removeEmpty
-                ? "bg-black text-white"
-                : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                ? "bg-black dark:bg-white text-white dark:text-black"
+                : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
             }`}
             aria-pressed={removeEmpty}
             aria-label={removeEmpty ? "Remove empty lines enabled" : "Remove empty lines disabled"}
@@ -319,7 +319,7 @@ export default function TextListUtility() {
           <button
             onClick={handleClear}
             disabled={!input}
-            className="px-4 py-2 bg-white text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-100 border border-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700 transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Clear all input and reset"
           >
             Clear
@@ -327,9 +327,9 @@ export default function TextListUtility() {
         </div>
 
         {/* Secondary Options */}
-        <div className="pt-4 border-t border-gray-200">
+        <div className="pt-4 border-t border-gray-200 dark:border-zinc-800">
           <details className="group">
-            <summary className="flex items-center justify-between cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+            <summary className="flex items-center justify-between cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 rounded px-2 py-1">
               <span>Advanced Options</span>
               <svg className="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -339,16 +339,16 @@ export default function TextListUtility() {
             <div className="mt-4 space-y-4 pl-2">
               {/* Sort Direction */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" id="sort-direction-label">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" id="sort-direction-label">
                   Sort Direction
                 </label>
                 <div className="flex gap-2" role="group" aria-labelledby="sort-direction-label">
                   <button
                     onClick={() => setSortDirection('none')}
-                    className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                    className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                       sortDirection === 'none'
-                        ? "bg-black text-white"
-                        : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                        ? "bg-black dark:bg-white text-white dark:text-black"
+                        : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
                     }`}
                     aria-pressed={sortDirection === 'none'}
                   >
@@ -356,10 +356,10 @@ export default function TextListUtility() {
                   </button>
                   <button
                     onClick={() => setSortDirection('asc')}
-                    className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                    className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                       sortDirection === 'asc'
-                        ? "bg-black text-white"
-                        : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                        ? "bg-black dark:bg-white text-white dark:text-black"
+                        : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
                     }`}
                     aria-pressed={sortDirection === 'asc'}
                   >
@@ -367,10 +367,10 @@ export default function TextListUtility() {
                   </button>
                   <button
                     onClick={() => setSortDirection('desc')}
-                    className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                    className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                       sortDirection === 'desc'
-                        ? "bg-black text-white"
-                        : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                        ? "bg-black dark:bg-white text-white dark:text-black"
+                        : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
                     }`}
                     aria-pressed={sortDirection === 'desc'}
                   >
@@ -381,7 +381,7 @@ export default function TextListUtility() {
 
               {/* Case Conversion */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" id="case-conversion-label">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" id="case-conversion-label">
                   Case Conversion
                 </label>
                 <div className="flex flex-wrap gap-2" role="group" aria-labelledby="case-conversion-label">
@@ -396,10 +396,10 @@ export default function TextListUtility() {
                     <button
                       key={value}
                       onClick={() => setCaseConversion(value as CaseConversion)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                         caseConversion === value
-                          ? "bg-black text-white"
-                          : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                          ? "bg-black dark:bg-white text-white dark:text-black"
+                          : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
                       }`}
                       aria-pressed={caseConversion === value}
                     >
@@ -418,7 +418,7 @@ export default function TextListUtility() {
         {/* Input Panel */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="input-textarea" className="text-sm font-medium text-gray-700">
+            <label htmlFor="input-textarea" className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Input
             </label>
             <div className="flex gap-2 items-center">
@@ -426,12 +426,12 @@ export default function TextListUtility() {
                 <>
                   <button
                     onClick={handleClear}
-                    className="text-xs text-gray-500 hover:text-gray-700 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Clear input"
                   >
                     Clear
                   </button>
-                  <span className="text-xs text-gray-400" aria-live="polite">
+                  <span className="text-xs text-gray-400 dark:text-zinc-500" aria-live="polite">
                     {inputStats.lineCount.toLocaleString()} lines
                   </span>
                 </>
@@ -444,17 +444,17 @@ export default function TextListUtility() {
             value={input}
             onChange={(e) => handleInputChange(e.target.value)}
             placeholder="Paste your text list here (one item per line)..."
-            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black resize-y"
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white resize-y"
             spellCheck={false}
             aria-label="Input text list"
             aria-describedby="input-help"
           />
-          <p id="input-help" className="text-xs text-gray-500">
+          <p id="input-help" className="text-xs text-gray-500 dark:text-zinc-400">
             Paste or type one item per line. Maximum 10MB.
           </p>
 
           {inputTooLarge && (
-            <div className="text-sm text-gray-700 font-medium" role="alert">
+            <div className="text-sm text-gray-700 dark:text-gray-300 font-medium" role="alert">
               Input exceeds maximum size of {(MAX_INPUT_SIZE / (1024 * 1024)).toFixed(1)}MB
             </div>
           )}
@@ -463,7 +463,7 @@ export default function TextListUtility() {
         {/* Output Panel */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="output-display" className="text-sm font-medium text-gray-700">
+            <label htmlFor="output-display" className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Output
             </label>
             <div className="flex gap-2 items-center">
@@ -471,19 +471,19 @@ export default function TextListUtility() {
                 <>
                   <button
                     onClick={handleCopy}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded relative"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded relative"
                     aria-label="Copy output to clipboard"
                   >
                     {showCopiedFeedback ? "Copied!" : "Copy"}
                   </button>
                   <button
                     onClick={handleDownload}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Download output as file"
                   >
                     Download
                   </button>
-                  <span className="text-xs text-gray-400" aria-live="polite">
+                  <span className="text-xs text-gray-400 dark:text-zinc-500" aria-live="polite">
                     {result ? result.outputLineCount.toLocaleString() : 0} lines
                   </span>
                 </>
@@ -493,18 +493,18 @@ export default function TextListUtility() {
           <div
             id="output-display"
             ref={outputRef}
-            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg bg-gray-50 overflow-auto"
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 dark:border-zinc-800 rounded-lg bg-gray-50 dark:bg-zinc-900 overflow-auto"
             role="region"
             aria-label="Output display"
             aria-live="polite"
             tabIndex={0}
           >
             {output ? (
-              <pre className="m-0 whitespace-pre-wrap break-words text-gray-700">
+              <pre className="m-0 whitespace-pre-wrap break-words text-gray-700 dark:text-gray-300">
                 {output}
               </pre>
             ) : (
-              <p className="text-gray-400 text-center mt-20">
+              <p className="text-gray-400 dark:text-zinc-500 text-center mt-20">
                 Output will appear here...
               </p>
             )}
@@ -512,7 +512,7 @@ export default function TextListUtility() {
 
           {/* Results Summary */}
           {result && output && (
-            <div className="text-xs text-gray-500 space-y-1">
+            <div className="text-xs text-gray-500 dark:text-zinc-400 space-y-1">
               {result.duplicatesRemoved > 0 && (
                 <div>Duplicates removed: {result.duplicatesRemoved.toLocaleString()}</div>
               )}
@@ -599,10 +599,10 @@ export default function TextListUtility() {
       )}
 
       {/* Privacy Notice */}
-      <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700">
+      <div className="p-4 bg-gray-50 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg text-sm text-gray-700 dark:text-gray-300">
         <div className="flex items-start gap-3">
           <svg
-            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
+            className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900 dark:text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -616,8 +616,8 @@ export default function TextListUtility() {
             />
           </svg>
           <div>
-            <p className="font-medium text-gray-900 mb-1">Private & Secure</p>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="font-medium text-gray-900 dark:text-white mb-1">Private & Secure</p>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
               All processing happens locally in your browser. No data is uploaded to any server.
             </p>
           </div>
@@ -625,21 +625,21 @@ export default function TextListUtility() {
       </div>
 
       {/* Keyboard Shortcuts Help */}
-      <details className="p-4 bg-white border border-gray-200 rounded-lg">
-        <summary className="cursor-pointer text-sm font-medium text-gray-900 hover:text-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded px-2 py-1">
+      <details className="p-4 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-lg">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900 dark:text-white hover:text-black dark:hover:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 rounded px-2 py-1">
           Keyboard Shortcuts
         </summary>
-        <div className="mt-3 space-y-2 text-sm text-gray-600">
+        <div className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + Enter</kbd>
+            <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Ctrl/Cmd + Enter</kbd>
             <span>Process list</span>
           </div>
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + K</kbd>
+            <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Ctrl/Cmd + K</kbd>
             <span>Clear</span>
           </div>
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-white border border-gray-300 rounded text-xs font-mono">Tab</kbd>
+            <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Tab</kbd>
             <span>Navigate between elements</span>
           </div>
         </div>

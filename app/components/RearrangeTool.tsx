@@ -291,11 +291,11 @@ export default function RearrangeTool() {
   return (
     <div className="w-full space-y-4 sm:space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg sm:text-xl font-medium">Rotate / Rearrange PDF</h2>
+        <h2 className="text-lg sm:text-xl font-medium text-black dark:text-white">Rotate / Rearrange PDF</h2>
         {file && (
           <button
             onClick={clear}
-            className="text-sm sm:text-base px-2 py-1 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-md"
+            className="text-sm sm:text-base px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 rounded-md"
             aria-label="Clear selected file"
           >
             Clear file
@@ -305,7 +305,7 @@ export default function RearrangeTool() {
 
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
-          isDraggingOver ? "border-black bg-gray-50" : file ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
+          isDraggingOver ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900" : file ? "border-gray-400 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"
         }`}
         onClick={triggerFilePicker}
         onDragEnter={onDragEnter}
@@ -334,8 +334,8 @@ export default function RearrangeTool() {
         {file ? (
           <div className="w-full space-y-4">
             <div className="text-sm">
-              <div className="font-medium">{file.name}</div>
-              <div className="text-gray-500">
+              <div className="font-medium text-black dark:text-white">{file.name}</div>
+              <div className="text-gray-500 dark:text-gray-400">
                 {formatFileSize(file.size)}{pageCount > 0 && <> • {pageCount} pages</>}
                 {pageSummary.rotated > 0 && (
                   <>
@@ -350,7 +350,7 @@ export default function RearrangeTool() {
               {pages.map((p, i) => (
                 <div
                   key={`page-${p.index}-${i}`}
-                  className="flex items-center justify-between bg-white rounded-lg border p-3 hover:border-gray-400 transition-colors"
+                  className="flex items-center justify-between bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-800 p-3 hover:border-gray-400 dark:hover:border-zinc-700 transition-colors"
                   draggable
                   onDragStart={(e) => onDragStart(e, i)}
                   onDragOver={onDragOver}
@@ -360,20 +360,20 @@ export default function RearrangeTool() {
                 >
                   <div className="flex items-center gap-3">
                     <div 
-                      className="text-gray-400 cursor-grab active:cursor-grabbing" 
+                      className="text-gray-400 dark:text-zinc-500 cursor-grab active:cursor-grabbing" 
                       aria-hidden="true"
                     >
                       ☰
                     </div>
                     <div>
-                      <div className="font-medium text-sm">Page {p.index + 1}</div>
-                      <div className="text-gray-500 text-xs">Rotation: {p.rotation}°</div>
+                      <div className="font-medium text-sm text-black dark:text-white">Page {p.index + 1}</div>
+                      <div className="text-gray-500 dark:text-gray-400 text-xs">Rotation: {p.rotation}°</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={(e) => { e.stopPropagation(); rotateCCW(i); }}
-                      className="text-xs px-2 py-1 border rounded hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black"
+                      className="text-xs px-2 py-1 border border-gray-300 dark:border-zinc-700 rounded hover:bg-gray-50 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-black dark:text-white"
                       aria-label={`Rotate page ${p.index + 1} counter-clockwise 90 degrees`}
                       type="button"
                     >
@@ -381,7 +381,7 @@ export default function RearrangeTool() {
                     </button>
                     <button
                       onClick={(e) => { e.stopPropagation(); rotateCW(i); }}
-                      className="text-xs px-2 py-1 border rounded hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black"
+                      className="text-xs px-2 py-1 border border-gray-300 dark:border-zinc-700 rounded hover:bg-gray-50 dark:hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-black dark:text-white"
                       aria-label={`Rotate page ${p.index + 1} clockwise 90 degrees`}
                       type="button"
                     >
@@ -389,7 +389,7 @@ export default function RearrangeTool() {
                     </button>
                     <button
                       onClick={(e) => { e.stopPropagation(); removeAt(i); }}
-                      className="text-xs px-2 py-1 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 rounded"
+                      className="text-xs px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 rounded"
                       aria-label={`Remove page ${p.index + 1} from export`}
                       type="button"
                     >
@@ -400,24 +400,24 @@ export default function RearrangeTool() {
               ))}
             </div>
 
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
               Drag pages to reorder • Click to add a different file
             </p>
           </div>
         ) : (
           <div className="text-center space-y-2">
-            <div className="text-gray-500">
+            <div className="text-gray-500 dark:text-gray-400">
               <span className="text-sm">
-                Drop a PDF here or <span className="text-black font-medium">choose a file</span>
+                Drop a PDF here or <span className="text-black dark:text-white font-medium">choose a file</span>
               </span>
             </div>
-            <p className="text-xs text-gray-400">Maximum file size: 50MB</p>
+            <p className="text-xs text-gray-400 dark:text-zinc-500">Maximum file size: 50MB</p>
           </div>
         )}
       </div>
 
       {error && (
-        <div className="p-4 rounded-lg bg-red-50 text-sm text-red-600">
+        <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 text-sm text-red-600 dark:text-red-400">
           {error}
         </div>
       )}

@@ -369,13 +369,13 @@ export default function Base64UrlEncoder() {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Mode Toggle: Format vs Convert */}
-      <div className="flex items-center justify-center gap-2 p-1 bg-gray-100 rounded-lg w-fit mx-auto">
+      <div className="flex items-center justify-center gap-2 p-1 bg-gray-100 dark:bg-zinc-800 rounded-lg w-fit mx-auto">
         <button
           onClick={() => setDirection('encode')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
             direction === 'encode'
-              ? "bg-black text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              ? "bg-black dark:bg-white text-white dark:text-black"
+              : "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700"
           }`}
           aria-pressed={direction === 'encode'}
           aria-label="Switch to encode mode"
@@ -384,10 +384,10 @@ export default function Base64UrlEncoder() {
         </button>
         <button
           onClick={() => setDirection('decode')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
             direction === 'decode'
-              ? "bg-black text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              ? "bg-black dark:bg-white text-white dark:text-black"
+              : "bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-zinc-700"
           }`}
           aria-pressed={direction === 'decode'}
           aria-label="Switch to decode mode"
@@ -397,19 +397,19 @@ export default function Base64UrlEncoder() {
       </div>
 
       {/* Format Selection */}
-      <div className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <div className="flex flex-col sm:flex-row gap-4 p-4 bg-gray-50 dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-800">
         <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700 mb-2" id="base64-mode-label">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" id="base64-mode-label">
             Base64 Mode
           </label>
           <div className="flex gap-2" role="group" aria-labelledby="base64-mode-label">
             <button
               onClick={() => setMode('standard')}
               disabled={autoDetect && direction === 'decode'}
-              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                 mode === 'standard'
-                  ? "bg-black text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                  ? "bg-black dark:bg-white text-white dark:text-black"
+                  : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
               } disabled:opacity-50 disabled:cursor-not-allowed`}
               aria-pressed={mode === 'standard'}
               title="RFC 4648 Section 4: Uses +, /, with = padding"
@@ -422,10 +422,10 @@ export default function Base64UrlEncoder() {
             <button
               onClick={() => setMode('url-safe')}
               disabled={autoDetect && direction === 'decode'}
-              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 ${
+              className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 ${
                 mode === 'url-safe'
-                  ? "bg-black text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                  ? "bg-black dark:bg-white text-white dark:text-black"
+                  : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700 border border-gray-300 dark:border-zinc-700"
               } disabled:opacity-50 disabled:cursor-not-allowed`}
               aria-pressed={mode === 'url-safe'}
               title="RFC 4648 Section 5: Uses -, _, no = padding. Safe for URLs"
@@ -444,9 +444,9 @@ export default function Base64UrlEncoder() {
                 type="checkbox"
                 checked={autoDetect}
                 onChange={(e) => setAutoDetect(e.target.checked)}
-                className="cursor-pointer focus:ring-2 focus:ring-black focus:ring-offset-2"
+                className="cursor-pointer focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2"
               />
-              <span className="text-xs text-gray-600">
+              <span className="text-xs text-gray-600 dark:text-gray-300">
                 Auto-detect format from input
               </span>
             </label>
@@ -454,7 +454,7 @@ export default function Base64UrlEncoder() {
         </div>
 
         {inputSizeInfo && (
-          <div className="flex items-center justify-end text-xs text-gray-500">
+          <div className="flex items-center justify-end text-xs text-gray-500 dark:text-zinc-400">
             Input size: {inputSizeInfo}
           </div>
         )}
@@ -465,7 +465,7 @@ export default function Base64UrlEncoder() {
         {/* Input Panel */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="input-editor" className="text-sm font-medium text-gray-700">
+            <label htmlFor="input-editor" className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {direction === 'encode' ? 'Raw Text' : 'Base64 Input'}
             </label>
             <div className="flex gap-2 items-center">
@@ -473,12 +473,12 @@ export default function Base64UrlEncoder() {
                 <>
                   <button
                     onClick={handleClear}
-                    className="text-xs text-gray-500 hover:text-gray-700 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Clear input"
                   >
                     Clear
                   </button>
-                  <span className="text-xs text-gray-400" aria-live="polite">
+                  <span className="text-xs text-gray-400 dark:text-zinc-500" aria-live="polite">
                     {(direction === 'encode' ? rawInput : base64Input).length.toLocaleString()} chars
                   </span>
                 </>
@@ -494,7 +494,7 @@ export default function Base64UrlEncoder() {
               ? `Enter text to encode...\n\nKeyboard shortcuts:\n• Ctrl/Cmd + K: Clear`
               : `Paste Base64 string to decode...\n\nKeyboard shortcuts:\n• Ctrl/Cmd + K: Clear`
             }
-            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black resize-y"
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 dark:border-zinc-800 rounded-lg bg-white dark:bg-zinc-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white resize-y"
             spellCheck={false}
             aria-label={direction === 'encode' ? "Raw text input" : "Base64 input"}
           />
@@ -503,7 +503,7 @@ export default function Base64UrlEncoder() {
         {/* Output Panel */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="output-display" className="text-sm font-medium text-gray-700">
+            <label htmlFor="output-display" className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {direction === 'encode' ? 'Base64 Output' : 'Decoded Text'}
             </label>
             <div className="flex gap-2 items-center">
@@ -511,7 +511,7 @@ export default function Base64UrlEncoder() {
                 <>
                   <button
                     onClick={handleSwap}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Swap input and output"
                     title="Swap input and output"
                   >
@@ -519,19 +519,19 @@ export default function Base64UrlEncoder() {
                   </button>
                   <button
                     onClick={handleCopy}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded relative"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded relative"
                     aria-label="Copy output to clipboard"
                   >
                     {showCopiedFeedback ? "Copied!" : "Copy"}
                   </button>
                   <button
                     onClick={handleDownload}
-                    className="text-xs text-gray-700 hover:text-black px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-1 rounded"
+                    className="text-xs text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white px-2 py-1 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-1 rounded"
                     aria-label="Download output as file"
                   >
                     Download
                   </button>
-                  <span className="text-xs text-gray-400" aria-live="polite">
+                  <span className="text-xs text-gray-400 dark:text-zinc-500" aria-live="polite">
                     {(direction === 'encode' ? base64Input : rawInput).length.toLocaleString()} chars
                   </span>
                 </>
@@ -540,18 +540,18 @@ export default function Base64UrlEncoder() {
           </div>
           <div
             id="output-display"
-            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 rounded-lg bg-gray-50 overflow-auto"
+            className="w-full h-96 p-4 font-mono text-sm border border-gray-300 dark:border-zinc-800 rounded-lg bg-gray-50 dark:bg-zinc-900 overflow-auto"
             role="region"
             aria-label="Output display"
             aria-live="polite"
             tabIndex={0}
           >
             {(direction === 'encode' ? base64Input : rawInput) ? (
-              <pre className="m-0 whitespace-pre-wrap break-all text-gray-700">
+              <pre className="m-0 whitespace-pre-wrap break-all text-gray-700 dark:text-gray-300">
                 {direction === 'encode' ? base64Input : rawInput}
               </pre>
             ) : (
-              <p className="text-gray-400 text-center mt-20">
+              <p className="text-gray-400 dark:text-zinc-500 text-center mt-20">
                 Output will appear here...
               </p>
             )}
@@ -562,13 +562,13 @@ export default function Base64UrlEncoder() {
       {/* Error Message */}
       {error && (
         <div 
-          className="p-4 bg-gray-50 border border-gray-300 rounded-lg" 
+          className="p-4 bg-gray-50 dark:bg-zinc-900 border border-gray-300 dark:border-zinc-800 rounded-lg" 
           role="alert"
           aria-live="polite"
         >
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900"
+              className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-900 dark:text-white"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -581,14 +581,14 @@ export default function Base64UrlEncoder() {
               />
             </svg>
             <div className="flex-1">
-              <p className="text-sm text-gray-700">{error}</p>
+              <p className="text-sm text-gray-700 dark:text-gray-300">{error}</p>
             </div>
             <button
               onClick={() => setError(null)}
-              className="flex-shrink-0 p-1 hover:bg-gray-100 rounded transition-colors"
+              className="flex-shrink-0 p-1 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded transition-colors"
               aria-label="Dismiss error"
             >
-              <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -608,17 +608,17 @@ export default function Base64UrlEncoder() {
       )}
 
       {/* Info Section */}
-      <div className="border rounded-lg p-6 space-y-4 bg-gray-50">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
-          <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="border border-gray-200 dark:border-zinc-800 rounded-lg p-6 space-y-4 bg-gray-50 dark:bg-zinc-900">
+        <h3 className="text-lg font-semibold flex items-center gap-2 text-black dark:text-white">
+          <svg className="w-5 h-5 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           About Base64 Encoding
         </h3>
         
-        <div className="space-y-3 text-sm text-gray-600">
+        <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
           <div>
-            <p className="font-medium text-gray-900 mb-1">Standard Base64 (RFC 4648 Section 4):</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">Standard Base64 (RFC 4648 Section 4):</p>
             <ul className="list-disc list-inside space-y-1 ml-2">
               <li>Uses characters: A-Z, a-z, 0-9, +, /</li>
               <li>Includes = padding</li>
@@ -627,7 +627,7 @@ export default function Base64UrlEncoder() {
           </div>
           
           <div>
-            <p className="font-medium text-gray-900 mb-1">URL-Safe Base64 (RFC 4648 Section 5):</p>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">URL-Safe Base64 (RFC 4648 Section 5):</p>
             <ul className="list-disc list-inside space-y-1 ml-2">
               <li>Uses characters: A-Z, a-z, 0-9, -, _</li>
               <li>No padding characters</li>
@@ -635,28 +635,28 @@ export default function Base64UrlEncoder() {
             </ul>
           </div>
 
-          <p className="pt-2 border-t border-gray-300">
-            <strong className="text-gray-900">Privacy:</strong> All encoding and decoding happens locally in your browser using native Web APIs. 
+          <p className="pt-2 border-t border-gray-300 dark:border-zinc-800">
+            <strong className="text-gray-900 dark:text-white">Privacy:</strong> All encoding and decoding happens locally in your browser using native Web APIs. 
             No data is uploaded to any server.
           </p>
         </div>
       </div>
 
       {/* Keyboard Shortcuts */}
-      <div className="border rounded-lg p-6 space-y-4 bg-white">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
-          <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="border border-gray-200 dark:border-zinc-800 rounded-lg p-6 space-y-4 bg-white dark:bg-zinc-900">
+        <h3 className="text-lg font-semibold flex items-center gap-2 text-black dark:text-white">
+          <svg className="w-5 h-5 text-gray-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
           </svg>
           Keyboard Shortcuts
         </h3>
-        <div className="space-y-2 text-sm text-gray-600">
+        <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-gray-50 border border-gray-300 rounded text-xs font-mono">Ctrl/Cmd + K</kbd>
+            <kbd className="px-2 py-1 bg-gray-50 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Ctrl/Cmd + K</kbd>
             <span>Clear all inputs</span>
           </div>
           <div className="flex items-center gap-3">
-            <kbd className="px-2 py-1 bg-gray-50 border border-gray-300 rounded text-xs font-mono">Tab</kbd>
+            <kbd className="px-2 py-1 bg-gray-50 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded text-xs font-mono text-gray-900 dark:text-gray-300">Tab</kbd>
             <span>Navigate between elements</span>
           </div>
         </div>

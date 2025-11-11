@@ -201,7 +201,7 @@ export default function CompressTool() {
 
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
-          isDragging ? "border-black bg-gray-50" : file ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
+          isDragging ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900" : file ? "border-gray-400 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"
         }`}
         onClick={() => fileInputRef.current?.click()}
         onDragEnter={handleDragOver}
@@ -230,8 +230,8 @@ export default function CompressTool() {
         {file ? (
           <div className="w-full space-y-4">
             <div className="text-sm">
-              <div className="font-medium">{file.name}</div>
-              <div className="text-gray-500">
+              <div className="font-medium text-black dark:text-white">{file.name}</div>
+              <div className="text-gray-500 dark:text-gray-400">
                 Original size: {formatFileSize(file.size)}
                 {compressedSize && (
                   <> • Compressed: {formatFileSize(compressedSize)}</>
@@ -240,7 +240,7 @@ export default function CompressTool() {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium">Compression Level</label>
+              <label className="block text-sm font-medium text-black dark:text-white">Compression Level</label>
               <div className="flex gap-3 justify-start" role="radiogroup" aria-label="Compression level selection">
                 {["low", "medium", "high"].map((level) => (
                   <button
@@ -249,10 +249,10 @@ export default function CompressTool() {
                       e.stopPropagation();
                       setCompressionLevel(level as CompressionLevel);
                     }}
-                    className={`px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base rounded-lg border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black min-w-[80px] sm:min-w-[100px] ${
+                    className={`px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base rounded-lg border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-white min-w-[80px] sm:min-w-[100px] ${
                       compressionLevel === level
-                        ? "bg-black text-white border-black"
-                        : "bg-white border-gray-300 hover:border-gray-400"
+                        ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white"
+                        : "bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 hover:border-gray-400 dark:hover:border-zinc-600 text-black dark:text-white"
                     }`}
                     role="radio"
                     aria-checked={compressionLevel === level}
@@ -266,12 +266,12 @@ export default function CompressTool() {
           </div>
         ) : (
           <div className="text-center space-y-2">
-            <div className="text-gray-500">
+            <div className="text-gray-500 dark:text-gray-400">
               <span className="text-sm">
-                Drop a PDF here or <span className="text-black font-medium">choose a file</span>
+                Drop a PDF here or <span className="text-black dark:text-white font-medium">choose a file</span>
               </span>
             </div>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-gray-400 dark:text-zinc-500">
               Maximum file size: 50MB
             </p>
           </div>
@@ -279,7 +279,7 @@ export default function CompressTool() {
       </div>
 
       {error && (
-        <div className="p-4 rounded-lg bg-red-50 text-sm text-red-600">
+        <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 text-sm text-red-600 dark:text-red-400">
           {error}
         </div>
       )}
@@ -298,14 +298,14 @@ export default function CompressTool() {
         <div className="space-y-4">
           {progress.percent > 0 && progress.percent < 100 && (
             <div className="space-y-2">
-              <div className="w-full bg-gray-100 rounded-full h-2">
+              <div className="w-full bg-gray-100 dark:bg-zinc-800 rounded-full h-2">
                 <div 
-                  className="bg-black h-2 rounded-full transition-all duration-300" 
+                  className="bg-black dark:bg-white h-2 rounded-full transition-all duration-300" 
                   style={{ width: `${progress.percent}%` }}
                 />
               </div>
               <div 
-                className="text-xs text-gray-600"
+                className="text-xs text-gray-600 dark:text-gray-300"
                 role="status"
                 aria-live="polite"
               >
@@ -321,14 +321,14 @@ export default function CompressTool() {
                 compress();
               }}
               disabled={!file || compressing}
-              className="flex-none rounded-lg bg-black px-4 py-2 text-white disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+              className="flex-none rounded-lg bg-black dark:bg-white px-4 py-2 text-white dark:text-black disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black dark:focus:ring-white"
               aria-busy={compressing}
             >
               {compressing ? "Compressing..." : "Compress PDF"}
             </button>
             
             {originalSize && compressedSize && (
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-gray-600 dark:text-gray-300">
                 <span className="font-medium">
                   {Math.round(((originalSize - compressedSize) / originalSize) * 100)}% reduction
                 </span>
