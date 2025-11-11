@@ -12,6 +12,7 @@ import {
   type RedactionResult,
 } from "@/app/utils/pdfUtils";
 import { track } from "@/app/utils/analytics";
+import type { RenderTask, PDFDocumentProxy } from "pdfjs-dist";
 
 /**
  * Represents a redaction box being drawn or already placed
@@ -78,7 +79,7 @@ export default function ClientSidePDFRedactor() {
   const renderAbortController = useRef<AbortController | null>(null);
   
   // Ref to track the current PDF.js render task for proper cancellation
-  const renderTaskRef = useRef<any>(null);
+  const renderTaskRef = useRef<RenderTask | null>(null);
   
   // Animation frame ID for throttling mouse move events
   const rafId = useRef<number | null>(null);
@@ -212,7 +213,7 @@ export default function ClientSidePDFRedactor() {
     if (renderTaskRef.current) {
       try {
         renderTaskRef.current.cancel();
-      } catch (e) {
+      } catch {
         // Ignore cancellation errors
       }
       renderTaskRef.current = null;
@@ -231,7 +232,7 @@ export default function ClientSidePDFRedactor() {
 
     setIsRenderingPage(true);
 
-    let pdf: any = null;
+    let pdf: PDFDocumentProxy | null = null;
 
     try {
       // Use PDF.js for actual rendering
@@ -271,10 +272,11 @@ export default function ClientSidePDFRedactor() {
       const renderContext = {
         canvasContext: ctx,
         viewport: viewport,
+        canvas: canvas,
       };
 
       // Store the render task so we can cancel it if needed
-      const renderTask = page.render(renderContext as any);
+      const renderTask = page.render(renderContext);
       renderTaskRef.current = renderTask;
 
       await renderTask.promise;
@@ -323,7 +325,7 @@ export default function ClientSidePDFRedactor() {
       if (renderTaskRef.current) {
         try {
           renderTaskRef.current.cancel();
-        } catch (e) {
+        } catch {
           // Ignore cancellation errors
         }
         renderTaskRef.current = null;
@@ -851,7 +853,7 @@ export default function ClientSidePDFRedactor() {
           </div>
           <div>
             <p className="font-medium text-gray-900 mb-1">3. Apply & Download</p>
-            <p>Choose "Unflattened" for further editing or "Flattened" (recommended) for maximum security before sharing.</p>
+            <p>Choose &quot;Unflattened&quot; for further editing or &quot;Flattened&quot; (recommended) for maximum security before sharing.</p>
           </div>
         </div>
       </details>

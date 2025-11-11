@@ -91,26 +91,23 @@ describe('analytics - integration & performance', () => {
 
       const start = performance.now();
       track('Performance Test');
-      const duration = performance.now() - start;
 
       // Should be essentially instantaneous (< 1ms)
-      expect(duration).toBeLessThan(1);
+      expect(performance.now() - start).toBeLessThan(1);
     });
 
     it('should not block on plausible execution', () => {
-      let plausibleExecuted = false;
       const mockPlausible = jest.fn(() => {
         // Simulate slow analytics call
         for (let i = 0; i < 1000; i++) {
           // Busy wait
         }
-        plausibleExecuted = true;
       });
       (window as any).plausible = mockPlausible;
 
-      const start = performance.now();
+      // const start = performance.now();
       track('Blocking Test');
-      const duration = performance.now() - start;
+      // Measure duration but don't assert (test is about non-blocking)
 
       // Track should complete (even if plausible is slow)
       expect(mockPlausible).toHaveBeenCalled();

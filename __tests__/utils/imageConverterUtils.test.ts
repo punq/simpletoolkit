@@ -58,7 +58,7 @@ class MockImage {
 
 // Mock URL.createObjectURL and revokeObjectURL
 const mockObjectURLs = new Set<string>();
-global.URL.createObjectURL = jest.fn((blob: Blob) => {
+global.URL.createObjectURL = jest.fn(() => {
   const url = `blob:mock-${Math.random()}`;
   mockObjectURLs.add(url);
   return url;

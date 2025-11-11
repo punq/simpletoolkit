@@ -84,7 +84,7 @@ describe('analytics - core functionality', () => {
   describe('Browser environment detection', () => {
     it('should not throw when window is undefined (SSR)', () => {
       const originalWindow = global.window;
-      // @ts-ignore
+      // @ts-expect-error Deleting global property for testing SSR
       delete global.window;
 
       expect(() => track('SSR Event')).not.toThrow();
@@ -96,7 +96,7 @@ describe('analytics - core functionality', () => {
       const mockPlausible = jest.fn();
       const originalWindow = global.window;
       
-      // @ts-ignore
+      // @ts-expect-error Deleting global property for testing SSR
       delete global.window;
 
       track('SSR Event', { key: 'value' });
@@ -366,7 +366,7 @@ describe('analytics - core functionality', () => {
       const mockPlausible = jest.fn();
       (window as any).plausible = mockPlausible;
 
-      // @ts-ignore - Testing runtime behavior
+      // @ts-expect-error - Testing runtime behavior
       expect(() => track(null)).not.toThrow();
     });
 
@@ -374,7 +374,7 @@ describe('analytics - core functionality', () => {
       const mockPlausible = jest.fn();
       (window as any).plausible = mockPlausible;
 
-      // @ts-ignore - Testing runtime behavior
+      // @ts-expect-error - Testing runtime behavior
       expect(() => track(undefined)).not.toThrow();
     });
 
@@ -382,13 +382,13 @@ describe('analytics - core functionality', () => {
       const mockPlausible = jest.fn();
       (window as any).plausible = mockPlausible;
 
-      // @ts-ignore - Testing runtime behavior
+      // @ts-expect-error - Testing runtime behavior
       expect(() => track(123)).not.toThrow();
       
-      // @ts-ignore - Testing runtime behavior
+      // @ts-expect-error - Testing runtime behavior
       expect(() => track({})).not.toThrow();
       
-      // @ts-ignore - Testing runtime behavior
+      // @ts-expect-error - Testing runtime behavior
       expect(() => track([])).not.toThrow();
     });
 

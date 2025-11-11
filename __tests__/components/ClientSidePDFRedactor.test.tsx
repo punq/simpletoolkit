@@ -6,7 +6,6 @@
 
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import ClientSidePDFRedactor from '@/app/components/PDFRedactor';
 
 // Mock pdf-lib
@@ -16,7 +15,7 @@ jest.mock('pdf-lib', () => {
       load: jest.fn(() => {
         return Promise.resolve({
           getPageCount: jest.fn(() => 3),
-          getPage: jest.fn((index) => ({
+          getPage: jest.fn(() => ({
             getSize: jest.fn(() => ({ width: 612, height: 792 })),
             drawRectangle: jest.fn(),
           })),
