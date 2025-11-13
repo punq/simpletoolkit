@@ -16,6 +16,7 @@ export default function Header() {
   const lastLinkRef = useRef<HTMLAnchorElement | null>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  
 
   useEffect(() => {
     setMounted(true);
@@ -23,9 +24,7 @@ export default function Header() {
 
   const navLinks = useMemo(
     () => [
-      { href: "/tools", label: "Tools" },
       { href: "/donate", label: "Donate", onClick: () => track("Donate Header Click", { location: open ? "header-mobile" : "header" }) },
-      { href: "/privacy", label: "Privacy" },
     ],
     [open]
   );
@@ -242,6 +241,8 @@ export default function Header() {
                   {label}
                 </Link>
               ))}
+
+              
 
               {/* Mobile CTA */}
               <div className="p-4 bg-gray-50 dark:bg-zinc-950">

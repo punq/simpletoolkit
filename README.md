@@ -148,14 +148,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Analytics (Plausible)
 
-This project includes optional, privacy-friendly analytics using Plausible. To enable analytics for your deployed site only, set the environment variable `NEXT_PUBLIC_PLAUSIBLE=1` in your production environment.
+This project includes optional, privacy-friendly analytics using Plausible. Analytics are **opt-in** for end users: the app will not send any analytics data unless the deployment enables Plausible via `NEXT_PUBLIC_PLAUSIBLE=1` and a site visitor explicitly grants consent through the on-site privacy controls (consent pill / footer toggle).
 
-When enabled, the app tracks:
+When enabled and consented, the app tracks:
 - Page views
 - Tool usage events (file added, merge started, etc.)
-- **No personal data or file content is ever tracked**
 
-Analytics never run in development unless explicitly enabled.
+No personal data or file content is ever tracked; free-form strings and user-provided values are sanitized before being sent. Analytics never run in development unless explicitly enabled.
 
 ## Contributing
 

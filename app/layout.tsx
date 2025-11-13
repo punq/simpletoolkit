@@ -3,6 +3,9 @@ import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import PlausibleLoader from "./components/PlausibleLoader";
+import AnalyticsConsent from "./components/AnalyticsConsent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -158,23 +161,7 @@ export default function RootLayout({
             ]
           })}
         </script>
-        {/* Plausible analytics — only enabled when NEXT_PUBLIC_PLAUSIBLE env var is set to 1 or true */}
-        {enablePlausible && (
-          <>
-            <Script
-              src="https://plausible.io/js/pa-h9uphsLdTwdLeCKe911Cm.js"
-              strategy="afterInteractive"
-            />
-            <Script
-              id="plausible-init"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{
-                __html:
-                  `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`,
-              }}
-            />
-          </>
-        )}
+        {/* Plausible analytics loader: respects env and per-user consent (rendered in body) */}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
@@ -189,10 +176,14 @@ export default function RootLayout({
             }
           `}
         </Script>
+        {/* Plausible loader needs to run client-side; render in body to avoid client component in head */}
+        {enablePlausible && <PlausibleLoader />}
         <Header />
+        <AnalyticsConsent />
         <main id="main-content" className="flex-1">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
