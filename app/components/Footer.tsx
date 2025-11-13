@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { track } from "@/app/utils/analytics";
 import Toast from "./Toast";
@@ -30,6 +30,30 @@ export default function Footer() {
   };
 
   const [toast, setToast] = useState<string | null>(null);
+
+  // Listen for consent changes triggered elsewhere in the app (same-window custom event)
+  // and for the browser `storage` event (other tabs/windows).
+  useEffect(() => {
+    const updateFromStorage = () => {
+      try {
+        const v = window.localStorage.getItem('analytics_consent');
+        setAnalyticsConsent(v === '1' ? true : v === '0' ? false : null);
+      } catch {}
+    };
+
+    const onCustom = () => updateFromStorage();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'analytics_consent') updateFromStorage();
+    };
+
+    window.addEventListener('analytics-consent-changed', onCustom);
+    window.addEventListener('storage', onStorage);
+
+    return () => {
+      window.removeEventListener('analytics-consent-changed', onCustom);
+      window.removeEventListener('storage', onStorage);
+    };
+  }, []);
 
   const showToast = (msg: string) => {
     setToast(msg);

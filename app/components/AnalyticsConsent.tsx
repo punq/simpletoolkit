@@ -36,6 +36,8 @@ export default function AnalyticsConsent() {
   const allow = () => {
     try {
       window.localStorage.setItem("analytics_consent", "1");
+      // Notify other components in the same window to update
+      try { window.dispatchEvent(new Event("analytics-consent-changed")); } catch {}
     } catch {}
     setVisible(false);
     try {
@@ -46,9 +48,13 @@ export default function AnalyticsConsent() {
   const deny = () => {
     try {
       window.localStorage.setItem("analytics_consent", "0");
+      // Notify other components in the same window to update
+      try { window.dispatchEvent(new Event("analytics-consent-changed")); } catch {}
     } catch {}
     setVisible(false);
+    try { track("Consent Revoked"); } catch {}
   };
+
 
   return (
     <div
