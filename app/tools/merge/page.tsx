@@ -24,20 +24,87 @@ export const metadata: Metadata = {
       "Merge up to 20 PDFs locally in your browser — no uploads or watermarks. Fast, secure, and free.",
     type: "website",
     url: "/tools/merge",
+    images: [
+      {
+        url: "/stkapp.PNG",
+        alt: "Simple Toolkit — Merge PDFs",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Merge PDF Files — Private & Free",
     description: "Merge PDFs locally in your browser. No uploads, no watermarks, no signup.",
+    images: ["/stkapp.PNG"],
   },
   alternates: { canonical: "/tools/merge" },
 };
 
 export default function MergePage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How many PDFs can I merge at once?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "You can merge up to 20 PDF files in a single operation. Each file can be up to 50MB in size.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What happens to encrypted PDFs?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Password-protected PDFs will be automatically skipped with a detailed error message. The merge will continue with the remaining valid files.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this really free with no watermarks?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, completely free with no watermarks, no ads, and no signup required.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can I change the order of PDFs?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Simply drag and drop the files in your desired order before merging.",
+        },
+      },
+    ],
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+      { "@type": "ListItem", position: 2, name: "Tools", item: "/tools" },
+      { "@type": "ListItem", position: 3, name: "Merge PDFs", item: "/tools/merge" },
+    ],
+  };
+
   return (
     <>
       <TrackView event="Tool Viewed" props={{ tool: "merge" }} />
       <main className="min-h-screen bg-white dark:bg-black">
+        {/* Structured data for crawlers: Breadcrumb and FAQ */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
         <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
           {/* Breadcrumb */}
           <nav className="mb-6 text-sm" aria-label="Breadcrumb">
@@ -64,8 +131,9 @@ export default function MergePage() {
               Merge PDF Files
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-[700px]">
-              Combine multiple PDFs into a single document. All processing happens in your browser — 
-              no uploads, no tracking, completely private.
+              Combine multiple PDFs into a single document. All processing happens in your browser —
+              no uploads, no tracking, completely private. Merge PDF files offline in seconds and
+              download a single consolidated PDF with no watermarks.
             </p>
           </div>
 
