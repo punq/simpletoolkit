@@ -20,14 +20,23 @@ export const metadata: Metadata = {
     title: "Rearrange & Rotate PDF — Private & Free | Simple Toolkit",
     description: "Drag to reorder and rotate PDF pages locally — no uploads or watermarks.",
     type: "website",
-    url: "/tools/rearrange"
+    url: "https://simpletoolkit.app/tools/rearrange",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Rearrange PDF",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Rearrange & Rotate PDF — Private & Free",
-    description: "Reorder and rotate PDF pages locally. No uploads, no watermarks, no tracking."
+    description: "Reorder and rotate PDF pages locally. No uploads, no watermarks, no tracking.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
-  alternates: { canonical: "/tools/rearrange" }
+  alternates: { canonical: "https://simpletoolkit.app/tools/rearrange" }
 };
 
 export default function RearrangePage() {

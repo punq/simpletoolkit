@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     description:
       "Merge up to 20 PDFs locally in your browser — no uploads or watermarks. Fast, secure, and free.",
     type: "website",
-    url: "/tools/merge",
+    url: "https://simpletoolkit.app/tools/merge",
     images: [
       {
-        url: "/stkapp.PNG",
+        url: "https://simpletoolkit.app/stkapp.PNG",
         alt: "Simple Toolkit — Merge PDFs",
         width: 1200,
         height: 630,
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Merge PDF Files — Private & Free",
     description: "Merge PDFs locally in your browser. No uploads, no watermarks, no signup.",
-    images: ["/stkapp.PNG"],
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
-  alternates: { canonical: "/tools/merge" },
+  alternates: { canonical: "https://simpletoolkit.app/tools/merge" },
 };
 
 export default function MergePage() {

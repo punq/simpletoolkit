@@ -22,14 +22,23 @@ export const metadata: Metadata = {
     description:
       "Extract pages or ranges from a PDF locally in your browser — no uploads or watermarks.",
     type: "website",
-    url: "/tools/split",
+    url: "https://simpletoolkit.app/tools/split",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Split PDF",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Split PDF — Private & Free",
     description: "Split PDF pages locally in your browser. No uploads, no watermarks, no signup.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
-  alternates: { canonical: "/tools/split" },
+  alternates: { canonical: "https://simpletoolkit.app/tools/split" },
 };
 
 export default function SplitPage() {

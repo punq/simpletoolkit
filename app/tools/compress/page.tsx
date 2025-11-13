@@ -12,13 +12,25 @@ export const metadata: Metadata = {
     title: "Free PDF Compression Tool - Private & Secure | SimplePDFToolkit",
     description: "Compress PDFs directly in your browser - no uploads, no servers, completely private. Reduce file size while maintaining quality, all done locally.",
     type: "website",
-    url: "/tools/compress"
+    url: "https://simpletoolkit.app/tools/compress",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Compress PDF",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Free PDF Compression Tool - Private & Secure",
     description: "Compress PDF files directly in your browser. No uploads, no servers, completely private."
+  ,
+  images: ["https://simpletoolkit.app/stkapp.PNG"]
   }
+  ,
+  alternates: { canonical: "https://simpletoolkit.app/tools/compress" },
 };
 
 export default function CompressPage() {

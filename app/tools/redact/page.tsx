@@ -24,14 +24,23 @@ export const metadata: Metadata = {
     description:
       "Redact sensitive information from PDFs locally in your browser — no uploads, complete privacy. Visual and text redaction.",
     type: "website",
-    url: "/tools/redact",
+    url: "https://simpletoolkit.app/tools/redact",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Redact PDF",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Redact PDF Files — Secure & Private",
     description: "Redact PDFs locally in your browser. No uploads, complete privacy.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
-  alternates: { canonical: "/tools/redact" },
+  alternates: { canonical: "https://simpletoolkit.app/tools/redact" },
 };
 
 export default function RedactPage() {

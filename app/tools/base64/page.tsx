@@ -25,16 +25,25 @@ export const metadata: Metadata = {
     description:
       "Encode and decode Base64 strings locally in your browser. Standard and URL-safe modes, full Unicode support. No uploads, completely private.",
     type: "website",
-    url: "https://simpletoolkit.com/tools/base64",
+    url: "https://simpletoolkit.app/tools/base64",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Base64 Encoder",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Base64 URL Encoder/Decoder — Private & Free",
     description:
       "Encode and decode Base64 strings with standard and URL-safe support. 100% client-side processing.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
   alternates: {
-    canonical: "https://simpletoolkit.com/tools/base64",
+    canonical: "https://simpletoolkit.app/tools/base64",
   },
 };
 

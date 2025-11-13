@@ -26,14 +26,23 @@ export const metadata: Metadata = {
     description:
       "Strip sensitive EXIF data and metadata from photos locally in your browser. No uploads, no tracking, completely private.",
     type: "website",
-    url: "/tools/exif-stripper",
+    url: "https://simpletoolkit.app/tools/exif-stripper",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — EXIF Stripper",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "EXIF/Metadata Stripper — Private & Free",
     description: "Remove EXIF data from images locally. No uploads, completely private.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
-  alternates: { canonical: "/tools/exif-stripper" },
+  alternates: { canonical: "https://simpletoolkit.app/tools/exif-stripper" },
 };
 
 export default function ExifStripperPage() {

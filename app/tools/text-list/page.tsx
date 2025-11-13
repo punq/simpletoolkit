@@ -25,14 +25,23 @@ export const metadata: Metadata = {
     description:
       "Process text lists locally in your browser — remove duplicates, sort, convert case. No uploads, instant results.",
     type: "website",
-    url: "/tools/text-list",
+    url: "https://simpletoolkit.app/tools/text-list",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Text List Utility",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Text List Utility — Private & Free",
     description: "Process text lists locally in your browser. Remove duplicates, sort, convert case instantly.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
-  alternates: { canonical: "/tools/text-list" },
+  alternates: { canonical: "https://simpletoolkit.app/tools/text-list" },
 };
 
 export default function TextListPage() {

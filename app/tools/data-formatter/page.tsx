@@ -29,13 +29,22 @@ export const metadata: Metadata = {
     description:
       "Format and validate JSON, YAML, XML locally in your browser. Convert between formats with real-time error reporting. No uploads, completely private.",
     type: "website",
-    url: "/tools/data-formatter",
+    url: "https://simpletoolkit.app/tools/data-formatter",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Data Formatter",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Data Formatter & Validator — Private & Free",
     description:
       "Format, validate, and convert JSON, YAML, XML in your browser. Real-time validation, zero uploads.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
 };
 

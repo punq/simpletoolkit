@@ -28,14 +28,23 @@ export const metadata: Metadata = {
     description:
       "Convert images between JPEG, PNG, and WebP formats locally in your browser. No uploads, no tracking, completely private.",
     type: "website",
-    url: "/tools/image-converter",
+    url: "https://simpletoolkit.app/tools/image-converter",
+    images: [
+      {
+        url: "https://simpletoolkit.app/stkapp.PNG",
+        alt: "Simple Toolkit — Image Converter",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Image Format Converter — Private & Free",
     description: "Convert images locally in your browser. No uploads, completely private.",
+    images: ["https://simpletoolkit.app/stkapp.PNG"],
   },
-  alternates: { canonical: "/tools/image-converter" },
+  alternates: { canonical: "https://simpletoolkit.app/tools/image-converter" },
 };
 
 export default function ImageConverterPage() {
