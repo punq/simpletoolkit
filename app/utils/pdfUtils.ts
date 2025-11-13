@@ -150,6 +150,8 @@ export interface RedactionResult {
   originalSize: number;
   /** Redacted file size in bytes */
   redactedSize: number;
+  /** Raw redacted PDF bytes for programmatic access (Uint8Array) */
+  redactedBytes: Uint8Array;
 }
 
 /**
@@ -285,7 +287,8 @@ export async function redactPdfData(
       }
       
       const pdfBytes = await flattenedDoc.save();
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
+      const uint8 = new Uint8Array(pdfBytes);
+      const blob = new Blob([uint8], { type: "application/pdf" });
       
       return {
         blob,
@@ -293,11 +296,13 @@ export async function redactPdfData(
         redactedCount: totalRedacted,
         originalSize: file.size,
         redactedSize: pdfBytes.length,
+        redactedBytes: uint8,
       };
     } else {
       // Save without flattening
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
+      const uint8 = new Uint8Array(pdfBytes);
+      const blob = new Blob([uint8], { type: "application/pdf" });
       
       return {
         blob,
@@ -305,6 +310,7 @@ export async function redactPdfData(
         redactedCount: totalRedacted,
         originalSize: file.size,
         redactedSize: pdfBytes.length,
+        redactedBytes: uint8,
       };
     }
   } catch (err: unknown) {

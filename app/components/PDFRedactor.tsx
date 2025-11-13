@@ -107,20 +107,47 @@ export default function ClientSidePDFRedactor() {
       validatePdfFile(pdfFile);
 
       const { PDFDocument } = await import("pdf-lib");
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer, {
-        ignoreEncryption: false,
-      });
+      let arrayBuffer;
+      try {
+        arrayBuffer = await pdfFile.arrayBuffer();
+      } catch {
+        setError("Unable to read this PDF. The file may be corrupted or encrypted.");
+        setFile(null);
+        setPages([]);
+        return;
+      }
+      let pdfDoc;
+      try {
+        pdfDoc = await PDFDocument.load(arrayBuffer, {
+          ignoreEncryption: false,
+        });
+      } catch (e) {
+        const emsg = e && typeof e === 'object' && 'message' in e ? String((e as { message?: unknown }).message) : String(e);
+        if (emsg.toLowerCase().includes('encrypted') || emsg.toLowerCase().includes('password')) {
+          setError('This PDF is encrypted. Please remove the password protection first.');
+        } else if (emsg.includes('Invalid') || emsg.toLowerCase().includes('parse')) {
+          setError('Unable to read this PDF. The file may be corrupted.');
+        } else {
+          setError(emsg);
+        }
+        setFile(null);
+        setPages([]);
+        return;
+      }
 
       const pageCount = pdfDoc.getPageCount();
 
       if (pageCount < 1) {
-        throw new Error("PDF contains no pages.");
+        setError("PDF contains no pages.");
+        setFile(null);
+        setPages([]);
+        return;
       }
       if (pageCount > 500) {
-        throw new Error(
-          "PDF has too many pages (max 500). This prevents browser memory issues."
-        );
+        setError("PDF has too many pages (max 500). This prevents browser memory issues.");
+        setFile(null);
+        setPages([]);
+        return;
       }
 
       // Extract page metadata
@@ -145,16 +172,7 @@ export default function ClientSidePDFRedactor() {
           ? String((err as { message?: unknown }).message)
           : String(err);
 
-      if (message.includes("encrypted") || message.includes("password")) {
-        setError(
-          "This PDF is encrypted. Please remove the password protection first."
-        );
-      } else if (message.includes("Invalid") || message.includes("parse")) {
-        setError("Unable to read this PDF. The file may be corrupted.");
-      } else {
-        setError(message);
-      }
-
+      setError(message);
       setFile(null);
       setPages([]);
     } finally {
@@ -645,8 +663,8 @@ export default function ClientSidePDFRedactor() {
         </div>
       )}
 
-      {/* Main Redaction Interface */}
-      {file && pages.length > 0 && (
+  {/* Main Redaction Interface */}
+  {file && pages.length > 0 && !error && (
         <div className="space-y-4">
           {/* File Info */}
           <div className="bg-gray-50 rounded-lg p-4">
@@ -708,14 +726,17 @@ export default function ClientSidePDFRedactor() {
             {!isRenderingPage && (!canvasRef.current || canvasRef.current.width === 0) && (
               <p className="text-gray-500 text-sm">Loading page preview...</p>
             )}
-            <canvas
-              ref={canvasRef}
-              onMouseDown={onCanvasMouseDown}
-              onMouseMove={onCanvasMouseMove}
-              onMouseUp={onCanvasMouseUp}
-              className="cursor-crosshair max-w-full mx-auto"
-              style={{ display: "block" }}
-            />
+            <div data-testid="pdf-preview" style={{ width: '100%', height: '100%' }}>
+              <canvas
+                ref={canvasRef}
+                data-testid="pdf-canvas"
+                onMouseDown={onCanvasMouseDown}
+                onMouseMove={onCanvasMouseMove}
+                onMouseUp={onCanvasMouseUp}
+                className="cursor-crosshair max-w-full mx-auto"
+                style={{ display: "block" }}
+              />
+            </div>
           </div>
 
           {/* Instructions */}
@@ -745,6 +766,7 @@ export default function ClientSidePDFRedactor() {
                     <button
                       onClick={() => removeBox(box.id)}
                       className="text-gray-600 hover:text-black transition-colors text-xs"
+                      data-testid={`remove-redaction-${box.id}`}
                     >
                       Remove
                     </button>
@@ -769,6 +791,7 @@ export default function ClientSidePDFRedactor() {
                 <button
                   onClick={clearAllBoxes}
                   className="text-sm text-gray-600 hover:text-black transition-colors"
+                  data-testid="clear-all-redactions"
                 >
                   Clear All
                 </button>
@@ -784,6 +807,7 @@ export default function ClientSidePDFRedactor() {
                   onClick={() => applyRedactions(false)}
                   disabled={processing}
                   className="flex-1 min-w-[200px] bg-black hover:bg-gray-800 disabled:bg-gray-400 text-white font-medium py-3 px-6 rounded-lg transition-colors disabled:cursor-not-allowed"
+                  data-testid="apply-redactions-unflattened"
                 >
                   Apply Redactions (Unflattened)
                 </button>
@@ -791,6 +815,7 @@ export default function ClientSidePDFRedactor() {
                   onClick={() => applyRedactions(true)}
                   disabled={processing}
                   className="flex-1 min-w-[200px] bg-black hover:bg-gray-800 disabled:bg-gray-400 text-white font-medium py-3 px-6 rounded-lg transition-colors disabled:cursor-not-allowed"
+                  data-testid="apply-redactions-flattened"
                 >
                   Apply Redactions (Flattened)
                 </button>
@@ -818,6 +843,7 @@ export default function ClientSidePDFRedactor() {
               <button
                 onClick={() => downloadRedactedPdf(redactionResult.flattened)}
                 className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+                data-testid="download-redacted-pdf"
               >
                 Download Redacted PDF
               </button>
