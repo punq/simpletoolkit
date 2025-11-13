@@ -400,6 +400,11 @@ html {
   }
 }
 
+/* Prevent scrolling when modal/menu is open. Toggled via JS by adding `no-scroll` to <html>. */
+.no-scroll {
+  overflow: hidden !important;
+}
+
 /* Additional color utilities for sharp design */
 .text-gray {
   color: var(--gray);

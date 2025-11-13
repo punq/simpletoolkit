@@ -1,7 +1,7 @@
 "use client";
 
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { track } from "@/app/utils/analytics";
@@ -22,11 +22,21 @@ export default function Header() {
     setMounted(true);
   }, []);
 
-  const navLinks = useMemo(
+  type NavItem = {
+    href: string;
+    label: string;
+    external?: boolean;
+    onClick?: () => void;
+  };
+
+  const GITHUB_URL = process.env.NEXT_PUBLIC_REPO_URL ?? "https://github.com/punq/pdfmerger";
+
+  const navLinks = useMemo<NavItem[]>(
     () => [
       { href: "/donate", label: "Donate", onClick: () => track("Donate Header Click", { location: open ? "header-mobile" : "header" }) },
+      { href: GITHUB_URL, label: "View on GitHub", external: true, onClick: () => track("GitHub Header Click", { location: open ? "header-mobile" : "header" }) },
     ],
-    [open]
+    [open, GITHUB_URL]
   );
 
   const isActive = (href: string) => {
@@ -76,19 +86,23 @@ export default function Header() {
 
     document.addEventListener("keydown", onKeyDown);
 
-    // Prevent background scroll
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    
+    // Prevent background scroll by toggling a class instead of mutating inline styles
+    const root = document.documentElement;
+    root.classList.add("no-scroll");
+
     // Capture current ref value for cleanup
     const toggleElement = toggleRef.current;
 
     return () => {
       clearTimeout(t);
       document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = originalOverflow;
-      // Restore keyboard focus to the toggle button
-      toggleElement?.focus();
+      root.classList.remove("no-scroll");
+      // Restore keyboard focus to the previously-focused element when possible
+      if (previouslyFocused.current && typeof previouslyFocused.current.focus === "function") {
+        previouslyFocused.current.focus();
+      } else {
+        toggleElement?.focus();
+      }
     };
   }, [open]);
 
@@ -144,24 +158,49 @@ export default function Header() {
         <div className="flex items-center gap-6">
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
-            {navLinks.map(({ href, label, onClick }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={onClick}
-                className={`relative inline-flex items-center justify-center px-4 py-2 text-sm font-semibold tracking-tight transition-opacity ${
-                  isActive(href)
-                    ? "text-black dark:text-white"
-                    : "text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:opacity-70"
-                }`}
-                aria-current={isActive(href) ? "page" : undefined}
-              >
-                {label}
-                {isActive(href) && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-black dark:bg-white" aria-hidden="true" />
-                )}
-              </Link>
-            ))}
+            {navLinks.map(({ href, label, onClick, external }) => {
+              const active = href.startsWith("/") && isActive(href);
+              const className = `relative inline-flex items-center justify-center px-4 py-2 text-sm font-semibold tracking-tight transition-opacity ${
+                active
+                  ? "text-black dark:text-white"
+                  : "text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:opacity-70"
+              }`;
+
+              if (external) {
+                return (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={onClick}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={className}
+                    aria-label={`${label} (opens in a new tab)`}
+                  >
+                    {/* GitHub icon */}
+                    <svg className="mr-2 h-4 w-4 inline" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.02c0 4.427 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.699-2.782.605-3.369-1.342-3.369-1.342-.454-1.157-1.11-1.466-1.11-1.466-.908-.62.069-.607.069-.607 1.003.071 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.833.091-.647.35-1.088.636-1.339-2.222-.254-4.555-1.113-4.555-4.953 0-1.094.39-1.989 1.029-2.69-.103-.254-.447-1.277.098-2.66 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.547 1.383.203 2.406.1 2.66.64.701 1.028 1.596 1.028 2.69 0 3.85-2.337 4.697-4.566 4.944.359.31.678.923.678 1.861 0 1.344-.012 2.428-.012 2.76 0 .268.18.58.688.482A10.02 10.02 0 0022 12.02C22 6.484 17.523 2 12 2z" clipRule="evenodd" />
+                    </svg>
+                    {label}
+                  </a>
+                );
+              }
+
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onClick}
+                  className={className}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {label}
+                  {active && (
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-black dark:bg-white" aria-hidden="true" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Desktop CTA */}
@@ -224,23 +263,47 @@ export default function Header() {
           >
             <h2 id="mobile-menu-title" className="sr-only">Menu</h2>
             <nav className="flex flex-col" aria-label="Mobile Primary">
-              {navLinks.map(({ href, label, onClick }, idx) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={onClick}
-                  role="menuitem"
-                  ref={idx === 0 ? firstLinkRef : idx === navLinks.length - 1 ? lastLinkRef : undefined}
-                  className={`px-6 py-4 text-[15px] font-semibold transition-colors border-b border-gray-100 dark:border-zinc-800 last:border-b-0 ${
-                    isActive(href) 
-                      ? "text-black dark:text-white bg-gray-50 dark:bg-zinc-800" 
+              {navLinks.map(({ href, label, onClick, external }, idx) => {
+                  const active = href.startsWith("/") && isActive(href);
+                  const refProp = (idx === 0 ? firstLinkRef : idx === navLinks.length - 1 ? lastLinkRef : undefined) as React.Ref<HTMLAnchorElement> | undefined;
+                  const itemClass = `px-6 py-4 text-[15px] font-semibold transition-colors border-b border-gray-100 dark:border-zinc-800 last:border-b-0 ${
+                    active
+                      ? "text-black dark:text-white bg-gray-50 dark:bg-zinc-800"
                       : "text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-50 dark:hover:bg-zinc-800"
-                  }`}
-                  aria-current={isActive(href) ? "page" : undefined}
-                >
-                  {label}
-                </Link>
-              ))}
+                  }`;
+
+                  if (external) {
+                    return (
+                      <a
+                        key={href}
+                        href={href}
+                        onClick={onClick}
+                        role="menuitem"
+                        ref={refProp}
+                        className={itemClass}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${label} (opens in a new tab)`}
+                      >
+                        {label}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={onClick}
+                      role="menuitem"
+                      ref={refProp}
+                      className={itemClass}
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {label}
+                    </Link>
+                  );
+                })}
 
               
 
