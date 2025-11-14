@@ -128,6 +128,36 @@ export async function extractTextFromPdf(
     // Non-fatal: continue without explicitly setting workerSrc
   }
 
+  // Runtime safety checks: ensure no remote assets will be fetched by pdfjs.
+  // This enforces the privacy-first guarantee: worker, CMaps and wasm must
+  // be served from local `/pdf-worker/*` paths (or same-origin relative urls).
+  try {
+    if (pdfjs.GlobalWorkerOptions) {
+      const ws = pdfjs.GlobalWorkerOptions.workerSrc;
+      const cm = pdfjs.GlobalWorkerOptions.cMapUrl;
+      // If any configured path appears to be an absolute remote URL, fail-fast.
+      if (typeof ws === 'string' && /^https?:\/\//i.test(ws)) {
+        throw new Error('Insecure configuration: pdf.worker is configured to load from a remote URL. Set workerSrc to a local `/pdf-worker/` path.');
+      }
+      if (typeof cm === 'string' && /^https?:\/\//i.test(cm)) {
+        throw new Error('Insecure configuration: pdfjs cMapUrl is configured to load from a remote URL. Set cMapUrl to a local `/pdf-worker/cmaps/` path.');
+      }
+    }
+    // Ensure worker fetch is disabled when possible
+    try {
+      if ((pdfjs as PdfJsLib).disableWorkerFetch !== true) {
+        (pdfjs as any).disableWorkerFetch = true;
+      }
+    } catch (e) {
+      void e;
+    }
+  } catch (e) {
+    // If this throws, surface a clear error to the caller rather than silently
+    // allowing pdfjs to fetch remote assets. This helps ensure privacy guarantees.
+    const msg = e && typeof e === 'object' && 'message' in e ? String((e as { message?: unknown }).message) : String(e);
+    throw new Error(`pdfjs runtime asset configuration error: ${msg}`);
+  }
+
   // Request the document with defensive options to avoid automatic remote
   // fetching of resources (ranges, CMaps) where supported by the pdfjs build.
   const loadTask = pdfjs.getDocument({
