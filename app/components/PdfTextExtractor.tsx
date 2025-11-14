@@ -180,14 +180,7 @@ export default function PDFTextExtractor() {
         </div>
         {file && (
           <button
-            onClick={() => {
-              setFile(null);
-              setExtractedText("");
-              setError(null);
-              setPasswordPrompt(false);
-              setSuccess(false);
-              if (fileInputRef.current) fileInputRef.current.value = "";
-            }}
+            onClick={(e) => { e.stopPropagation(); setFile(null); setExtractedText(""); setError(null); setPasswordPrompt(false); setSuccess(false); if (fileInputRef.current) fileInputRef.current.value = ""; }}
             className="text-sm px-4 py-2 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-lg transition-colors"
             aria-label="Clear file"
           >
@@ -307,7 +300,8 @@ export default function PDFTextExtractor() {
       {/* Actions */}
       <div className="flex gap-3">
         <button
-          onClick={() => startExtraction()}
+          onClick={(e) => { e.stopPropagation(); startExtraction(); }}
+          onMouseDown={(e) => e.stopPropagation()}
           disabled={!file || processing}
           className="w-full sm:w-auto bg-black text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-busy={processing}
@@ -323,21 +317,15 @@ export default function PDFTextExtractor() {
         </button>
 
         <button
-          onClick={() => {
-            setFile(null);
-            setExtractedText("");
-            setError(null);
-            setPasswordPrompt(false);
-            setSuccess(false);
-            if (fileInputRef.current) fileInputRef.current.value = "";
-          }}
+          onClick={(e) => { e.stopPropagation(); setFile(null); setExtractedText(""); setError(null); setPasswordPrompt(false); setSuccess(false); if (fileInputRef.current) fileInputRef.current.value = ""; }}
+          onMouseDown={(e) => e.stopPropagation()}
           className="px-4 py-2 border border-gray-300 rounded-lg"
         >
           Clear
         </button>
 
         {processing && (
-          <button onClick={cancelExtraction} className="px-4 py-2 border border-gray-300 rounded-lg">Cancel</button>
+          <button onClick={(e) => { e.stopPropagation(); cancelExtraction(); }} onMouseDown={(e) => e.stopPropagation()} className="px-4 py-2 border border-gray-300 rounded-lg">Cancel</button>
         )}
       </div>
 
@@ -388,8 +376,8 @@ export default function PDFTextExtractor() {
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Extracted Text</h3>
             <div className="flex gap-2">
-              <button onClick={handleCopy} className="px-3 py-1 border border-gray-300 rounded text-sm">Copy</button>
-              <button onClick={handleDownload} className="px-3 py-1 bg-black text-white rounded text-sm">Download .txt</button>
+              <button onClick={(e) => { e.stopPropagation(); handleCopy(); }} onMouseDown={(e) => e.stopPropagation()} className="px-3 py-1 border border-gray-300 rounded text-sm">Copy</button>
+              <button onClick={(e) => { e.stopPropagation(); handleDownload(); }} onMouseDown={(e) => e.stopPropagation()} className="px-3 py-1 bg-black text-white rounded text-sm">Download .txt</button>
             </div>
           </div>
 

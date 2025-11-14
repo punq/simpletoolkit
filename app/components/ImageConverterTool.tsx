@@ -335,7 +335,8 @@ export default function ImageConverterTool() {
               {files.length} image{files.length > 1 ? 's' : ''} ready
             </h3>
             <button
-              onClick={clearAll}
+              onClick={(e) => { e.stopPropagation(); clearAll(); }}
+              onMouseDown={(e) => e.stopPropagation()}
               disabled={converting}
               className="text-sm text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -376,7 +377,8 @@ export default function ImageConverterTool() {
       {/* Convert Button */}
       {files.length > 0 && (
         <button
-          onClick={convertImages}
+          onClick={(e) => { e.stopPropagation(); convertImages(); }}
+          onMouseDown={(e) => e.stopPropagation()}
           disabled={converting}
           className="w-full px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >

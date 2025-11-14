@@ -533,6 +533,20 @@ describe('MergeTool - Core Functionality', () => {
   });
 
   describe('Edge Cases', () => {
+    it('does not trigger file picker when merge button clicked', async () => {
+      render(<MergeTool />);
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+      uploadFiles(fileInput, createMockPDFFiles(1));
+      await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
+
+      const clickSpy = jest.spyOn(fileInput, 'click');
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
+      fireEvent.click(mergeButton);
+
+      expect(clickSpy).not.toHaveBeenCalled();
+    });
+
     it('handles empty file list', () => {
       render(<MergeTool />);
       const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;

@@ -179,7 +179,8 @@ export default function MergeTool() {
         <h2 className="text-lg sm:text-xl font-medium">Merge PDFs</h2>
         {files.length > 0 && (
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setFiles([]);
               setError(null);
               setSkipped([]);
@@ -340,7 +341,11 @@ export default function MergeTool() {
 
       {/* Action Button */}
       <button
-        onClick={merge}
+        onClick={(e) => {
+          e.stopPropagation();
+          merge();
+        }}
+        onMouseDown={(e) => e.stopPropagation()}
         disabled={merging || files.length === 0}
         className="w-full sm:w-auto bg-black text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
         aria-busy={merging}

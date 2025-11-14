@@ -294,7 +294,7 @@ export default function RearrangeTool() {
         <h2 className="text-lg sm:text-xl font-medium text-black dark:text-white">Rotate / Rearrange PDF</h2>
         {file && (
           <button
-            onClick={clear}
+            onClick={(e) => { e.stopPropagation(); clear(); }}
             className="text-sm sm:text-base px-2 py-1 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 rounded-md"
             aria-label="Clear selected file"
           >

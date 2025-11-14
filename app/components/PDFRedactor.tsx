@@ -677,14 +677,15 @@ export default function ClientSidePDFRedactor() {
                 </p>
               </div>
               <button
-                onClick={() => {
-                  setFile(null);
-                  setPages([]);
-                  setRedactionBoxes([]);
-                  setRedactionResult(null);
-                  setError(null);
-                  setSuccess(false);
-                }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFile(null);
+                      setPages([]);
+                      setRedactionBoxes([]);
+                      setRedactionResult(null);
+                      setError(null);
+                      setSuccess(false);
+                    }}
                 className="text-sm text-gray-600 hover:text-black transition-colors"
               >
                 Remove File
@@ -763,13 +764,14 @@ export default function ClientSidePDFRedactor() {
                       Position: ({Math.round(box.x)}, {Math.round(box.y)}) •
                       Size: {Math.round(box.width)} × {Math.round(box.height)}
                     </div>
-                    <button
-                      onClick={() => removeBox(box.id)}
-                      className="text-gray-600 hover:text-black transition-colors text-xs"
-                      data-testid={`remove-redaction-${box.id}`}
-                    >
-                      Remove
-                    </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); removeBox(box.id); }}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          className="text-gray-600 hover:text-black transition-colors text-xs"
+                          data-testid={`remove-redaction-${box.id}`}
+                        >
+                          Remove
+                        </button>
                   </div>
                 ))}
               </div>

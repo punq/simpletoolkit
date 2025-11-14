@@ -301,8 +301,10 @@ function SuccessMessage({
         {/* Donate pill removed from absolute position; replaced by an icon button in the action row below */}
       </div>
       <div className="mt-3 space-y-2">
-        {/* Condensed mobile line - only visible on small screens */}
-        <p className="text-sm text-slate-700 dark:text-slate-300 sm:hidden">{shortMessage}</p>
+        {/* Condensed mobile line - only visible on small screens. Render only when message was truncated to avoid duplicate text nodes */}
+        {sanitizedMessage.length > 70 && (
+          <p className="text-sm text-slate-700 dark:text-slate-300 sm:hidden">{shortMessage}</p>
+        )}
 
         {/* Full message + donation CTA visible on sm+ */}
         <p className="hidden sm:block text-slate-900 dark:text-slate-100 text-sm">

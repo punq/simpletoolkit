@@ -300,6 +300,7 @@ export default function ExifStripperTool() {
                 e.stopPropagation();
                 triggerFilePicker();
               }}
+              onMouseDown={(e) => e.stopPropagation()}
             >
               Select Images
             </button>
@@ -343,7 +344,8 @@ export default function ExifStripperTool() {
             </h3>
             <button
               type="button"
-              onClick={clearAll}
+              onClick={(e) => { e.stopPropagation(); clearAll(); }}
+              onMouseDown={(e) => e.stopPropagation()}
               className="text-sm text-muted-foreground hover:text-destructive transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1"
               aria-label="Clear all files"
             >
@@ -373,7 +375,8 @@ export default function ExifStripperTool() {
 
                 <button
                   type="button"
-                  onClick={() => removeFile(index)}
+                  onClick={(e) => { e.stopPropagation(); removeFile(index); }}
+                  onMouseDown={(e) => e.stopPropagation()}
                   className="ml-2 p-1.5 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary flex-shrink-0"
                   aria-label={`Remove ${file.name}`}
                 >
@@ -388,7 +391,8 @@ export default function ExifStripperTool() {
           {/* Strip Button */}
           <button
             type="button"
-            onClick={stripMetadata}
+            onClick={(e) => { e.stopPropagation(); stripMetadata(); }}
+            onMouseDown={(e) => e.stopPropagation()}
             disabled={processing || files.length === 0}
             className="w-full py-3 px-6 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             aria-label={processing ? `Stripping metadata, processing file ${currentFileIndex} of ${files.length}` : "Strip metadata from selected images"}
@@ -453,11 +457,12 @@ export default function ExifStripperTool() {
             <p className="text-sm font-medium text-destructive">{error}</p>
           </div>
           <button
-            type="button"
-            onClick={() => setError(null)}
-            className="p-1 hover:bg-destructive/20 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive flex-shrink-0"
-            aria-label="Dismiss error"
-          >
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); setError(null); }}
+                  onMouseDown={(e) => e.stopPropagation()}
+                  className="p-1 hover:bg-destructive/20 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive flex-shrink-0"
+                  aria-label="Dismiss error"
+                >
             <svg className="w-4 h-4 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>

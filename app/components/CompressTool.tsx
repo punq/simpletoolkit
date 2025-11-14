@@ -190,7 +190,7 @@ export default function CompressTool() {
         <h2 className="text-lg sm:text-xl font-medium">PDF Compression</h2>
         {file && (
           <button
-            onClick={clearFile}
+            onClick={(e) => { e.stopPropagation(); clearFile(); }}
             className="text-sm sm:text-base px-2 py-1 text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-md"
             aria-label="Clear selected file"
           >
