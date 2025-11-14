@@ -5,25 +5,39 @@ import Link from "next/link";
 import { track } from "@/app/utils/analytics";
 
 export default function AnalyticsConsent() {
-  const [visible, setVisible] = useState<boolean>(() => {
-    try {
-      if (typeof window === 'undefined') return false;
-      const v = window.localStorage.getItem('analytics_consent');
-      return v === null;
-    } catch {
-      return false;
-    }
-  });
+  // Avoid reading `window`/`localStorage` during render to prevent
+  // server/client hydration mismatches. Initialize to safe defaults
+  // and populate from `useEffect` after mount.
+  // `visible` is null while we determine consent on the client; this
+  // prevents rendering on the server/first client paint and avoids
+  // hydration mismatches. `highlight` defaults to false then updated
+  // after mount.
+  const [visible, setVisible] = useState<boolean | null>(null);
+  const [highlight, setHighlight] = useState<boolean>(false);
 
-  const [highlight, setHighlight] = useState<boolean>(() => {
+  useEffect(() => {
+    // Schedule state updates asynchronously to avoid synchronous
+    // state changes inside the effect body which can trigger
+    // cascading renders in some linting configurations.
+    let t: ReturnType<typeof setTimeout> | null = null;
     try {
-      if (typeof window === 'undefined') return false;
+      const v = window.localStorage.getItem('analytics_consent');
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      return !prefersReduced;
+      t = setTimeout(() => {
+        setVisible(v === null);
+        setHighlight(!prefersReduced);
+      }, 0);
     } catch {
-      return false;
+      t = setTimeout(() => {
+        setVisible(false);
+        setHighlight(false);
+      }, 0);
     }
-  });
+
+    return () => {
+      if (t) clearTimeout(t);
+    };
+  }, []);
 
   // Gentle attention animation: clear the highlight after a short period
   useEffect(() => {
@@ -32,6 +46,10 @@ export default function AnalyticsConsent() {
     return () => clearTimeout(t);
   }, [highlight]);
 
+  // While we haven't determined consent on the client, render nothing so
+  // server and first client paint match. Once `visible` is boolean the
+  // consent UI will render as needed.
+  if (visible === null) return null;
   if (!visible) return null;
 
   const allow = () => {

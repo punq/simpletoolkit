@@ -24,19 +24,13 @@ export function PlausibleLoaderContent(enabled: boolean, consent: boolean | null
 }
 
 export default function PlausibleLoader() {
-  const [consent, setConsent] = useState<boolean | null>(() => {
-    try {
-      if (typeof window === 'undefined') return null;
-      const v = window.localStorage.getItem('analytics_consent');
-      return v === '1';
-    } catch {
-      return false;
-    }
-  });
+  // Defer reading `localStorage` until after mount to avoid hydration
+  // differences between server and client. Start as `null` and update
+  // via effect/listeners.
+  const [consent, setConsent] = useState<boolean | null>(null);
 
-  // Listen for consent changes (same-tab via custom event, cross-tab via storage event)
   useEffect(() => {
-    const onChange = () => {
+    const read = () => {
       try {
         const v = window.localStorage.getItem("analytics_consent");
         setConsent(v === "1");
@@ -45,8 +39,13 @@ export default function PlausibleLoader() {
       }
     };
 
+    // Initial read
+    read();
+
+    // Listen for consent changes (same-tab via custom event, cross-tab via storage event)
+    const onChange = () => read();
     const onStorage = (e: StorageEvent) => {
-      if (e.key === "analytics_consent") onChange();
+      if (e.key === "analytics_consent") read();
     };
 
     window.addEventListener("analytics-consent-changed", onChange as EventListener);

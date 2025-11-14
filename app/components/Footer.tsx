@@ -6,15 +6,9 @@ import { track } from "@/app/utils/analytics";
 import Toast from "./Toast";
 
 export default function Footer() {
-  const [analyticsConsent, setAnalyticsConsent] = useState<boolean | null>(() => {
-    try {
-      if (typeof window === 'undefined') return false;
-      const v = window.localStorage.getItem('analytics_consent');
-      return v === '1' ? true : v === '0' ? false : null;
-    } catch {
-      return false;
-    }
-  });
+  // Avoid reading localStorage during render to prevent hydration
+  // mismatches. Start with `null` and populate after mount.
+  const [analyticsConsent, setAnalyticsConsent] = useState<boolean | null>(null);
 
   const toggle = () => {
     try {
@@ -40,6 +34,9 @@ export default function Footer() {
         setAnalyticsConsent(v === '1' ? true : v === '0' ? false : null);
       } catch {}
     };
+
+    // Initial read after mount
+    updateFromStorage();
 
     const onCustom = () => updateFromStorage();
     const onStorage = (e: StorageEvent) => {
