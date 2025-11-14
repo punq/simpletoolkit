@@ -218,6 +218,21 @@ export default function ToolsPage() {
                 Encode and decode Base64 with standard & URL-safe modes—<strong className="text-foreground">full Unicode support</strong>, instant processing.
               </p>
             </Link>
+
+            {/* JWT Utility */}
+            <Link
+              href="/tools/jwt"
+              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label="Client-side JWT validator and generator"
+            >
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">JWT Validator & Generator</h3>
+                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">New</span>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
+                Decode, validate, and generate JWTs locally in your browser. Zero uploads — your keys never leave your device.
+              </p>
+            </Link>
           </div>
         </section>
 
