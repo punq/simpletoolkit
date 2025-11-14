@@ -289,7 +289,9 @@ export default function ImageConverterTool() {
           border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer
           ${isDragging ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900 scale-[1.01]" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"}
         `}
-        onClick={triggerFilePicker}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (e.target === e.currentTarget) triggerFilePicker();
+        }}
       >
         <svg
           className="w-12 h-12 mx-auto mb-4 text-gray-400 dark:text-zinc-500"

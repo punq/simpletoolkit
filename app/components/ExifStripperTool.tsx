@@ -255,9 +255,11 @@ export default function ExifStripperTool() {
         onDrop={onDrop}
         role="button"
         tabIndex={0}
-        onClick={triggerFilePicker}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (e.target === e.currentTarget) triggerFilePicker();
+        }}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
+          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             triggerFilePicker();
           }

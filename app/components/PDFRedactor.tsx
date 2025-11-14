@@ -586,7 +586,9 @@ export default function ClientSidePDFRedactor() {
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}
             onDrop={onDrop}
-            onClick={triggerFilePicker}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+              if (e.target === e.currentTarget) triggerFilePicker();
+            }}
             className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
               isDragging
                 ? "border-black bg-gray-50"
@@ -596,7 +598,7 @@ export default function ClientSidePDFRedactor() {
             tabIndex={0}
             aria-label="Choose PDF file or drag and drop"
             onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
+              if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
                 e.preventDefault();
                 triggerFilePicker();
               }
@@ -604,8 +606,8 @@ export default function ClientSidePDFRedactor() {
           >
             <svg
               className="mx-auto h-12 w-12 text-gray-400"
-              stroke="currentColor"
               fill="none"
+              stroke="currentColor"
               viewBox="0 0 48 48"
               aria-hidden="true"
             >
@@ -619,9 +621,7 @@ export default function ClientSidePDFRedactor() {
             <p className="mt-2 text-sm text-gray-600">
               {isDragging ? "Drop PDF here" : "Click or drag PDF here"}
             </p>
-            <p className="mt-1 text-xs text-gray-400">
-              Maximum file size: 50MB
-            </p>
+            <p className="mt-1 text-xs text-gray-400">Maximum file size: 50MB</p>
           </div>
           <input
             ref={fileInputRef}

@@ -192,8 +192,8 @@ export default function SplitTool() {
           newPdf.addPage(copiedPage);
         }
 
-        // Limit filename length for page lists
-        const pageStr = pages.length <= 10 ? pages.join("-") : `${pages[0]}-${pages[pages.length - 1]}`;
+        // Limit filename length for page lists; use commas for explicit lists
+        const pageStr = pages.length <= 10 ? pages.join(",") : `${pages[0]}-${pages[pages.length - 1]}`;
         const filename = sanitizeFilename(`${baseFilename}_pages_${pageStr}.pdf`);
 
         outputFiles.push({
@@ -344,13 +344,20 @@ export default function SplitTool() {
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
           isDragging ? "border-black bg-gray-50" : file ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
         }`}
-        onClick={() => fileInputRef.current?.click()}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          // Only open file picker when the container itself was clicked
+          // (prevents child controls from triggering the file selector)
+          if (e.target === e.currentTarget) {
+            fileInputRef.current?.click();
+          }
+        }}
         onDragEnter={handleDragOver}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
+        onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+          // Only trigger keyboard activation when the container itself is focused
+          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             fileInputRef.current?.click();
           }

@@ -203,13 +203,15 @@ export default function CompressTool() {
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
           isDragging ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900" : file ? "border-gray-400 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"
         }`}
-        onClick={() => fileInputRef.current?.click()}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+          if (e.target === e.currentTarget) fileInputRef.current?.click();
+        }}
         onDragEnter={handleDragOver}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === "Space") {
+          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             fileInputRef.current?.click();
           }
