@@ -147,34 +147,21 @@ function SuccessMessage({
     }
   }, [currentTool]);
 
-  const handleTwitterShare = useCallback(() => {
-    if (typeof window === 'undefined') return;
-    const url = window.location.href;
-    const text = `I used Simple PDF Toolkit — a privacy-first, client-side PDF ${currentTool} tool. Try it:`;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=PDF,Privacy,SimplePDFToolkit`;
-    window.open(twitterUrl, '_blank', 'noopener,noreferrer');
-    track('Share Twitter', { tool: currentTool });
-  }, [currentTool]);
-
-  const handleLinkedInShare = useCallback(() => {
-    if (typeof window === 'undefined') return;
-    const url = window.location.href;
-    const title = `Simple PDF Toolkit — privacy-first ${currentTool} tool`;
-    const summary = `Fast, client-side PDF ${currentTool} tool. No uploads, no tracking. Try it:`;
-    const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
-    window.open(linkedInUrl, '_blank', 'noopener,noreferrer');
-    track('Share LinkedIn', { tool: currentTool });
-  }, [currentTool]);
-
-  const handleEmailShare = useCallback(() => {
-    if (typeof window === 'undefined') return;
-    const url = window.location.href;
-    const subject = `Try Simple PDF Toolkit — privacy-first ${currentTool} tool`;
-    const body = `I used Simple PDF Toolkit's ${currentTool} tool — it runs entirely in your browser (no uploads). Try it here: ${url}`;
-    const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
-    track('Share Email', { tool: currentTool });
-  }, [currentTool]);
+  // Share links (rendered as anchors so opening only happens on explicit user click)
+  const currentHref = typeof window !== 'undefined' ? window.location.href : '';
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+    `I used Simple PDF Toolkit — a privacy-first, client-side PDF ${currentTool} tool. Try it:`
+  )}&url=${encodeURIComponent(currentHref)}&hashtags=PDF,Privacy,SimplePDFToolkit`;
+  const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
+    currentHref
+  )}&title=${encodeURIComponent(`Simple PDF Toolkit — privacy-first ${currentTool} tool`)}&summary=${encodeURIComponent(
+    `Fast, client-side PDF ${currentTool} tool. No uploads, no tracking. Try it:`
+  )}`;
+  const emailHref = `mailto:?subject=${encodeURIComponent(
+    `Try Simple PDF Toolkit — privacy-first ${currentTool} tool`
+  )}&body=${encodeURIComponent(
+    `I used Simple PDF Toolkit's ${currentTool} tool — it runs entirely in your browser (no uploads). Try it here: ${currentHref}`
+  )}`;
 
   // Cross-link suggestions to other tools
   const toolLinks: { name: string; slug: string; prompt: string }[] = [
@@ -353,8 +340,11 @@ function SuccessMessage({
               <span className="sr-only">Copy link</span>
             </button>
 
-            <button
-              onClick={handleTwitterShare}
+            <a
+              href={twitterUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => track('Share Twitter', { tool: currentTool })}
               className="w-10 h-10 flex items-center justify-center rounded-md border border-slate-200 dark:border-zinc-700 bg-white dark:bg-transparent hover:bg-slate-50 dark:hover:bg-white/5 text-slate-900 dark:text-slate-100 shadow-sm active:scale-[.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/10"
               aria-label="Share on Twitter"
               title="Share on Twitter"
@@ -363,10 +353,13 @@ function SuccessMessage({
                 <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43.36a9.07 9.07 0 0 1-2.88 1.1A4.52 4.52 0 0 0 11.1 4.1a12.84 12.84 0 0 1-9.33-4.73 4.48 4.48 0 0 0 1.4 6.03A4.41 4.41 0 0 1 1.64 5.7v.06a4.52 4.52 0 0 0 3.63 4.43 4.5 4.5 0 0 1-2.04.08 4.53 4.53 0 0 0 4.22 3.14A9.07 9.07 0 0 1 1 19.54a12.78 12.78 0 0 0 6.92 2.03c8.3 0 12.84-6.88 12.84-12.84l-.01-.58A9.22 9.22 0 0 0 23 3z" />
               </svg>
               <span className="sr-only">Share on Twitter</span>
-            </button>
+            </a>
 
-            <button
-              onClick={handleLinkedInShare}
+            <a
+              href={linkedInUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => track('Share LinkedIn', { tool: currentTool })}
               className="w-10 h-10 flex items-center justify-center rounded-md border border-slate-200 dark:border-zinc-700 bg-white dark:bg-transparent hover:bg-slate-50 dark:hover:bg-white/5 text-slate-900 dark:text-slate-100 shadow-sm active:scale-[.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/10"
               aria-label="Share on LinkedIn"
               title="Share on LinkedIn"
@@ -375,7 +368,7 @@ function SuccessMessage({
                 <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5.002 2.5 2.5 0 0 1 0-5.002zM3 9h4v12H3zM9 9h3.8v1.6h.1c.5-.9 1.7-1.8 3.5-1.8 3.8 0 4.5 2.5 4.5 5.8V21H17v-5.2c0-1.3 0-3-1.8-3-1.8 0-2 1.4-2 2.9V21H9V9z" />
               </svg>
               <span className="sr-only">Share on LinkedIn</span>
-            </button>
+            </a>
 
             {/* Donate action (coffee icon) - sits next to other icons */}
             <Link
@@ -395,8 +388,9 @@ function SuccessMessage({
                <span className="sr-only">Donate — Buy me a coffee</span>
              </Link>
 
-            <button
-              onClick={handleEmailShare}
+            <a
+              href={emailHref}
+              onClick={() => track('Share Email', { tool: currentTool })}
               className="w-10 h-10 flex items-center justify-center rounded-md border border-slate-200 dark:border-zinc-700 bg-white dark:bg-transparent hover:bg-slate-50 dark:hover:bg-white/5 text-slate-900 dark:text-slate-100 shadow-sm active:scale-[.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/10"
               aria-label="Share via email"
               title="Share via email"
@@ -406,7 +400,7 @@ function SuccessMessage({
                 <polyline points="22,6 12,13 2,6" />
               </svg>
               <span className="sr-only">Share via Email</span>
-            </button>
+            </a>
           </div>
 
           <div className="hidden sm:flex gap-2 flex-wrap">
