@@ -139,7 +139,6 @@ export default function CompressTool() {
       const optimizedPdf = await PDFDocument.create();
       const pages = pdfDoc.getPages();
       const totalPages = pages.length;
-      setError("Failed to compress PDF. Please make sure the file isn't corrupted or password protected.");
       for (let i = 0; i < totalPages; i++) {
         const [copiedPage] = await optimizedPdf.copyPages(pdfDoc, [i]);
         optimizedPdf.addPage(copiedPage);
@@ -160,20 +159,26 @@ export default function CompressTool() {
       // Convert Uint8Array to Blob safely
       const blob = new Blob([new Uint8Array(compressedBytes)], { type: "application/pdf" });
       setCompressedSize(blob.size);
-      
-      // Use shared download utility
+
+      // Use shared download utility and only mark success if download starts
       const baseFilename = getBaseFilename(file.name);
-  downloadBlob(blob, `${baseFilename}-compressed.pdf`);
-      
-  const opId = `compress-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  setOperationId(opId);
-  setSuccess(true);
-      track("PDF Compressed", {
-        originalSize: Math.round(file.size / 1024),
-        compressedSize: Math.round(blob.size / 1024),
-        compressionLevel,
-        reductionPercent: Math.round(((file.size - blob.size) / file.size) * 100)
-      });
+      try {
+        downloadBlob(blob, `${baseFilename}-compressed.pdf`);
+
+        const opId = `compress-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        setOperationId(opId);
+        setSuccess(true);
+        track("PDF Compressed", {
+          originalSize: Math.round(file.size / 1024),
+          compressedSize: Math.round(blob.size / 1024),
+          compressionLevel,
+          reductionPercent: Math.round(((file.size - blob.size) / file.size) * 100)
+        });
+      } catch (dlErr) {
+        const dlMsg = dlErr instanceof Error ? dlErr.message : String(dlErr);
+        setError("Download failed. Please try saving the file manually.");
+        track("Compression Download Error", { error: dlMsg });
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
       setError("Failed to compress PDF. Please make sure the file isn't corrupted or password protected.");
@@ -204,14 +209,18 @@ export default function CompressTool() {
           isDragging ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900" : file ? "border-gray-400 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"
         }`}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget) fileInputRef.current?.click();
+          // Only open the file picker when there's no file selected and the
+          // user clicked the empty drop area (not child controls).
+          if (!file && e.target === e.currentTarget) fileInputRef.current?.click();
         }}
         onDragEnter={handleDragOver}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onKeyDown={(e) => {
-          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+          // Only open the file picker when there's no file selected and the
+          // drop area has focus and user presses Enter/Space.
+          if (!file && e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             fileInputRef.current?.click();
           }

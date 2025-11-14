@@ -13,6 +13,7 @@ import {
   MAX_INPUT_SIZE,
 } from "@/app/utils/textListUtils";
 import { track } from "@/app/utils/analytics";
+import { downloadBlob } from "@/app/utils/pdfUtils";
 
 /**
  * TextListUtility Component - Polished & Audited
@@ -189,14 +190,7 @@ export default function TextListUtility() {
 
     try {
       const blob = new Blob([output], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'processed-list.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      downloadBlob(blob, 'processed-list.txt');
 
       track("Text List Downloaded", {
         outputLength: output.length,

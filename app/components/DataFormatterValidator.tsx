@@ -18,6 +18,7 @@ import {
   MAX_INPUT_SIZE,
 } from "@/app/utils/dataFormatterUtils";
 import { track } from "@/app/utils/analytics";
+import { downloadBlob } from "@/app/utils/pdfUtils";
 
 type OperationMode = "format" | "convert";
 
@@ -359,16 +360,12 @@ export default function DataFormatterValidator() {
     };
 
     const blob = new Blob([output], { type: mimeTypes[format] });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    track("Output Downloaded", { format, size: output.length });
+    try {
+      downloadBlob(blob, filename);
+      track("Output Downloaded", { format, size: output.length });
+    } catch (err) {
+      setValidation({ isValid: false, error: "Failed to download output file." });
+    }
   }, [output, mode, sourceFormat, targetFormat]);
 
   // Swap input and output

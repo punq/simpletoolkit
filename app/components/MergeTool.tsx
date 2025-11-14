@@ -206,12 +206,13 @@ export default function MergeTool() {
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget) triggerFilePicker();
+          // Only open picker when there are no files yet and the container itself was clicked
+          if (files.length === 0 && e.target === e.currentTarget) triggerFilePicker();
         }}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+          if (files.length === 0 && e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             triggerFilePicker();
           }

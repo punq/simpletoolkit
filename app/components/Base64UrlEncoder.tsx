@@ -12,6 +12,7 @@ import {
   MAX_INPUT_SIZE,
 } from "@/app/utils/base64Utils";
 import { track } from "@/app/utils/analytics";
+import { downloadBlob } from "@/app/utils/pdfUtils";
 
 type DirectionMode = 'encode' | 'decode';
 
@@ -295,16 +296,8 @@ export default function Base64UrlEncoder() {
 
     try {
       const blob = new Blob([textToDownload], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = direction === 'encode' 
-        ? `encoded-${mode}.txt`
-        : 'decoded.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const filename = direction === 'encode' ? `encoded-${mode}.txt` : 'decoded.txt';
+      downloadBlob(blob, filename);
 
       const opId = `download-${Date.now()}-${Math.random().toString(36).substring(7)}`;
       setOperationId(opId);

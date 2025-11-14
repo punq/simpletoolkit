@@ -256,10 +256,11 @@ export default function ExifStripperTool() {
         role="button"
         tabIndex={0}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget) triggerFilePicker();
+          // Only open picker when no files have been added yet
+          if (files.length === 0 && e.target === e.currentTarget) triggerFilePicker();
         }}
         onKeyDown={(e) => {
-          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+          if (files.length === 0 && e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             triggerFilePicker();
           }

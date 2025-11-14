@@ -240,25 +240,13 @@ const canvasToBlob = (
 /**
  * Downloads a blob as a file
  */
+import { downloadBlob as sharedDownloadBlob } from "@/app/utils/pdfUtils";
+
+/**
+ * Downloads a blob as a file (delegates to shared helper)
+ */
 export const downloadBlob = (blob: Blob, filename: string): void => {
-  const url = URL.createObjectURL(blob);
-  
-  try {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = sanitizeFilename(filename);
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 100);
-  } catch (error) {
-    URL.revokeObjectURL(url);
-    throw error;
-  }
+  sharedDownloadBlob(blob, sanitizeFilename(filename));
 };
 
 /**

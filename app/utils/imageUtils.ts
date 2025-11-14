@@ -4,6 +4,8 @@
  * All operations are optimized for performance and memory efficiency
  */
 
+import { downloadBlob } from "@/app/utils/pdfUtils";
+
 /**
  * Maximum file size for client-side image processing (50MB)
  * This limit prevents browser memory exhaustion
@@ -418,24 +420,6 @@ export const sanitizeImageFilename = (filename: string): string => {
  * @param filename - Suggested filename for download
  */
 export const downloadImage = (blob: Blob, filename: string): void => {
-  const url = URL.createObjectURL(blob);
-  
-  try {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = sanitizeImageFilename(filename);
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    
-    // Small delay before cleanup to ensure download initiated
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 100);
-  } catch (error) {
-    // Always clean up URL even if download fails
-    URL.revokeObjectURL(url);
-    throw error;
-  }
+  // Delegate to shared download helper for consistent behavior across tools
+  downloadBlob(blob, sanitizeImageFilename(filename));
 };

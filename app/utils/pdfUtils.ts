@@ -95,13 +95,25 @@ export const downloadBlob = (blob: Blob, filename: string): void => {
     const a = document.createElement("a");
     a.href = url;
     a.download = sanitizeFilename(filename);
+    // Provide explicit hints to the browser to avoid opening a new tab in
+    // some environments. Use _self so the intent is to navigate in the
+    // same browsing context if the browser chooses to open the URL.
+    a.target = "_self";
+    a.rel = "noopener noreferrer";
     a.style.display = "none";
     document.body.appendChild(a);
+
+    // Trigger the synthetic click. If this throws (tests or some environments),
+    // rethrow so callers can observe the failure.
     a.click();
-    
+
     // Small delay before cleanup to ensure download initiated
     setTimeout(() => {
-      document.body.removeChild(a);
+      try {
+        document.body.removeChild(a);
+      } catch (_) {
+        // ignore removal errors
+      }
       URL.revokeObjectURL(url);
     }, 100);
   } catch (error) {

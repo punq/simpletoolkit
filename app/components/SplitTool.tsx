@@ -345,9 +345,9 @@ export default function SplitTool() {
           isDragging ? "border-black bg-gray-50" : file ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
         }`}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          // Only open file picker when the container itself was clicked
-          // (prevents child controls from triggering the file selector)
-          if (e.target === e.currentTarget) {
+          // Only open file picker when there is no file selected and the
+          // container itself was clicked (prevents child controls from triggering the file selector)
+          if (!file && e.target === e.currentTarget) {
             fileInputRef.current?.click();
           }
         }}
@@ -356,8 +356,9 @@ export default function SplitTool() {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-          // Only trigger keyboard activation when the container itself is focused
-          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+          // Only open the picker via keyboard when no file is selected and the
+          // container itself has focus.
+          if (!file && e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             fileInputRef.current?.click();
           }

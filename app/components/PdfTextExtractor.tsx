@@ -245,12 +245,13 @@ export default function PDFTextExtractor() {
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget) triggerFilePicker();
+          // Only open picker when no file is selected
+          if (!file && e.target === e.currentTarget) triggerFilePicker();
         }}
         role="button"
         tabIndex={0}
         onKeyDown={(e) => {
-          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
+          if (!file && e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             triggerFilePicker();
           }

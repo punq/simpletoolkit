@@ -290,7 +290,8 @@ export default function ImageConverterTool() {
           ${isDragging ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900 scale-[1.01]" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"}
         `}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-          if (e.target === e.currentTarget) triggerFilePicker();
+          // Only open picker when no files are currently selected
+          if (files.length === 0 && e.target === e.currentTarget) triggerFilePicker();
         }}
       >
         <svg
