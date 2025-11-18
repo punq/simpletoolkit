@@ -10,7 +10,7 @@ This repository exists primarily for:
 - **Trust Building**: Users can confirm privacy claims by reading the source
 - **Bug Reporting**: Help us identify and fix issues
 
-**We encourage contributions to improve the main application** rather than creating separate forks or deployments.
+**We encourage contributions to improve the main application** rather than creating separate forks or deployments. The repository exists so users can verify our privacy and security practices — it is not intended as a guide to build your own public deployment.
 
 ## Code of Conduct
 
@@ -45,7 +45,7 @@ We welcome pull requests that improve the main application! Before submitting:
 5. **Keep commits atomic** and write clear commit messages
 6. **Ensure all tests pass** - run `npm test`
 
-**Note**: We're looking for contributions to enhance the main app at simpletoolkit.app. If you're planning to deploy your own version, we recommend using the official app and contributing improvements back to the community.
+**Note**: We're looking for contributions to enhance the main app at simpletoolkit.app. We do not recommend or provide support for creating independent public deployments. Please use the official site and contribute to the project to improve it for everyone.
 
 #### Development Setup (For Verification & Contributing)
 

@@ -61,12 +61,8 @@ This document describes the custom Plausible events we've instrumented and recom
 4. Funnel: `Files Added` -> `Merge Started` -> `Merge Completed` — conversion
 5. Custom chart: average `durationMs` for `Merge Completed` by `files` bucket
 
-## Self-hosting & Cost
-- Plausible hosted: easy, but paid. For guaranteed free and full control, self-host Plausible OSS:
-  - Docker-based deployment: follow Plausible's official repo
-  - Use a small VPS (Hetzner / DO / AWS Lightsail)
-  - Set `NEXT_PUBLIC_PLAUSIBLE` and `NEXT_PUBLIC_PLAUSIBLE_JS_URL` in `.env` to enable the client-side loader
-- Alternatives: Umami (open-source and lightweight), Matomo (heavy but rich), PostHog OSS (feature-rich but heavy)
+## Analytics & Hosting
+This document describes events used by the official deployment. We do not provide recommendations or support for running a separate, public deployment of the application or analytics. The repository is provided to verify what the app tracks and why — if you have questions about analytics setup used by the official site, open an issue.
 
 ## Exporting Data
 - You can export events via Plausible API (requires API key); for example, fetch events in Node and aggregate daily counts by using `fetch`.
@@ -77,4 +73,4 @@ This document describes the custom Plausible events we've instrumented and recom
 - Add dashboards for top-priority tools: merge & compress.
 - Consider sampling for high-volume event types like EXIF strip per-file events.
 
-If you want, I'll add export scripts and a dashboard sample for Plausible or an automated daily aggregation cron job for self-hosted deployments.
+We don't provide export scripts for self-hosted deployments in this repository; reach out via issues if you need help understanding or verifying the event schema used by the public deployment.

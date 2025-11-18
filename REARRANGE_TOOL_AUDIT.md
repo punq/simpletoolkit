@@ -264,7 +264,7 @@ The RearrangeTool has been comprehensively refactored to meet enterprise-grade s
 2. **Unit Test Suite**: Create comprehensive tests for utilities
 3. **Integration Tests**: E2E testing with Playwright or Cypress
 4. **Performance Monitoring**: Add React DevTools Profiler measurements
-5. **A11y Audit**: Run Axe DevTools or Lighthouse on deployed version
+5. **A11y Audit**: Run Axe DevTools or Lighthouse on the official deployed site (simpletoolkit.app) to review production accessibility; this repository is for verification and auditing of implementation rather than standalone deployment.
 
 ---
 
