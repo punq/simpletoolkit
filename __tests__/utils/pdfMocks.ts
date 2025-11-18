@@ -16,8 +16,19 @@ export const mockPDFDocument = {
     const pages: any[] = [];
     return Promise.resolve({
       copyPages: jest.fn((sourcePdf, indices) => {
+        // Return pages that look like PDFPage objects in pdf-lib
         return Promise.resolve(
-          indices.map((i: number) => ({ pageNumber: i, _mock: true }))
+          indices.map((i: number) => {
+            const page = {
+              pageNumber: i,
+              _mock: true,
+              rotation: 0,
+              setRotation: function (r: number) {
+                this.rotation = r;
+              },
+            };
+            return page;
+          })
         );
       }),
       addPage: jest.fn((page) => {
@@ -52,7 +63,11 @@ export const mockPDFDocument = {
       getPages: jest.fn(() => pages),
       copyPages: jest.fn((sourcePdf, indices) => {
         return Promise.resolve(
-          indices.map((i: number) => pages[i] || { pageNumber: i, _mock: true })
+          indices.map((i: number) => {
+            const p = pages[i] || { pageNumber: i, _mock: true };
+            // attach a no-op setRotation so code that invokes degrees() and setRotation() won't break
+            return { ...p, rotation: 0, setRotation: function (r: number) { this.rotation = r; } };
+          })
         );
       }),
       addPage: jest.fn(),
@@ -63,6 +78,9 @@ export const mockPDFDocument = {
     });
   }),
 };
+
+// Helper to emulate pdf-lib's `degrees()` conversion
+export const degrees = (n: number) => n;
 
 // Reset function for tests
 export const resetPDFMocks = () => {

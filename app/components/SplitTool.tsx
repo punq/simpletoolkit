@@ -346,6 +346,15 @@ export default function SplitTool() {
         )}
       </div>
 
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={onFileChange}
+        className="hidden"
+        ref={fileInputRef}
+        aria-label="Choose PDF file"
+      />
+
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
           isDragging ? "border-black bg-gray-50" : file ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
@@ -373,14 +382,7 @@ export default function SplitTool() {
         role="button"
         aria-label="Choose PDF file or drag and drop"
       >
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={onFileChange}
-          className="hidden"
-          ref={fileInputRef}
-          aria-label="Choose PDF file"
-        />
+        {/* file input moved out of drop area to avoid nested interactive controls */}
 
         {file ? (
           <div className="w-full space-y-4">

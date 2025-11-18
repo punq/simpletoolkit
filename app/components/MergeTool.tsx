@@ -222,6 +222,15 @@ export default function MergeTool() {
       </div>
 
       {/* File Drop Zone */}
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={onChange}
+        className="hidden"
+        ref={fileInputRef}
+        multiple
+      />
+
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
           isDragging ? "border-black bg-gray-50" : files.length > 0 ? "border-gray-400 bg-gray-50" : "border-gray-300 hover:border-gray-400"
@@ -244,14 +253,7 @@ export default function MergeTool() {
         }}
         aria-label="Choose PDFs or drag and drop"
       >
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={onChange}
-          className="hidden"
-          ref={fileInputRef}
-          multiple
-        />
+        {/* file input moved out of drop area to avoid nested interactive control conflicts */}
 
         {files.length > 0 ? (
           <div className="w-full space-y-4">

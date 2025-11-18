@@ -194,6 +194,18 @@ Note: This project is open source for transparency and verification. We encourag
 6. Document all exported functions with JSDoc comments
 7. Keep bundle size minimal (avoid large dependencies)
 
+## Continuous Integration (CI)
+
+We run a GitHub Actions workflow on pull requests to `dev` and `main` that executes linting, all tests, and a Next.js build to ensure nothing breaks before merging or deploying.
+
+To run locally (the same shell commands the CI uses):
+
+```powershell
+npm ci
+npm run ci
+```
+
+This matches the job in `.github/workflows/ci.yml` and helps verify CI behavior locally.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## Security

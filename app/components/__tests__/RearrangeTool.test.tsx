@@ -105,7 +105,9 @@ describe('RearrangeTool', () => {
     await waitFor(() => expect(screen.getAllByRole('listitem').length).toBe(3));
 
     // Remove second page
-    const removeButtons = screen.getAllByRole('button', { name: /Remove page/i });
+    // obtain buttons for removal; not used directly — keeping for future checks
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _removeButtons = screen.getAllByRole('button', { name: /Remove page/i });
     // removeButtons created with aria-label text 'Remove page X from export' – find by partial match instead
     const remove = screen.getByRole('button', { name: 'Remove page 2 from export' });
     fireEvent.click(remove);
@@ -143,7 +145,7 @@ describe('RearrangeTool', () => {
     let axe;
     try {
       axe = require('jest-axe');
-    } catch (e) {
+    } catch {
       // Skip if jest-axe is not installed to avoid breaking CI where deps are not installed yet
       // This keeps test suite robust if user hasn't added jest-axe.
       // You can install jest-axe with 'npm install --save-dev jest-axe'
@@ -152,13 +154,12 @@ describe('RearrangeTool', () => {
 
     const { container } = render(<RearrangeTool />);
     const { axe: runAxe, toHaveNoViolations } = axe;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    expect.extend(toHaveNoViolations);
+    // Extend jest matchers if available
+    expect.extend(toHaveNoViolations as any);
 
     // ensure no a11y violations in the initial state
     const results = await runAxe(container);
-    // @ts-ignore - jest-axe matcher may not be present in TS without types installed
+    // @ts-expect-error - jest-axe matcher may not be present in TS without types installed
     expect(results).toHaveNoViolations();
   });
 

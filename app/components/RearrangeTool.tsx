@@ -307,6 +307,16 @@ export default function RearrangeTool() {
         )}
       </div>
 
+      {/* File input moved out of the interactive dropzone to avoid nested interactive controls */}
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={(e) => onFileSelected(e.target.files?.[0])}
+        className="hidden"
+        ref={fileInputRef}
+        aria-label="Choose PDF file"
+      />
+
       <div
         className={`w-full p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center transition-colors duration-200 ease-in-out cursor-pointer relative ${
           isDraggingOver ? "border-black dark:border-white bg-gray-50 dark:bg-zinc-900" : file ? "border-gray-400 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-900" : "border-gray-300 dark:border-zinc-800 hover:border-gray-400 dark:hover:border-zinc-700"
@@ -325,18 +335,11 @@ export default function RearrangeTool() {
             triggerFilePicker();
           }
         }}
-        role="button"
-        tabIndex={0}
-        aria-label="Choose PDF file or drag and drop"
+        role={!file ? "button" : undefined}
+        tabIndex={!file ? 0 : undefined}
+        aria-label={!file ? "Choose PDF file or drag and drop" : undefined}
       >
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={(e) => onFileSelected(e.target.files?.[0])}
-          className="hidden"
-          ref={fileInputRef}
-          aria-label="Choose PDF file"
-        />
+        {/* input moved above to avoid role=button containing an interactive descendant */}
 
         {file ? (
           <div className="w-full space-y-4">

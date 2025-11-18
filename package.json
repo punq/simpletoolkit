@@ -13,6 +13,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "ci": "npm run lint:ci && npm run typecheck && npm run test:coverage && npm run build",
+    "lint:ci": "eslint --max-warnings=0",
+    "typecheck": "tsc --noEmit",
     "test": "cross-env NODE_OPTIONS=--max-old-space-size=2048 jest",
     "test:watch": "cross-env NODE_OPTIONS=--max-old-space-size=2048 jest --watch",
     "test:coverage": "cross-env NODE_OPTIONS=--max-old-space-size=2048 jest --coverage",
@@ -30,7 +33,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "jest-axe": "^7.1.0",
+    "jest-axe": "^10.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -43,5 +46,10 @@
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  }
+  ,
+  "overrides": {
+    "glob": "7.2.3",
+    "js-yaml": "^4.1.1"
   }
 }

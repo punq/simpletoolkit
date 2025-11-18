@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Additional ignores:
     "public/**",
+    "coverage/**",
   ]),
   {
     files: [
