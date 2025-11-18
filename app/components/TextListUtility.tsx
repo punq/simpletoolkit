@@ -128,13 +128,12 @@ export default function TextListUtility() {
         setOutput(processResult.output);
         setResult(processResult);
 
-        const opId = `process-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        const opId = `textlist-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
         setOperationId(opId);
         setSuccess(true);
 
         // Track usage (anonymous event only, not content)
-        const opId = `textlist-${Date.now()}-${Math.random().toString(36).substring(7)}`;
-        setOperationId(opId);
+        // Reuse same operation id above to avoid redeclaration and ensure consistent tracking
         track("Text List Processed", {
           removeDuplicates,
           sortDirection,
