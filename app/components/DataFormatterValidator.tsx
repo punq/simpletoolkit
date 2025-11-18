@@ -337,8 +337,9 @@ export default function DataFormatterValidator() {
       setShowCopiedFeedback(true);
       setTimeout(() => setShowCopiedFeedback(false), 2000);
       track("Output Copied", { format: mode === "format" ? sourceFormat : targetFormat });
-    } catch {
-      console.error("Failed to copy:", error);
+    } catch (err) {
+      // Ensure a reference to the caught error is available for logging
+      console.error("Failed to copy:", err);
       setValidation({
         isValid: false,
         error: "Failed to copy to clipboard. Please try selecting and copying manually.",
