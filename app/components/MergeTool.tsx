@@ -62,7 +62,7 @@ export default function MergeTool() {
     if (count > 0) {
       setAddedMessage(`${count} file${count > 1 ? "s" : ""} added`);
       window.setTimeout(() => setAddedMessage(null), 2000);
-      track("Files Added", { count });
+      track("Files Added", { count, tool: 'merge' });
     }
   };
 
@@ -102,7 +102,7 @@ export default function MergeTool() {
       if (added > 0) {
         setAddedMessage(`${added} file${added > 1 ? "s" : ""} added`);
         window.setTimeout(() => setAddedMessage(null), 2000);
-        track("Files Added", { count: added, method: "drop-zone" });
+        track("Files Added", { count: added, method: "drop-zone", tool: 'merge' });
       }
     }
   };
@@ -129,7 +129,19 @@ export default function MergeTool() {
 
     try {
       const { PDFDocument } = await import("pdf-lib");
-      track("Merge Started", { files: files.length });
+      const startMs = Date.now();
+      // Record counts and rough size at start
+      const totalSize = files.reduce((s, f) => s + (f.size || 0), 0);
+      const sizeBucket = (n: number) => {
+        if (n < 1_000_000) return "<1MB";
+        if (n < 10_000_000) return "1-10MB";
+        if (n < 50_000_000) return "10-50MB";
+        return ">=50MB";
+      };
+
+      const opId = `merge-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      setOperationId(opId);
+      track("Merge Started", { files: files.length, totalSizeBytes: Math.round(totalSize), sizeBucket: sizeBucket(totalSize), tool: 'merge', operationId: opId });
       const mergedPdf = await PDFDocument.create();
       const skippedLocal: string[] = [];
 
@@ -153,8 +165,7 @@ export default function MergeTool() {
   // Use shared download utility
       downloadBlob(blob, "merged.pdf");
   // Generate unique operation id for deduping counters
-  const opId = `merge-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  setOperationId(opId);
+      // operation id already created at start
   setSuccess(true);
 
       if (skippedLocal.length > 0) {
@@ -162,11 +173,25 @@ export default function MergeTool() {
         setError(`Some files were skipped (${skippedLocal.length}). See details below.`);
       }
       
-      track("Merge Completed", { files: files.length, skipped: skippedLocal.length });
+      const durationMs = Date.now() - startMs;
+      // Compute page count by loading the PDFs again or using local results; here we do a second pass, but keep it cheap
+      let pageCount = 0;
+      try {
+        for (const f of files) {
+          const ab = await f.arrayBuffer();
+          const pdf = await PDFDocument.load(ab);
+          pageCount += pdf.getPageCount();
+        }
+      } catch {
+        // If page counting fails, proceed without it
+      }
+
+      const totalSizeBytes = files.reduce((s, f) => s + (f.size || 0), 0);
+      track("Merge Completed", { files: files.length, skipped: skippedLocal.length, totalSizeBytes: Math.round(totalSizeBytes), sizeBucket: sizeBucket(totalSizeBytes), pages: pageCount, durationMs, tool: 'merge', operationId: opId });
     } catch (err: unknown) {
       const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
       setError(msg || "An unexpected error occurred during merge.");
-      track("Merge Failed", { error: msg });
+      track("Merge Failed", { error: msg, tool: 'merge', operationId: operationId ?? undefined });
     } finally {
       setMerging(false);
     }

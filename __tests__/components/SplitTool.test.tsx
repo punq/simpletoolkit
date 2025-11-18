@@ -77,7 +77,7 @@ describe('SplitTool', () => {
 
       // Analytics on load
       await waitFor(() => {
-        expect(global.plausible).toHaveBeenCalledWith('File Loaded', { props: { pages: 5 } });
+        expect(global.plausible).toHaveBeenCalledWith('File Loaded', expect.objectContaining({ props: expect.objectContaining({ pages: 5, tool: 'split' }) }));
       });
     });
 
@@ -212,7 +212,7 @@ describe('SplitTool', () => {
       });
 
       // Analytics
-      expect(global.plausible).toHaveBeenCalledWith('Split Completed', { props: { mode: 'pages', pages: 2 } });
+      expect(global.plausible).toHaveBeenCalledWith('Split Completed', expect.objectContaining({ props: expect.objectContaining({ mode: 'pages', pages: 2, tool: 'split' }) }));
     });
 
     it('splits a valid range', async () => {
@@ -234,7 +234,7 @@ describe('SplitTool', () => {
         expect(screen.getByTestId('success-message')).toBeInTheDocument();
       });
 
-      expect(global.plausible).toHaveBeenCalledWith('Split Completed', { props: { mode: 'range', start: 2, end: 4 } });
+      expect(global.plausible).toHaveBeenCalledWith('Split Completed', expect.objectContaining({ props: expect.objectContaining({ mode: 'range', start: 2, end: 4, tool: 'split' }) }));
     });
 
     it('splits every N pages and creates multiple files', async () => {
@@ -255,7 +255,7 @@ describe('SplitTool', () => {
         expect(screen.getByTestId('success-message')).toBeInTheDocument();
       });
 
-      expect(global.plausible).toHaveBeenCalledWith('Split Completed', { props: { mode: 'every-n', n: 2, parts: 3 } });
+      expect(global.plausible).toHaveBeenCalledWith('Split Completed', expect.objectContaining({ props: expect.objectContaining({ mode: 'every-n', n: 2, parts: 3, tool: 'split' }) }));
     });
 
     it('splits into individual pages (multiple files)', async () => {
@@ -274,7 +274,7 @@ describe('SplitTool', () => {
         expect(screen.getByTestId('success-message')).toBeInTheDocument();
       });
 
-      expect(global.plausible).toHaveBeenCalledWith('Split Completed', { props: { mode: 'individual', pages: 3 } });
+      expect(global.plausible).toHaveBeenCalledWith('Split Completed', expect.objectContaining({ props: expect.objectContaining({ mode: 'individual', pages: 3, tool: 'split' }) }));
     });
 
     it('respects confirm() cancel in every-n when too many files', async () => {

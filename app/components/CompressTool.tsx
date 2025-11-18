@@ -64,7 +64,8 @@ export default function CompressTool() {
       setOriginalSize(selected.size);
       track("PDF Selected", { 
         size: Math.round(selected.size / 1024),
-        pages: pageCount
+        pages: pageCount,
+        tool: 'compress'
       });
     } catch (err: unknown) {
       const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
@@ -104,7 +105,11 @@ export default function CompressTool() {
   const compress = async () => {
     if (!file) return;
 
+    let opId: string | null = null;
     try {
+      opId = `compress-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      setOperationId(opId);
+      const startMs = Date.now();
       setCompressing(true);
       setError(null);
       setProgress({ processed: 0, total: 100, percent: 0 });
@@ -165,24 +170,25 @@ export default function CompressTool() {
       try {
         downloadBlob(blob, `${baseFilename}-compressed.pdf`);
 
-        const opId = `compress-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-        setOperationId(opId);
+        // use same operation id for the overall compress operation
         setSuccess(true);
+        const durationMs = Date.now() - startMs;
         track("PDF Compressed", {
           originalSize: Math.round(file.size / 1024),
           compressedSize: Math.round(blob.size / 1024),
           compressionLevel,
           reductionPercent: Math.round(((file.size - blob.size) / file.size) * 100)
+        , tool: 'compress', operationId: opId, durationMs
         });
       } catch (dlErr) {
         const dlMsg = dlErr instanceof Error ? dlErr.message : String(dlErr);
         setError("Download failed. Please try saving the file manually.");
-        track("Compression Download Error", { error: dlMsg });
+        track("Compression Download Error", { error: dlMsg, tool: 'compress', operationId: opId ?? undefined });
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
       setError("Failed to compress PDF. Please make sure the file isn't corrupted or password protected.");
-      track("Compression Error", { error: errorMessage });
+      track("Compression Error", { error: errorMessage, tool: 'compress', operationId: opId ?? undefined });
     } finally {
       setCompressing(false);
       setProgress({ processed: 0, total: 0, percent: 0 });

@@ -93,7 +93,7 @@ export default function TextListUtility() {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    track("Text List Cleared");
+    track("Text List Cleared", { tool: 'text-list' });
   }, []);
 
   // Process the list - INSTANT processing, no delays
@@ -133,6 +133,8 @@ export default function TextListUtility() {
         setSuccess(true);
 
         // Track usage (anonymous event only, not content)
+        const opId = `textlist-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+        setOperationId(opId);
         track("Text List Processed", {
           removeDuplicates,
           sortDirection,
@@ -140,6 +142,8 @@ export default function TextListUtility() {
           removeEmptyLines: removeEmpty,
           inputLines: processResult.inputLineCount,
           outputLines: processResult.outputLineCount,
+          tool: 'text-list',
+          operationId: opId,
         });
       } catch (err: unknown) {
         const error = err as Error;
@@ -171,6 +175,7 @@ export default function TextListUtility() {
       track("Text List Copied", {
         outputLength: output.length,
         lineCount: result?.outputLineCount || 0,
+        tool: 'text-list',
       });
 
       setTimeout(() => {
@@ -195,6 +200,7 @@ export default function TextListUtility() {
       track("Text List Downloaded", {
         outputLength: output.length,
         lineCount: result?.outputLineCount || 0,
+        tool: 'text-list',
       });
     } catch {
       setError("Failed to download file");

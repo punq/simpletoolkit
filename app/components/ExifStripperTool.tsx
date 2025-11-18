@@ -135,13 +135,15 @@ export default function ExifStripperTool() {
     }
 
     setProcessing(true);
+    const opId = `exif-strip-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setOperationId(opId);
+    const startMs = Date.now();
     setError(null);
     setSuccess(false);
     setResults([]);
     setCurrentFileIndex(0);
 
-    const opId = `exif-strip-${Date.now()}`;
-    setOperationId(opId);
+    // operation id already created above
 
     try {
       const processedResults: Array<{ file: File; result: StripResult }> = [];
@@ -184,6 +186,7 @@ export default function ExifStripperTool() {
       setSuccess(true);
       
       // Track analytics with edge case info
+      const durationMs = Date.now() - startMs;
       track("Metadata Stripped", {
         count: files.length,
         filesWithExif,
@@ -191,12 +194,15 @@ export default function ExifStripperTool() {
         totalOriginalSize,
         totalNewSize,
         reduction: calculateSizeReduction(totalOriginalSize, totalNewSize),
+        tool: 'exif-stripper',
+        operationId: opId,
+        durationMs
       });
 
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       setError(msg);
-      track("Strip Error", { error: msg });
+      track("Strip Error", { error: msg, tool: 'exif-stripper', operationId: opId });
     } finally {
       setProcessing(false);
       setCurrentFileIndex(0);

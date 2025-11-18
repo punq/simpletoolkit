@@ -159,7 +159,7 @@ describe('MergeTool - Core Functionality', () => {
       uploadFiles(fileInput, createMockPDFFiles(2));
       
       await waitFor(() => {
-        expect(global.plausible).toHaveBeenCalledWith('Files Added', { props: { count: 2 } });
+        expect(global.plausible).toHaveBeenCalledWith('Files Added', expect.objectContaining({ props: expect.objectContaining({ count: 2, tool: 'merge' }) }));
       });
     });
   });
@@ -392,8 +392,8 @@ describe('MergeTool - Core Functionality', () => {
       fireEvent.click(mergeButton);
       
       await waitFor(() => {
-        expect(global.plausible).toHaveBeenCalledWith('Merge Started', { props: { files: 2 } });
-        expect(global.plausible).toHaveBeenCalledWith('Merge Completed', { props: { files: 2, skipped: 0 } });
+        expect(global.plausible).toHaveBeenCalledWith('Merge Started', expect.objectContaining({ props: expect.objectContaining({ files: 2, tool: 'merge' }) }));
+        expect(global.plausible).toHaveBeenCalledWith('Merge Completed', expect.objectContaining({ props: expect.objectContaining({ files: 2, skipped: 0, tool: 'merge' }) }));
       });
     });
   });

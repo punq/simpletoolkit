@@ -275,6 +275,8 @@ export default function Base64UrlEncoder() {
         direction,
         mode,
         outputLength: textToCopy.length,
+        tool: 'base64',
+        operationId: opId,
       });
 
       setTimeout(() => {
@@ -307,6 +309,8 @@ export default function Base64UrlEncoder() {
         direction,
         mode,
         outputLength: textToDownload.length,
+        tool: 'base64',
+        operationId: opId,
       });
     } catch {
       setError("Failed to download file");

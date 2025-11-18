@@ -136,7 +136,10 @@ export default function ImageConverterTool() {
     if (outputFormat !== 'png') {
       trackingProps.quality = quality;
     }
-    track("Conversion Started", trackingProps);
+    const opId = `convert-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setOperationId(opId);
+    const startMs = Date.now();
+    track("Conversion Started", { ...trackingProps, tool: 'image-converter', operationId: opId });
 
     const conversionResults: ConversionResult[] = [];
     const errors: string[] = [];
@@ -172,17 +175,25 @@ export default function ImageConverterTool() {
 
     if (errors.length > 0) {
       setError(`Some files failed to convert: ${errors.join("; ")}`);
+      setError(`Some files failed to convert: ${errors.join("; ")}`);
       track("Conversion Failed", { 
         errors: errors.length, 
-        total: files.length 
+        total: files.length,
+        tool: 'image-converter',
+        operationId: opId,
+        durationMs: Date.now() - startMs,
       });
     } else {
       const opId = `convert-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       setOperationId(opId);
       setSuccess(true);
+      const durationMs = Date.now() - startMs;
       track("Conversion Completed", { 
         files: files.length, 
-        format: outputFormat 
+        format: outputFormat,
+        tool: 'image-converter',
+        operationId: opId,
+        durationMs,
       });
     }
   };

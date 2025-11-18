@@ -102,7 +102,7 @@ export default function JwtUtility() {
       setDecodedHeader(header);
       setDecodedPayload(payload);
       setValidationResult('Decoded');
-      track('JWT Decoded');
+      track('JWT Decoded', { tool: 'jwt' });
     } catch (err: unknown) {
       const e = err as Error;
       setValidationResult('Decode error: ' + e.message);
@@ -140,7 +140,7 @@ export default function JwtUtility() {
         const key = await importHMACKey(secret);
         const ok = await window.crypto.subtle.verify('HMAC', key, sig.buffer, data.buffer);
         setValidationResult(ok ? 'Valid (HS256)' : 'Invalid signature (HS256)');
-        track('JWT Validated', { alg: 'HS256', valid: ok });
+        track('JWT Validated', { alg: 'HS256', valid: ok, tool: 'jwt' });
         return;
       }
 
@@ -152,7 +152,7 @@ export default function JwtUtility() {
         const key = await importRSAPublicKeyFromPEM(publicKeyPem);
         const ok = await window.crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, sig.buffer, data.buffer);
         setValidationResult(ok ? 'Valid (RS256)' : 'Invalid signature (RS256)');
-        track('JWT Validated', { alg: 'RS256', valid: ok });
+        track('JWT Validated', { alg: 'RS256', valid: ok, tool: 'jwt' });
         return;
       }
     } catch (err: unknown) {
@@ -188,7 +188,7 @@ export default function JwtUtility() {
         setGeneratedToken(t);
         setToken(t);
         setValidationResult('Generated (HS256)');
-        track('JWT Generated', { alg: 'HS256' });
+        track('JWT Generated', { alg: 'HS256', tool: 'jwt' });
         return;
       }
 

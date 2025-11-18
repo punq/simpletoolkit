@@ -165,7 +165,7 @@ export default function ClientSidePDFRedactor() {
       setFile(pdfFile);
       setPages(pagesMetadata);
       setCurrentPage(1);
-      track("Redactor PDF Loaded", { pages: pageCount });
+      track("Redactor PDF Loaded", { pages: pageCount, tool: 'redact' });
     } catch (err: unknown) {
       const message =
         err && typeof err === "object" && "message" in err
@@ -455,6 +455,7 @@ export default function ClientSidePDFRedactor() {
         page: currentPage,
         width: Math.round(width),
         height: Math.round(height),
+        tool: 'redact',
       });
     }
 
@@ -522,11 +523,15 @@ export default function ClientSidePDFRedactor() {
       const result = await redactPdfData(file, redactionBoxes, flatten);
       setRedactionResult(result);
       setSuccess(false); // We'll show success after download
+      const opId = `redact-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      setOperationId(opId);
       track("Redaction Applied", {
         areas: result.redactedCount,
         flattened: flatten,
         originalSize: result.originalSize,
         redactedSize: result.redactedSize,
+        tool: 'redact',
+        operationId: opId,
       });
     } catch (err: unknown) {
       const message =
@@ -561,6 +566,8 @@ export default function ClientSidePDFRedactor() {
       areas: redactionResult.redactedCount,
       originalSize: redactionResult.originalSize,
       redactedSize: redactionResult.redactedSize,
+      tool: 'redact',
+      operationId: opId ?? undefined,
     });
   }, [redactionResult, file]);
 

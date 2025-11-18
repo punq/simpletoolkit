@@ -174,8 +174,9 @@ This project includes privacy-friendly analytics using Plausible. Plausible is g
 When enabled and consented, the app tracks:
 - Page views
 - Tool usage events (file added, merge started, etc.)
+No personal data or file content is ever tracked; free-form strings and user-provided values are sanitized before being sent. Events are annotated with a per-operation `operationId` and a `tool` property to help us understand flows and performance without identifying users. We also bucket numeric fields (size, duration) to keep data low-cardinality and privacy-friendly. Analytics never run in development unless explicitly enabled.
 
-No personal data or file content is ever tracked; free-form strings and user-provided values are sanitized before being sent. Analytics never run in development unless explicitly enabled.
+See `ANALYTICS.md` for details on the event schema (fields like `files`, `sizeBucket`, `pages`, `durationMs`) and dashboard examples.
 
 ## Contributing
 

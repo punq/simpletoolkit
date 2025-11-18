@@ -56,7 +56,7 @@ export default function SplitTool() {
       const pdf = await PDFDocument.load(arrayBuffer);
       const count = pdf.getPageCount();
       setPageCount(count);
-      track("File Loaded", { pages: count });
+      track("File Loaded", { pages: count, tool: 'split' });
     } catch (err: unknown) {
       const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
       setError(`Could not load PDF: ${msg}`);
@@ -115,7 +115,7 @@ export default function SplitTool() {
       const pdf = await PDFDocument.load(arrayBuffer);
       const count = pdf.getPageCount();
       setPageCount(count);
-      track("File Loaded", { pages: count });
+      track("File Loaded", { pages: count, tool: 'split' });
     } catch (err: unknown) {
       const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
       setError(`Could not load PDF: ${msg}`);
@@ -162,6 +162,9 @@ export default function SplitTool() {
     setError(null);
     setSuccess(false);
     setSplitting(true);
+    const opId = `split-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setOperationId(opId);
+    const startMs = Date.now();
 
     try {
       const { PDFDocument } = await import("pdf-lib");
@@ -201,7 +204,8 @@ export default function SplitTool() {
           pdf: newPdf,
         });
 
-        track("Split Completed", { mode: "pages", pages: pages.length });
+        const durationMs = Date.now() - startMs;
+        track("Split Completed", { mode: "pages", pages: pages.length, tool: 'split', operationId: opId, durationMs });
       } else if (mode === "range") {
         // Extract a range
         const start = parseInt(rangeStart, 10);
@@ -226,7 +230,8 @@ export default function SplitTool() {
           pdf: newPdf,
         });
 
-        track("Split Completed", { mode: "range", start, end });
+        const durationMs = Date.now() - startMs;
+        track("Split Completed", { mode: "range", start, end, tool: 'split', operationId: opId, durationMs });
       } else if (mode === "every-n") {
         // Split every N pages
         const n = parseInt(everyN, 10);
@@ -268,7 +273,8 @@ export default function SplitTool() {
           partNumber++;
         }
 
-        track("Split Completed", { mode: "every-n", n, parts: outputFiles.length });
+        const durationMs = Date.now() - startMs;
+        track("Split Completed", { mode: "every-n", n, parts: outputFiles.length, tool: 'split', operationId: opId, durationMs });
       } else if (mode === "individual") {
         // Warn if too many files
         if (pageCount > 50) {
@@ -295,7 +301,8 @@ export default function SplitTool() {
           });
         }
 
-        track("Split Completed", { mode: "individual", pages: pageCount });
+        const durationMs = Date.now() - startMs;
+        track("Split Completed", { mode: "individual", pages: pageCount, tool: 'split', operationId: opId, durationMs });
       }
 
       // Download all output files
@@ -313,13 +320,12 @@ export default function SplitTool() {
         }
       }
       
-      const opId = `split-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      setOperationId(opId);
+      // operation id created earlier - no need to recreate
       setSuccess(true);
     } catch (err: unknown) {
       const msg = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
       setError(msg || "An unexpected error occurred during split.");
-      track("Split Failed", { error: msg });
+      track("Split Failed", { error: msg, tool: 'split', operationId: opId });
     } finally {
       setSplitting(false);
     }

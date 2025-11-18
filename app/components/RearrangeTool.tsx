@@ -87,7 +87,7 @@ export default function RearrangeTool() {
       
       setFile(f);
       setPages(Array.from({ length: count }, (_, i) => ({ index: i, rotation: 0 })));
-      track("Rearrange File Loaded", { pages: count });
+      track("Rearrange File Loaded", { pages: count, tool: 'rearrange' });
     } catch (err: unknown) {
       setFile(null);
       setPages([]);
@@ -231,6 +231,9 @@ export default function RearrangeTool() {
     setError(null);
     setSuccess(false);
     setProcessing(true);
+    const opId = `rearrange-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setOperationId(opId);
+    const startMs = Date.now();
 
     try {
       const { PDFDocument, degrees } = await import("pdf-lib");
@@ -267,18 +270,17 @@ export default function RearrangeTool() {
       const baseFilename = getBaseFilename(file.name);
   downloadBlob(blob, `${baseFilename}-rearranged.pdf`);
       
-  const opId = `rearrange-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  setOperationId(opId);
-  setSuccess(true);
-      track("Rearrange Export Completed", { pages: pages.length });
+    setSuccess(true);
+    const durationMs = Date.now() - startMs;
+    track("Rearrange Export Completed", { pages: pages.length, rotated: pageSummary.rotated, tool: 'rearrange', operationId: opId, durationMs });
     } catch (err: unknown) {
       const message = (err && typeof err === 'object' && 'message' in err) ? String((err as { message?: unknown }).message) : String(err);
       setError(message || "Failed to export PDF.");
-      track("Rearrange Export Failed", { error: message });
+        track("Rearrange Export Failed", { error: message, tool: 'rearrange', operationId: opId ?? undefined });
     } finally {
       setProcessing(false);
     }
-  }, [file, pages]);
+  }, [file, pages, pageSummary.rotated]);
 
   /**
    * Memoized summary of page state for performance

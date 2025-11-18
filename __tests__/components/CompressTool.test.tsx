@@ -84,9 +84,7 @@ describe('CompressTool', () => {
       uploadFile(file);
 
       await waitFor(() => {
-        expect(global.plausible).toHaveBeenCalledWith('PDF Selected', {
-          props: { size: 500, pages: 5 }
-        });
+        expect(global.plausible).toHaveBeenCalledWith('PDF Selected', expect.objectContaining({ props: expect.objectContaining({ size: 500, pages: 5, tool: 'compress' }) }));
       });
     });
 
@@ -225,6 +223,10 @@ describe('CompressTool', () => {
         expect(compressionCall[1].props).toHaveProperty('compressedSize');
         expect(compressionCall[1].props).toHaveProperty('compressionLevel');
         expect(compressionCall[1].props).toHaveProperty('reductionPercent');
+        expect(compressionCall[1].props).toHaveProperty('tool');
+        expect(compressionCall[1].props.tool).toBe('compress');
+        expect(compressionCall[1].props).toHaveProperty('operationId');
+        expect(compressionCall[1].props).toHaveProperty('durationMs');
       });
     });
 
@@ -242,6 +244,7 @@ describe('CompressTool', () => {
           call => call[0] === 'PDF Compressed'
         );
         expect(compressionCall[1].props.compressionLevel).toBe('low');
+        expect(compressionCall[1].props.tool).toBe('compress');
       });
     });
 
@@ -261,6 +264,7 @@ describe('CompressTool', () => {
         expect(compressionCall).toBeDefined();
         if (compressionCall) {
           expect(compressionCall[1].props.compressionLevel).toBe('high');
+          expect(compressionCall[1].props.tool).toBe('compress');
         }
       });
     });
