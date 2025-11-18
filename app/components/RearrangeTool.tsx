@@ -214,6 +214,14 @@ export default function RearrangeTool() {
   };
 
   /**
+   * Memoized summary of page state for performance
+   */
+  const pageSummary = useMemo(() => {
+    const rotated = pages.filter((p) => p.rotation !== 0).length;
+    return { rotated, total: pages.length };
+  }, [pages]);
+
+  /**
    * Export a new PDF applying the specified order and rotations.
    * Complexity: O(n) page copies with constant extra memory per page.
    * Security: Validates all inputs, uses shared download utility with sanitization.
@@ -282,13 +290,7 @@ export default function RearrangeTool() {
     }
   }, [file, pages, pageSummary.rotated]);
 
-  /**
-   * Memoized summary of page state for performance
-   */
-  const pageSummary = useMemo(() => {
-    const rotated = pages.filter((p) => p.rotation !== 0).length;
-    return { rotated, total: pages.length };
-  }, [pages]);
+  
 
   return (
     <div className="w-full space-y-4 sm:space-y-6">
