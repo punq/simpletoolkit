@@ -19,6 +19,22 @@ This is a Next.js-based web application that provides local, privacy-focused fil
 - **Zero Server Dependencies**: Purely static site deployment
 - **Analytics**: Optional Plausible analytics with fail-safe tracking helpers
 
+## AI Agent Quick Reference (concise)
+
+- Big picture: This is a Next.js app that runs ALL file processing in the browser — no server endpoints for PDF/image/data tools. See `app/components/*` for UI and `app/utils/*` for processing logic.
+- Examples: `MergeTool.tsx` (drag & reorder), `pdfUtils.ts` (validation, download, size limits), `analytics.ts` (`track()` — sanitized, silent fail).
+- Key conventions:
+  - Every UI tool uses `"use client"` and should not call servers for file ops.
+  - Prefer moving heavy logic into `app/utils/*` and keep components focused on UX.
+  - Use dynamic imports for large libs (e.g., `await import("pdf-lib")`) to keep bundles small.
+  - File limits: `MAX_FILE_SIZE = 50MB` (in `pdfUtils.ts`); merge tool limits to 20 files.
+  - Download flows use `downloadBlob()` and `sanitizeFilename()` to avoid PII/unsafe names.
+- Testing and CI: replicate `npm run ci` locally — it runs lint, typecheck, tests, coverage, and build. Use `npm run test` for unit tests (Jest + Testing Library) — check `__tests__/*` for common patterns.
+- Debugging: `npm install` triggers `scripts/copy-pdf-worker.js` to place PDF.js worker in `public/pdf-worker`. If rendering fails, run this script directly: `node scripts/copy-pdf-worker.js`.
+- Analytics safe-guards: Always call `track()` (never send raw file data). Use `operationId` for grouping events.
+
+Keep this short list in mind before modifying UI or processing primitives — it includes the most frequent mistakes and helpful patterns for new contributors.
+
 ## Core Features & Patterns
 ### PDF Processing
 - All PDF operations use `pdf-lib` in client components
