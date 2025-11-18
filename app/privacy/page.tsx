@@ -51,7 +51,7 @@ export default function PrivacyPage() {
                 <h2 className="text-2xl font-bold tracking-tight">How We Protect Your Privacy</h2>
                 <div className="border-2 border-black dark:border-white p-8 space-y-6">
                   <p className="text-muted-foreground dark:text-gray-300 leading-relaxed">
-                    We don&#39;t collect or store the files you process. Analytics are <strong>opt‑in only</strong> — they are disabled by default and will only run if you explicitly enable them using the site privacy controls (see the footer). When enabled, we use Plausible Analytics, a privacy‑friendly, cookie‑less service that does not collect personal data, use cookies, or store file content.
+                    We don&#39;t collect or store the files you process. Analytics are enabled by default in deployments that choose to use them (controlled by environment variables) — this helps us understand usage and prioritize improvements — but you can opt out at any time via the <strong>Analytics</strong> toggle in the footer. When enabled, we use Plausible Analytics, a privacy‑friendly, cookie‑less service that does not collect personal data, use cookies, or store file content.
                   </p>
                   <ul className="space-y-3 text-muted-foreground dark:text-gray-300">
                     <li className="flex items-start gap-3">

@@ -146,7 +146,9 @@ export async function extractTextFromPdf(
     // Ensure worker fetch is disabled when possible
     try {
       if ((pdfjs as PdfJsLib).disableWorkerFetch !== true) {
-        (pdfjs as any).disableWorkerFetch = true;
+        // `disableWorkerFetch` may be missing from type definitions in older pdfjs versions.
+        // Cast to a safe unknown->Record to avoid `any` while still setting value.
+        (pdfjs as unknown as Record<string, unknown>).disableWorkerFetch = true;
       }
     } catch (e) {
       void e;

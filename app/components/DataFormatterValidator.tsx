@@ -337,7 +337,7 @@ export default function DataFormatterValidator() {
       setShowCopiedFeedback(true);
       setTimeout(() => setShowCopiedFeedback(false), 2000);
       track("Output Copied", { format: mode === "format" ? sourceFormat : targetFormat });
-    } catch (error) {
+    } catch {
       console.error("Failed to copy:", error);
       setValidation({
         isValid: false,
@@ -363,7 +363,7 @@ export default function DataFormatterValidator() {
     try {
       downloadBlob(blob, filename);
       track("Output Downloaded", { format, size: output.length });
-    } catch (err) {
+    } catch {
       setValidation({ isValid: false, error: "Failed to download output file." });
     }
   }, [output, mode, sourceFormat, targetFormat]);

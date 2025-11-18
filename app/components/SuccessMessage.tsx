@@ -213,31 +213,44 @@ function SuccessMessage({
   // Small enter animation trigger + reduced-motion + short donate pulse
   useEffect(() => {
     const t = setTimeout(() => setMountedEnter(true), 10);
+    // Timers declared in outer scope of the effect so cleanup handlers can
+    // always reference them regardless of which branch is taken.
+    let schedule: ReturnType<typeof setTimeout> | null = null;
+    let donateStart: ReturnType<typeof setTimeout> | null = null;
+    let p: ReturnType<typeof setTimeout> | null = null;
 
     if (typeof window !== 'undefined' && 'matchMedia' in window) {
       const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-      setPrefersReducedMotion(Boolean(mq.matches));
+      // Avoid setting state synchronously inside the effect body to reduce
+      // risk of cascading renders; use a micro-task to update state.
+      schedule = setTimeout(() => setPrefersReducedMotion(Boolean(mq.matches)), 0);
       const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(Boolean(e.matches));
       try { mq.addEventListener('change', handler); } catch { mq.addListener(handler); }
 
       if (!mq.matches) {
-        // short pulse on donate to draw attention initially
-        setDonatePulseActive(true);
-        const p = setTimeout(() => setDonatePulseActive(false), 3000);
+        // short pulse on donate to draw attention initially. Use a short timeout
+        // to avoid calling setState synchronously inside the effect body.
+        donateStart = setTimeout(() => setDonatePulseActive(true), 0);
+        p = setTimeout(() => setDonatePulseActive(false), 3000);
         return () => {
           clearTimeout(t);
-          clearTimeout(p);
+          if (p) clearTimeout(p);
+          if (donateStart) clearTimeout(donateStart);
           try { mq.removeEventListener('change', handler); } catch { mq.removeListener(handler); }
         };
       }
 
       return () => {
         clearTimeout(t);
+        if (schedule) clearTimeout(schedule);
         try { mq.removeEventListener('change', handler); } catch { mq.removeListener(handler); }
       };
     }
 
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(t);
+      if (schedule) clearTimeout(schedule);
+    };
   }, []);
 
   // (No mobile pill auto-hide anymore; donate will be shown as an icon in the action row)

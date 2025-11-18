@@ -5,7 +5,6 @@ import "./globals.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import PlausibleLoader from "./components/PlausibleLoader";
-import AnalyticsConsent from "./components/AnalyticsConsent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -179,7 +178,6 @@ export default function RootLayout({
         {/* Plausible loader needs to run client-side; render in body to avoid client component in head */}
         {enablePlausible && <PlausibleLoader />}
         <Header />
-        <AnalyticsConsent />
         <main id="main-content" className="flex-1">
           {children}
         </main>

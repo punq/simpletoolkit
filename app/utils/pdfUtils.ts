@@ -111,7 +111,7 @@ export const downloadBlob = (blob: Blob, filename: string): void => {
     setTimeout(() => {
       try {
         document.body.removeChild(a);
-      } catch (_) {
+      } catch {
         // ignore removal errors
       }
       URL.revokeObjectURL(url);

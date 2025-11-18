@@ -30,7 +30,7 @@ describe('PlausibleLoader', () => {
     const raw = localStorage.getItem('analytics_consent');
     const consent = raw === null ? null : raw === '1';
     const enabled = process.env.NEXT_PUBLIC_PLAUSIBLE === '1' || process.env.NEXT_PUBLIC_PLAUSIBLE === 'true';
-    const { queryByTestId } = render(PlausibleLoaderContent(enabled, consent));
+    const { queryByTestId } = render(PlausibleLoaderContent(enabled, consent, false));
     // Since PlausibleLoader returns null, queryByTestId should be null
     expect(queryByTestId('plausible-script')).toBeNull();
     cleanup();
@@ -44,11 +44,25 @@ describe('PlausibleLoader', () => {
     const raw = localStorage.getItem('analytics_consent');
     const consent = raw === null ? null : raw === '1';
     const enabled = process.env.NEXT_PUBLIC_PLAUSIBLE === '1' || process.env.NEXT_PUBLIC_PLAUSIBLE === 'true';
-    const { getAllByTestId } = render(PlausibleLoaderContent(enabled, consent));
+    const { getAllByTestId } = render(PlausibleLoaderContent(enabled, consent, true));
     const scripts = getAllByTestId('plausible-script');
     expect(scripts.length).toBeGreaterThanOrEqual(1);
     expect(scripts.some((s: HTMLElement) => s.getAttribute('data-src')?.includes('plausible.io'))).toBe(true);
     cleanup();
+  });
+
+  it('renders plausible scripts when enabled and consent is missing (default-on)', () => {
+    process.env.NEXT_PUBLIC_PLAUSIBLE = '1';
+    process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT = '1';
+    // no explicit consent in localStorage
+    const mod = require('@/app/components/PlausibleLoader');
+    const { PlausibleLoaderContent } = mod;
+    const raw = localStorage.getItem('analytics_consent');
+    const consent = raw === null ? null : raw === '1';
+    const enabled = process.env.NEXT_PUBLIC_PLAUSIBLE === '1' || process.env.NEXT_PUBLIC_PLAUSIBLE === 'true';
+    const { getAllByTestId } = render(PlausibleLoaderContent(enabled, consent, true));
+    const scripts = getAllByTestId('plausible-script');
+    expect(scripts.length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders nothing if consent is denied', () => {
@@ -59,8 +73,16 @@ describe('PlausibleLoader', () => {
     const raw = localStorage.getItem('analytics_consent');
     const consent = raw === null ? null : raw === '1';
     const enabled = process.env.NEXT_PUBLIC_PLAUSIBLE === '1' || process.env.NEXT_PUBLIC_PLAUSIBLE === 'true';
-    const { queryByTestId } = render(PlausibleLoaderContent(enabled, consent));
+    const { queryByTestId } = render(PlausibleLoaderContent(enabled, consent, true));
     expect(queryByTestId('plausible-script')).toBeNull();
     cleanup();
   });
+
+  // NOTE: rendering the default `PlausibleLoader` client component in tests
+  // leads to a React invalid hook error in the Jest environment used here.
+  // The default component logic is covered indirectly by `Footer` unit
+  // tests (which verify that default consent sets localStorage) and by
+  // `PlausibleLoaderContent` unit tests (which verify behavior when
+  // consent is null and default consent is true), so we avoid mounting the
+  // full client component here to keep tests stable.
 });

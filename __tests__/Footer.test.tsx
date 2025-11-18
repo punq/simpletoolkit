@@ -13,6 +13,8 @@ describe('Footer analytics toggle', () => {
     localStorage.clear();
     (global as any).plausible = undefined;
     jest.clearAllMocks();
+    process.env.NEXT_PUBLIC_PLAUSIBLE = '1';
+    process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT = '1';
   });
 
   it('shows Off by default and toggles to On with toast and track call', async () => {
@@ -20,24 +22,26 @@ describe('Footer analytics toggle', () => {
 
     const btn = screen.getByRole('button', { name: /analytics/i });
     expect(btn).toBeInTheDocument();
-    expect(btn).toHaveTextContent(/Off/);
+    // With default-on behavior we expect analytics to be enabled by default
+    expect(btn).toHaveTextContent(/On/);
 
+    // Toggle it Off first
     fireEvent.click(btn);
 
-    await waitFor(() => {
-      expect(localStorage.getItem('analytics_consent')).toBe('1');
-      expect(screen.getByRole('status')).toHaveTextContent(/enabled/i);
-    });
-
-    expect(track).toHaveBeenCalledWith('Consent Granted');
-
-    // toggle back off
-    fireEvent.click(btn);
     await waitFor(() => {
       expect(localStorage.getItem('analytics_consent')).toBe('0');
       expect(screen.getByRole('status')).toHaveTextContent(/disabled/i);
     });
 
     expect(track).toHaveBeenCalledWith('Consent Revoked');
+
+    // toggle back On
+    fireEvent.click(btn);
+    await waitFor(() => {
+      expect(localStorage.getItem('analytics_consent')).toBe('1');
+      expect(screen.getByRole('status')).toHaveTextContent(/enabled/i);
+    });
+
+    expect(track).toHaveBeenCalledWith('Consent Granted');
   });
 });

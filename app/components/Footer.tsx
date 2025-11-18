@@ -31,7 +31,24 @@ export default function Footer() {
     const updateFromStorage = () => {
       try {
         const v = window.localStorage.getItem('analytics_consent');
-        setAnalyticsConsent(v === '1' ? true : v === '0' ? false : null);
+        // If no explicit choice yet, default to enabled when Plausible is
+        // enabled by environment, then persist that choice.
+        if (v === null) {
+            const enable =
+              process.env.NEXT_PUBLIC_PLAUSIBLE === '1' ||
+              process.env.NEXT_PUBLIC_PLAUSIBLE === 'true';
+            const defaultConsent =
+              process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT === '1' ||
+              process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT === 'true';
+            if (enable && defaultConsent) {
+              try { window.localStorage.setItem('analytics_consent', '1'); } catch {}
+              setAnalyticsConsent(true);
+            } else {
+              setAnalyticsConsent(null);
+            }
+        } else {
+          setAnalyticsConsent(v === '1' ? true : v === '0' ? false : null);
+        }
       } catch {}
     };
 
@@ -75,6 +92,10 @@ export default function Footer() {
             <span className="font-semibold text-black dark:text-white">Simple Toolkit</span>
             <Link href="/privacy" className="hover:underline">Privacy</Link>
           </div>
+          {/* Optional transparency note when defaults are enabled */}
+          {process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT === '1' && analyticsConsent === true && (
+            <div className="text-xs text-gray-500 ml-2 hidden sm:block">Analytics enabled by default</div>
+          )}
 
           <div className="flex items-center gap-3">
             <button

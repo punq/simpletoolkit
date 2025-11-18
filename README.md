@@ -169,7 +169,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Analytics (Plausible)
 
-This project includes optional, privacy-friendly analytics using Plausible. Analytics are opt-in for end users: the app will not send any analytics data unless the deployment enables Plausible via `NEXT_PUBLIC_PLAUSIBLE=1` and a site visitor explicitly grants consent through the on-site privacy controls (consent pill / footer toggle).
+This project includes privacy-friendly analytics using Plausible. Plausible is gated by `NEXT_PUBLIC_PLAUSIBLE`; when the deployment enables Plausible via `NEXT_PUBLIC_PLAUSIBLE=1`, you can also control whether analytics are enabled by default using `NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT=1` (default disabled). If `NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT=1`, analytics will be enabled by default for new visitors; otherwise the user must explicitly opt in. Users can opt out at any time using the footer toggle (or by setting `analytics_consent` in localStorage to `0`).
 
 When enabled and consented, the app tracks:
 - Page views
