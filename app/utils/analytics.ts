@@ -30,7 +30,15 @@ function sanitizeProps(props?: Record<string, unknown>): AnalyticsProps | undefi
     const val = props[key as keyof typeof props];
     if (val === null || val === undefined) continue;
     const t = typeof val;
-    if (t === 'string') out[key] = sanitizeString(val as string);
+    if (t === 'string') {
+      // Protect very common sensitive keys that may contain PII
+      const SENSITIVE_KEYS = /filename|(^|\W)file($|\W)|email|username|^user$|error/i;
+      if (SENSITIVE_KEYS.test(key)) {
+        out[key] = '[redacted]';
+      } else {
+        out[key] = sanitizeString(val as string);
+      }
+    }
     else if (t === 'number' || t === 'boolean') out[key] = val as number | boolean;
     else {
       // fallback - stringify and sanitize

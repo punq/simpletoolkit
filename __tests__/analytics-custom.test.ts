@@ -34,4 +34,20 @@ describe('analytics - custom tests', () => {
     // truncated to MAX_STRING_LENGTH (200) plus ellipsis makes <= 201
     expect((props.long as string).length).toBeLessThanOrEqual(201);
   });
+
+  it('redacts sensitive prop keys like filename, user and error', () => {
+    const mock = jest.fn();
+    (global as any).plausible = mock;
+
+    track('Sensitive Props', { filename: 'secret.pdf', user: 'alice', error: 'CRASH at C:\secret\file.txt' });
+
+    const calls = (mock as jest.Mock).mock.calls;
+    expect(calls.length).toBeGreaterThan(0);
+    const last = calls[calls.length - 1];
+    const props = last[1]?.props ?? {};
+
+    expect(props.filename).toBe('[redacted]');
+    expect(props.user).toBe('[redacted]');
+    expect(props.error).toBe('[redacted]');
+  });
 });

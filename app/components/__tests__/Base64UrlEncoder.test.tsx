@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import Base64UrlEncoder from '@/app/components/Base64UrlEncoder';
 
 jest.mock('@/app/utils/analytics', () => ({ track: jest.fn() }));
@@ -68,7 +68,7 @@ describe('Base64UrlEncoder', () => {
 
   it.skip('download triggers downloadBlob and success state', async () => {
     const { getByLabelText, getByRole } = render(<Base64UrlEncoder />);
-    const input = getByLabelText('Raw text input');
+    // Intentionally not using the raw input variable here; we only need the output region
     // Switch to decode and set a known base64 string
     const decodeBtn2 = getByRole('button', { name: /Decode|Switch to decode mode/i });
     fireEvent.click(decodeBtn2);

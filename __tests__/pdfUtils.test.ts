@@ -1140,6 +1140,25 @@ describe('pdfUtils', () => {
         expect(canvas.dataset.originalHeight).toBe('792');
       });
 
+      it('should allow revoking the object URL and clearing dataset', async () => {
+        const file = createMockPDFFile();
+        const canvas = await renderPdfPageToCanvas(file, 1);
+
+        // Ensure mock is clear
+        (URL.revokeObjectURL as jest.Mock).mockClear();
+
+        // Call helper to revoke
+        const { revokePdfCanvasUrl } = require('@/app/utils/pdfUtils');
+        revokePdfCanvasUrl(canvas);
+
+        // Should have called revokeObjectURL with the same mock URL
+        expect(URL.revokeObjectURL).toHaveBeenCalledWith('mock-object-url');
+        // Dataset keys should be cleared
+        expect(canvas.dataset.pdfUrl).toBeUndefined();
+        expect(canvas.dataset.originalWidth).toBeUndefined();
+        expect(canvas.dataset.originalHeight).toBeUndefined();
+      });
+
       it('should render different pages', async () => {
         const file = createMockPDFFile();
         

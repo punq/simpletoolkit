@@ -429,3 +429,31 @@ export async function renderPdfPageToCanvas(
     throw new Error(`Failed to render PDF page: ${message}`);
   }
 }
+
+/**
+ * Revoke the object URL stored on a canvas by `renderPdfPageToCanvas`.
+ * - If a URL is present in `canvas.dataset.pdfUrl`, it will be revoked
+ *   with `URL.revokeObjectURL` and the dataset fields will be cleared.
+ * - This helper is intentionally idempotent and swallow errors.
+ */
+export const revokePdfCanvasUrl = (canvas?: HTMLCanvasElement | null): void => {
+  if (!canvas) return;
+
+  const url = canvas.dataset.pdfUrl;
+  if (!url) return;
+
+  try {
+    URL.revokeObjectURL(url);
+  } catch {
+    // Best-effort revoke only; do not throw
+  }
+
+  // Clear dataset fields to avoid stale references
+  try {
+    delete canvas.dataset.pdfUrl;
+    delete canvas.dataset.originalWidth;
+    delete canvas.dataset.originalHeight;
+  } catch {
+    // ignore
+  }
+};

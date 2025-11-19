@@ -4,6 +4,7 @@ This document describes the custom Plausible events we've instrumented and recom
 
 ## Design Principles
 - Privacy-first: never send filenames or personal data.
+  - We also proactively redact commonly sensitive property keys (e.g., `filename`, `user`, and `error`) when present to reduce risk of accidental PII leakage.
 - Low-cardinality: use buckets where needed (size, duration) to make dashboards stable.
 - Operation IDs: attach `operationId` to relate start/complete/fail events.
 - `tool` property: every event includes `tool` so you can easily filter reports.
