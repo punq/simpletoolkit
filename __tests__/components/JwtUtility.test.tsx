@@ -183,4 +183,63 @@ describe('JwtUtility — Core crypto & UI integration', () => {
       expect(screen.getByText(/Invalid token format/i)).toBeInTheDocument();
     });
   });
+
+  it('shows secret required message when validating HS256 with no secret', async () => {
+    render(<JwtUtility />);
+
+    // Paste token
+    const ta = screen.getByPlaceholderText(/Paste JWT here/i);
+    await userEvent.clear(ta);
+    // Use known test token so decoding works far enough to reach secret branch
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
+      'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.' +
+      'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+    await userEvent.type(ta, token);
+
+    const btn = screen.getByRole('button', { name: /Validate \(HS256\)/i });
+    await userEvent.click(btn);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Secret required for HS256 validation/i)).toBeInTheDocument();
+    });
+  });
+
+  it('shows public key required message when validating RS256 with no PEM', async () => {
+    render(<JwtUtility />);
+
+    // Paste token
+    const ta = screen.getByPlaceholderText(/Paste JWT here/i);
+    await userEvent.clear(ta);
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
+      'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.' +
+      'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+    await userEvent.type(ta, token);
+
+    const btn = screen.getByRole('button', { name: /Validate \(RS256\)/i });
+    await userEvent.click(btn);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Public key PEM required for RS256 validation/i)).toBeInTheDocument();
+    });
+  });
+
+  it('copies token to clipboard and shows toast on success, shows error on failure', async () => {
+    render(<JwtUtility />);
+
+    // Paste a token into the main token textarea
+    const ta = screen.getByPlaceholderText(/Paste JWT here/i);
+    await userEvent.clear(ta);
+    await userEvent.type(ta, 'a.b.c');
+
+    // Success path
+    Object.assign(navigator, { clipboard: { writeText: jest.fn(() => Promise.resolve()) } });
+    const copyBtn = screen.getByRole('button', { name: /^Copy$/i });
+    await userEvent.click(copyBtn);
+    await waitFor(() => expect(screen.getByText(/Copied to clipboard/i)).toBeInTheDocument());
+
+    // Failure path
+    Object.assign(navigator, { clipboard: { writeText: jest.fn(() => Promise.reject(new Error('fail'))) } });
+    await userEvent.click(copyBtn);
+    await waitFor(() => expect(screen.getByText(/Copy failed/i)).toBeInTheDocument());
+  });
 });

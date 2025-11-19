@@ -352,7 +352,7 @@ export default function PDFTextExtractor() {
 
       {/* Image-only message */}
       {isImageOnly && (
-        <div className="p-3 border border-black rounded text-sm text-black" role="status" aria-live="polite">
+        <div data-testid="image-only" className="p-3 border border-black rounded text-sm text-black" role="status" aria-live="polite">
           No selectable text was found in this PDF. This appears to be an image-only (scanned) PDF. OCR is required to extract text.
           <div className="mt-2">
             <a href="/tools" className="underline text-black">Back to tools</a>

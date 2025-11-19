@@ -32,4 +32,42 @@ describe('TextListUtility', () => {
       expect((text.match(/apple/g) || []).length).toBe(1);
     });
   });
+
+  it('copy fallback sets error when clipboard is unavailable', async () => {
+    render(<TextListUtility />);
+
+    const input = screen.getByLabelText('Input text list');
+    fireEvent.change(input, { target: { value: 'one\ntwo' } });
+
+    // Click process
+    const processBtn = screen.getByRole('button', { name: /Process text list/i });
+    fireEvent.click(processBtn);
+
+    // Simulate clipboard throwing
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: jest.fn().mockRejectedValue(new Error('denied')) },
+      configurable: true,
+    });
+
+    const copyBtn = await screen.findByRole('button', { name: /Copy output to clipboard/i });
+    fireEvent.click(copyBtn);
+
+    await waitFor(() => expect(screen.getByText(/Failed to copy to clipboard/i)).toBeInTheDocument());
+  });
+
+  it('download calls downloadBlob', async () => {
+    render(<TextListUtility />);
+
+    const input = screen.getByLabelText('Input text list');
+    fireEvent.change(input, { target: { value: 'a\nb' } });
+
+    const processBtn = screen.getByRole('button', { name: /Process text list/i });
+    fireEvent.click(processBtn);
+
+    const downloadBtn = await screen.findByRole('button', { name: /Download output as file/i });
+    fireEvent.click(downloadBtn);
+
+    const pdfUtils = require('@/app/utils/pdfUtils');
+    expect(pdfUtils.downloadBlob).toHaveBeenCalled();
+  });
 });

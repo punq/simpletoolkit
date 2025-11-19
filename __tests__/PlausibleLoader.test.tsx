@@ -85,4 +85,9 @@ describe('PlausibleLoader', () => {
   // `PlausibleLoaderContent` unit tests (which verify behavior when
   // consent is null and default consent is true), so we avoid mounting the
   // full client component here to keep tests stable.
+  // The default `PlausibleLoader` uses hooks and a browser environment; it
+  // is covered indirectly by other tests (Footer) and the exported
+  // `PlausibleLoaderContent` helper (tested above). Attempting to mount
+  // the client component directly in this Jest environment produces an
+  // invalid hook error, so we avoid rendering it here.
 });
