@@ -38,6 +38,18 @@ export const formatFileSize = (bytes: number): string => {
 };
 
 /**
+ * Get the number of pages for a PDF file.
+ * Returns page count or throws an error if it cannot be read.
+ */
+export const getPdfPageCount = async (file: File): Promise<number> => {
+  validatePdfFile(file);
+  const { PDFDocument } = await import("pdf-lib");
+  const ab = await file.arrayBuffer();
+  const doc = await PDFDocument.load(ab, { ignoreEncryption: false });
+  return doc.getPageCount();
+};
+
+/**
  * Sanitizes filename to remove problematic characters that could cause security issues
  * Removes: < > : " / \ | ? * and control characters (0x00-0x1F)
  * Limits length to 200 characters to prevent filesystem issues

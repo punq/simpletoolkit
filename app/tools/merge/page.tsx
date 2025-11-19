@@ -179,6 +179,11 @@ export default function MergePage() {
                   description:
                     "Encrypted PDFs are automatically skipped with detailed error messages.",
                 },
+                {
+                  title: "Filename",
+                  description:
+                    "Specify a custom output filename for the merged PDF before downloading.",
+                },
               ].map((feature, index) => (
                 <div
                   key={index}

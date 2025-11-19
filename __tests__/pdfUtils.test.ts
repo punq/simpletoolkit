@@ -475,6 +475,16 @@ describe('pdfUtils', () => {
     });
   });
 
+  describe('getPdfPageCount', () => {
+    it('returns the number of pages for a valid PDF', async () => {
+      const file = createMockPDFFile({ size: 1024 * 100 });
+      const { getPdfPageCount } = require('@/app/utils/pdfUtils');
+      const count = await getPdfPageCount(file);
+      expect(typeof count).toBe('number');
+      expect(count).toBeGreaterThanOrEqual(1);
+    });
+  });
+
   describe('getBaseFilename', () => {
     describe('Standard cases', () => {
       it('should remove .pdf extension (lowercase)', () => {

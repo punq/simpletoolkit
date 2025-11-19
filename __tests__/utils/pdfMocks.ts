@@ -4,6 +4,7 @@
 
 // Mock PDFDocument class
 const mockPages: any[] = [];
+// The mock keeps simple page stubs; drawText is used in other tests.
 
 // Allow tests to control page count returned by PDFDocument.load
 let mockPageCount = 3;
@@ -31,8 +32,14 @@ export const mockPDFDocument = {
           })
         );
       }),
-      addPage: jest.fn((page) => {
-        pages.push(page);
+      addPage: jest.fn(() => {
+        // In pdf-lib, addPage returns a PDFPage with utility methods.
+        const p = {
+          _mock: true,
+          drawText: jest.fn(),
+        };
+        pages.push(p);
+        return p;
       }),
       save: jest.fn(() => {
         // Return a mock PDF byte array that's smaller than input (simulating compression)
@@ -70,7 +77,13 @@ export const mockPDFDocument = {
           })
         );
       }),
-      addPage: jest.fn(),
+      addPage: jest.fn(() => {
+        const p = {
+          _mock: true,
+          drawText: jest.fn(),
+        };
+        return p;
+      }),
       save: jest.fn(() => {
         const mockBytes = new Uint8Array([37, 80, 68, 70, 45, 49, 46, 52]);
         return Promise.resolve(mockBytes);

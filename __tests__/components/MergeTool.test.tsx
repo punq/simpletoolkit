@@ -162,6 +162,33 @@ describe('MergeTool - Core Functionality', () => {
         expect(global.plausible).toHaveBeenCalledWith('Files Added', expect.objectContaining({ props: expect.objectContaining({ count: 2, tool: 'merge' }) }));
       });
     });
+
+    it('shows page counts after files are processed', async () => {
+      // Setup mock page count
+      const { setMockPageCount } = require('../utils/pdfMocks');
+      setMockPageCount(4);
+
+      render(<MergeTool />);
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      uploadFiles(fileInput, createMockPDFFiles(1));
+
+      await waitFor(() => {
+        // page count should be visible in the file entry and in the summary
+        const matches = screen.getAllByText(/4 pages?/i);
+        expect(matches.length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('shows an error indicator for encrypted/corrupt files', async () => {
+      render(<MergeTool />);
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+      const encrypted = createMockPDFFile({ name: 'locked.pdf', size: 999 });
+
+      uploadFiles(fileInput, [encrypted]);
+      await waitFor(() => {
+        expect(screen.getByText(/Unable to read pages/i)).toBeInTheDocument();
+      });
+    });
   });
 
   describe('File Size Validation', () => {
@@ -298,6 +325,24 @@ describe('MergeTool - Core Functionality', () => {
         expect(handles.length).toBe(2);
       });
     });
+
+    it('supports accessible move up/move down buttons', async () => {
+      render(<MergeTool />);
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+      uploadFiles(fileInput, createMockPDFFiles(2));
+
+      await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
+
+      const moveDown = screen.getByRole('button', { name: /Move test-1.pdf down/i });
+      fireEvent.click(moveDown);
+
+      await waitFor(() => {
+        // Now test-1.pdf should come after test-2.pdf
+        const names = screen.getAllByText(/test-\d+\.pdf/).map((el) => el.textContent);
+        expect(names).toEqual(['test-2.pdf', 'test-1.pdf']);
+      });
+    });
   });
 
   describe('Keyboard Accessibility', () => {
@@ -350,6 +395,8 @@ describe('MergeTool - Core Functionality', () => {
       await waitFor(() => {
         expect(screen.getByTestId('success-message')).toBeInTheDocument();
       });
+
+      // No footer or branding expected — merged content should be unchanged.
     });
 
     it('shows "Merging..." state during operation', async () => {
@@ -362,7 +409,10 @@ describe('MergeTool - Core Functionality', () => {
       const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
       fireEvent.click(mergeButton);
       
-      expect(screen.getByText(/Merging PDFs.../i)).toBeInTheDocument();
+      expect(screen.getByText(/Merging PDFs\.{3}/i)).toBeInTheDocument();
+      // Progress count may update asynchronously; ensure busy state is indicated
+      expect(mergeButton).toHaveAttribute('aria-busy', 'true');
+      expect(mergeButton).toHaveAttribute('aria-busy', 'true');
     });
 
     it('creates and revokes object URL', async () => {
@@ -394,6 +444,26 @@ describe('MergeTool - Core Functionality', () => {
       await waitFor(() => {
         expect(global.plausible).toHaveBeenCalledWith('Merge Started', expect.objectContaining({ props: expect.objectContaining({ files: 2, tool: 'merge' }) }));
         expect(global.plausible).toHaveBeenCalledWith('Merge Completed', expect.objectContaining({ props: expect.objectContaining({ files: 2, skipped: 0, tool: 'merge' }) }));
+      });
+    });
+
+    it('allows setting an output filename', async () => {
+      render(<MergeTool />);
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+
+      uploadFiles(fileInput, createMockPDFFiles(1));
+      await waitFor(() => expect(screen.getByText('test-1.pdf')).toBeInTheDocument());
+
+      const filenameInput = screen.getByLabelText('Output filename') as HTMLInputElement;
+      expect(filenameInput.value).toBe('merged.pdf');
+      fireEvent.change(filenameInput, { target: { value: 'custom_name.pdf' } });
+      expect(filenameInput.value).toBe('custom_name.pdf');
+
+      const mergeButton = screen.getByRole('button', { name: /Merge selected PDF files/i });
+      fireEvent.click(mergeButton);
+
+      await waitFor(() => {
+        expect(screen.getByTestId('success-message')).toBeInTheDocument();
       });
     });
   });

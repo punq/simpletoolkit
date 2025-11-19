@@ -6,6 +6,7 @@ import {
   MAX_FILE_SIZE,
   isPdfFile,
   formatFileSize,
+  getPdfPageCount,
   downloadBlob
 } from "@/app/utils/pdfUtils";
 import { track } from "@/app/utils/analytics";
@@ -14,7 +15,10 @@ export default function MergeTool() {
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [merging, setMerging] = useState(false);
+  const [mergeProgress, setMergeProgress] = useState<number | null>(null);
   const [skipped, setSkipped] = useState<string[]>([]);
+  const [pageCounts, setPageCounts] = useState<Record<string, number | null>>({});
+  const [outputFilename, setOutputFilename] = useState<string>("merged.pdf");
   const [isDragging, setIsDragging] = useState(false);
   const [addedMessage, setAddedMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -51,6 +55,21 @@ export default function MergeTool() {
       }
       return combined;
     });
+
+    // Kick off async page count calculations for the newly added PDFs
+    (async () => {
+      for (const f of pdfs) {
+        const id = `${f.name}|${f.size}`;
+        try {
+          setPageCounts((pc) => ({ ...pc, [id]: null })); // null means calculating
+          const count = await getPdfPageCount(f);
+          setPageCounts((pc) => ({ ...pc, [id]: count }));
+        } catch {
+          // If page count fails (e.g., encrypted), mark as -1 and surface later
+          setPageCounts((pc) => ({ ...pc, [id]: -1 }));
+        }
+      }
+    })();
 
     setError(null);
     setSkipped([]);
@@ -157,13 +176,20 @@ export default function MergeTool() {
           skippedLocal.push(`${f.name}: ${msg}`);
           // continue with next file
         }
+        // Update progress after each file is attempted
+        setMergeProgress((prev) => (prev === null ? 1 : (prev as number) + 1));
       }
+
+      // Append a small footer page with the app name (MVP branding) so users know
+      // where the merged file was created. This happens client-side only.
+      // No footer/branding — keep the merged file content unchanged.
 
       const mergedBytes = await mergedPdf.save();
       const blob = new Blob([new Uint8Array(mergedBytes)], { type: "application/pdf" });
       
   // Use shared download utility
-      downloadBlob(blob, "merged.pdf");
+      // Use user-specified output filename
+      downloadBlob(blob, outputFilename || "merged.pdf");
   // Generate unique operation id for deduping counters
       // operation id already created at start
   setSuccess(true);
@@ -194,6 +220,7 @@ export default function MergeTool() {
       track("Merge Failed", { error: msg, tool: 'merge', operationId: operationId ?? undefined });
     } finally {
       setMerging(false);
+        setMergeProgress(null);
     }
   };
 
@@ -201,7 +228,14 @@ export default function MergeTool() {
     <div className="w-full space-y-4 sm:space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-lg sm:text-xl font-medium">Merge PDFs</h2>
+        {/*
+          Prevent hydration mismatch for the heading: some client-only theme
+          or CSS behavior can add color/weight classes after hydration which
+          would otherwise cause <React> hydration warnings in Next.js.
+          Suppressing hydration warning is safe here because only non-critical
+          presentational classes may differ between server and client.
+        */}
+        <h2 suppressHydrationWarning className="text-lg sm:text-xl font-medium text-black dark:text-white">Merge PDFs</h2>
         {files.length > 0 && (
           <button
             onClick={(e) => {
@@ -272,7 +306,17 @@ export default function MergeTool() {
                     <div className="text-gray-400 cursor-grab active:cursor-grabbing" aria-hidden="true">☰</div>
                     <div>
                       <div className="font-medium text-sm text-gray-900">{f.name}</div>
-                      <div className="text-gray-500 text-xs">{formatFileSize(f.size)}</div>
+                      <div className="text-gray-500 text-xs flex items-center gap-2">
+                        <span>{formatFileSize(f.size)}</span>
+                        {(() => {
+                          const id = `${f.name}|${f.size}`;
+                          const v = pageCounts[id];
+                          if (v === undefined) return null;
+                          if (v === null) return <span className="text-gray-400">calculating pages…</span>;
+                          if (v === -1) return <span className="text-red-500">Unable to read pages</span>;
+                          return <span className="text-gray-500">{v} page{v !== 1 ? 's' : ''}</span>;
+                        })()}
+                      </div>
                     </div>
                   </div>
                   <button
@@ -285,6 +329,22 @@ export default function MergeTool() {
                   >
                     Remove
                   </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); if (i > 0) { const next = [...files]; const [a] = next.splice(i, 1); next.splice(i - 1, 0, a); setFiles(next); } }}
+                      className="text-xs px-2 py-1 rounded bg-gray-100 hover:bg-gray-200"
+                      aria-label={`Move ${f.name} up`}
+                    >
+                      ↑
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); if (i < files.length - 1) { const next = [...files]; const [a] = next.splice(i, 1); next.splice(i + 1, 0, a); setFiles(next); } }}
+                      className="text-xs px-2 py-1 rounded bg-gray-100 hover:bg-gray-200"
+                      aria-label={`Move ${f.name} down`}
+                    >
+                      ↓
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -292,6 +352,19 @@ export default function MergeTool() {
             <p className="text-xs text-gray-500 text-center">
               Drag files to reorder • Click to add more
             </p>
+            <div className="text-xs text-gray-500 text-center mt-2">
+              {files.length} file{files.length !== 1 ? 's' : ''}
+              {" • "}
+              {(() => {
+                const totalPages = files.reduce((s, f) => {
+                  const id = `${f.name}|${f.size}`;
+                  const v = pageCounts[id];
+                  if (typeof v === 'number' && v > 0) return s + v;
+                  return s;
+                }, 0);
+                return totalPages > 0 ? `${totalPages} pages` : null;
+              })()}
+            </div>
           </div>
         ) : (
           <div className="text-center space-y-2">
@@ -368,6 +441,15 @@ export default function MergeTool() {
       )}
 
       {/* Action Button */}
+      <div className="pt-2">
+        <label className="block text-sm font-medium text-gray-700 mb-1">Download filename</label>
+        <input
+          className="w-full sm:w-64 border border-gray-300 rounded px-3 py-2 text-sm"
+          value={outputFilename}
+          onChange={(e) => setOutputFilename(e.target.value)}
+          aria-label="Output filename"
+        />
+      </div>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -402,7 +484,9 @@ export default function MergeTool() {
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               />
             </svg>
-            <span>Merging PDFs...</span>
+            <span>
+              Merging PDFs...{mergeProgress !== null ? ` (${mergeProgress}/${files.length})` : ''}
+            </span>
           </span>
         ) : (
           "Merge PDFs"
@@ -452,6 +536,10 @@ export default function MergeTool() {
           <div>
             <p className="font-medium text-gray-900 dark:text-white mb-1">3. Merge</p>
             <p>Click &quot;Merge PDFs&quot; and your merged file will download automatically as &quot;merged.pdf&quot;.</p>
+          </div>
+          <div>
+            <p className="font-medium text-gray-900 dark:text-white mb-1">4. Filename</p>
+            <p>You can specify the output filename below. We recommend keeping the .pdf extension.</p>
           </div>
         </div>
       </details>
