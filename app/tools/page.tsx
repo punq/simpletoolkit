@@ -2,454 +2,249 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Tools — Privacy-First, No-Upload Utilities | Simple Toolkit",
+  title: "Tools — Simple Toolkit",
   description:
-    "Explore our fast, browser-based tools for PDFs, images, and more. 100% private—no logins, no ads, no tracking, no watermarks. Files never leave your device.",
-  keywords: [
-    "privacy-first tools",
-    "no upload tools",
-    "pdf tools",
-    "merge pdf",
-    "split pdf",
-    "compress pdf",
-    "rearrange pdf",
-    "rotate pdf",
-    "offline pdf editor",
-    "exif remover",
-    "metadata stripper",
-    "image privacy tools",
-    "browser tools",
-    "no tracking",
-    "no login",
-  ],
-  openGraph: {
-    title: "Simple Toolkit — All Tools",
-    description:
-      "Private, modern tools that run entirely in your browser. Merge, split, compress PDFs and more—no uploads, no tracking.",
-    type: "website",
-  },
-  alternates: {
-    canonical: "https://simpletoolkit.app/tools",
-  },
+    "Powerful, privacy-first tools that run entirely in your browser. No uploads, no tracking, just utility.",
+};
+
+// Reusable Card Component for the Bento Grid
+function ToolCard({
+  href,
+  title,
+  description,
+  icon,
+  size = "normal",
+  badge,
+  className = "",
+}: {
+  href: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  size?: "normal" | "large" | "wide";
+  badge?: string;
+  className?: string;
+}) {
+  // Size classes
+  const sizeClasses = {
+    normal: "col-span-1 row-span-1",
+    large: "col-span-1 sm:col-span-2 row-span-2",
+    wide: "col-span-1 sm:col-span-2 row-span-1",
+  };
+
+  return (
+    <Link
+      href={href}
+      className={`group relative overflow-hidden rounded-[2rem] bg-neutral-50 dark:bg-[#1c1c1e] border border-neutral-200 dark:border-[#2c2c2e] p-8 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl dark:hover:shadow-black/50 ${sizeClasses[size]} ${className}`}
+    >
+      <div className="relative z-10 flex flex-col h-full justify-between">
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <div className="p-3 rounded-2xl bg-white dark:bg-black/50 border border-neutral-100 dark:border-[#3a3a3c] text-black dark:text-white">
+              {icon}
+            </div>
+            {badge && (
+              <span className="px-3 py-1 text-xs font-semibold tracking-wide uppercase rounded-full bg-black/5 dark:bg-white/10 text-black dark:text-white backdrop-blur-md">
+                {badge}
+              </span>
+            )}
+          </div>
+          <h3 className="text-2xl font-bold tracking-tight text-black dark:text-white mb-2 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors">
+            {title}
+          </h3>
+          <p className="text-neutral-500 dark:text-[#86868b] font-medium leading-relaxed">
+            {description}
+          </p>
+        </div>
+
+        <div className="mt-6 flex items-center text-sm font-semibold text-black dark:text-white opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+          Open Tool <span className="ml-1">→</span>
+        </div>
+      </div>
+
+      {/* Subtle gradient blob for hover effect */}
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-gradient-to-br from-neutral-200/50 to-transparent dark:from-white/5 dark:to-transparent rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+    </Link>
+  );
+}
+
+// Icons
+const Icons = {
+  Merge: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 19l4 4 4-4" /><path d="M12 3v20" /><path d="M20 14v-4a2 2 0 0 0-2-2h-4" /><path d="M4 14v-4a2 2 0 0 1 2-2h4" /></svg>
+  ),
+  Split: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v18" /><path d="M8 7l4-4 4 4" /><path d="M8 17l4 4 4-4" /></svg>
+  ),
+  Compress: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 14h6" /><path d="M4 10h6" /><path d="M14 10h6" /><path d="M14 14h6" /><path d="M8 19l4-4 4 4" /><path d="M12 15v9" /><path d="M8 5l4 4 4-4" /><path d="M12 9V0" /></svg>
+  ),
+  Redact: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" /><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" /><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" /><line x1="2" x2="22" y1="2" y2="22" /></svg>
+  ),
+  Text: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+  ),
+  Code: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>
+  ),
+  Image: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg>
+  ),
+  Lock: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+  ),
+  List: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" x2="21" y1="6" y2="6" /><line x1="8" x2="21" y1="12" y2="12" /><line x1="8" x2="21" y1="18" y2="18" /><line x1="3" x2="3.01" y1="6" y2="6" /><line x1="3" x2="3.01" y1="12" y2="12" /><line x1="3" x2="3.01" y1="18" y2="18" /></svg>
+  ),
 };
 
 export default function ToolsPage() {
   return (
-    <div className="flex flex-col items-center">
-      {/* Hero / Intro */}
-      <section
-        aria-labelledby="tools-hero"
-        className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8 relative overflow-hidden"
-      >
-        <div className="absolute top-16 left-8 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
-        <div className="absolute bottom-8 right-8 w-96 h-96 bg-success/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-neutral-200 dark:selection:bg-neutral-800">
+      {/* Background Ambience */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-neutral-100/50 dark:bg-neutral-900/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-neutral-100/50 dark:bg-neutral-900/20 rounded-full blur-[120px]" />
+      </div>
 
-        <div className="relative z-10 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold shadow-sm" style={{ borderColor: 'var(--primary)' }}>
-            <span className="text-foreground">100% Private • No Logins • No Ads</span>
-          </div>
-          <h1 id="tools-hero" className="text-4xl sm:text-5xl font-bold tracking-tight">All Tools</h1>
-          <p className="text-lg sm:text-xl max-w-3xl mx-auto" style={{ color: 'var(--muted-foreground)' }}>
-            Professional, browser-based utilities for PDFs and beyond. Files never leave your device. No ads. No watermarks. Free forever.
+      <main className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-8 py-20 sm:py-28">
+
+        {/* Header */}
+        <header className="mb-20 max-w-3xl animate-fade-in">
+          <h1 className="text-6xl sm:text-7xl font-bold tracking-tighter mb-6 text-black dark:text-white">
+            Tools.
+          </h1>
+          <p className="text-xl sm:text-2xl font-medium text-neutral-500 dark:text-[#86868b] leading-relaxed">
+            A collection of privacy-first utilities designed for speed and simplicity.
+            <span className="text-black dark:text-white"> No uploads. No tracking.</span>
           </p>
-        </div>
-      </section>
+        </header>
 
-      <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20">
-        {/* Category: PDF Tools */}
-        <section aria-labelledby="pdf-tools" className="mt-6">
-          <div className="flex items-baseline justify-between mb-6">
-            <h2 id="pdf-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">PDF Tools</h2>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
+        {/* PDF Tools Section */}
+        <section className="mb-24 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+          <div className="flex items-center gap-4 mb-8">
+            <h2 className="text-3xl font-bold tracking-tight">PDF</h2>
+            <div className="h-px flex-1 bg-neutral-200 dark:bg-[#333]" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Merge */}
-            <Link
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <ToolCard
               href="/tools/merge"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Merge PDF files locally in your browser"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Merge PDF</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Combine multiple PDFs and drag to reorder pages—<strong className="text-foreground">no uploads</strong>, no tracking.
-              </p>
-            </Link>
-
-            {/* Split */}
-            <Link
+              title="Merge"
+              description="Combine multiple PDFs into a single file. Drag & drop reordering."
+              icon={<Icons.Merge />}
+              size="large"
+              badge="Popular"
+            />
+            <ToolCard
               href="/tools/split"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Split a PDF into pages or ranges locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Split PDF</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Extract pages, ranges, or split into single-page files—all <strong className="text-foreground">in your browser</strong>.
-              </p>
-            </Link>
-
-            {/* Rearrange / Rotate */}
-            <Link
-              href="/tools/rearrange"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Rearrange or rotate PDF pages locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Rearrange & Rotate PDF</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Reorder pages and rotate as needed—fast, private, and accurate.
-              </p>
-            </Link>
-
-            {/* Compress */}
-            <Link
+              title="Split"
+              description="Extract pages or split documents into separate files."
+              icon={<Icons.Split />}
+            />
+            <ToolCard
               href="/tools/compress"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Compress PDF size locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Compress PDF</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Reduce file size with smart, client-side compression—<strong className="text-foreground">no watermarks</strong>.
-              </p>
-            </Link>
-
-            {/* Redact */}
-            <Link
+              title="Compress"
+              description="Reduce file size while maintaining quality."
+              icon={<Icons.Compress />}
+            />
+            <ToolCard
+              href="/tools/rearrange"
+              title="Organize"
+              description="Rotate, delete, and reorder pages instantly."
+              icon={<Icons.List />}
+            />
+            <ToolCard
               href="/tools/redact"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Redact sensitive information from PDFs locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Redact PDF</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Remove sensitive information with visual and text redaction—<strong className="text-foreground">high-security processing</strong>.
-              </p>
-            </Link>
-
-            {/* Extract Text */}
-            <Link
+              title="Redact"
+              description="Permanently remove sensitive information."
+              icon={<Icons.Redact />}
+            />
+            <ToolCard
               href="/tools/pdf-text-extractor"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Extract selectable text from PDFs locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Extract Text (PDF)</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Extract selectable text from PDF pages in reading order. Client-side only — no uploads or external services.
-              </p>
-            </Link>
+              title="Extract Text"
+              description="Pull selectable text from any PDF document."
+              icon={<Icons.Text />}
+              className="sm:col-span-2"
+            />
           </div>
         </section>
 
-        {/* Category: Text & Productivity Tools */}
-        <section aria-labelledby="text-tools" className="mt-12">
-          <div className="flex items-baseline justify-between mb-6">
-            <h2 id="text-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Text & Productivity Tools</h2>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
+        {/* Developer Tools Section */}
+        <section className="mb-24 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <div className="flex items-center gap-4 mb-8">
+            <h2 className="text-3xl font-bold tracking-tight">Developer</h2>
+            <div className="h-px flex-1 bg-neutral-200 dark:bg-[#333]" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Text List Utility */}
-            <Link
-              href="/tools/text-list"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Process text lists with deduplication, sorting, and case conversion"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Text List Utility</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Remove duplicates, sort alphabetically, convert case—perfect for email lists, todo lists, or any text data. Handle 100,000+ lines <strong className="text-foreground">instantly</strong>.
-              </p>
-            </Link>
-          </div>
-        </section>
-
-        {/* Category: Developer Tools */}
-        <section aria-labelledby="developer-tools" className="mt-12">
-          <div className="flex items-baseline justify-between mb-6">
-            <h2 id="developer-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Developer Tools</h2>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Data Formatter & Validator */}
-            <Link
+            <ToolCard
               href="/tools/data-formatter"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Format and validate JSON, YAML, XML locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Data Formatter & Validator</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Format, validate, and convert between JSON, YAML, and XML—<strong className="text-foreground">zero uploads</strong>, instant validation.
-              </p>
-            </Link>
-
-            {/* Base64 Encoder/Decoder */}
-            <Link
+              title="JSON / YAML"
+              description="Format, validate, and convert data structures."
+              icon={<Icons.Code />}
+              size="wide"
+            />
+            <ToolCard
               href="/tools/base64"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Encode and decode Base64 strings locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Base64 URL Encoder</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Encode and decode Base64 with standard & URL-safe modes—<strong className="text-foreground">full Unicode support</strong>, instant processing.
-              </p>
-            </Link>
-
-            {/* JWT Utility */}
-            <Link
+              title="Base64"
+              description="Encode and decode strings and files."
+              icon={<Icons.Code />}
+            />
+            <ToolCard
               href="/tools/jwt"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Client-side JWT validator and generator"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">JWT Validator & Generator</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">New</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Decode, validate, and generate JWTs locally in your browser. Zero uploads — your keys never leave your device.
-              </p>
-            </Link>
+              title="JWT Debugger"
+              description="Decode and verify JSON Web Tokens."
+              icon={<Icons.Lock />}
+              badge="New"
+            />
           </div>
         </section>
 
-
-        {/* Category: Image Tools */}
-        <section aria-labelledby="image-tools" className="mt-12">
-          <div className="flex items-baseline justify-between mb-6">
-            <h2 id="image-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Image Tools</h2>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
+        {/* Image & Privacy Section */}
+        <section className="mb-24 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+          <div className="flex items-center gap-4 mb-8">
+            <h2 className="text-3xl font-bold tracking-tight">Media & Privacy</h2>
+            <div className="h-px flex-1 bg-neutral-200 dark:bg-[#333]" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Image Format Converter */}
-            <Link
+            <ToolCard
               href="/tools/image-converter"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Convert images between JPEG, PNG, WebP formats locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">Image Format Converter</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Convert between JPEG, PNG, and WebP formats with quality control—<strong className="text-foreground">no uploads</strong>, batch processing supported.
-              </p>
-            </Link>
-          </div>
-        </section>
-
-        {/* Category: Privacy Tools */}
-        <section aria-labelledby="privacy-tools" className="mt-12">
-          <div className="flex items-baseline justify-between mb-6">
-            <h2 id="privacy-tools" className="text-2xl sm:text-3xl font-bold tracking-tight">Privacy Tools</h2>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">Client-Side Only</span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* EXIF/Metadata Stripper */}
-            <Link
+              title="Converter"
+              description="Transform images between PNG, JPG, and WebP."
+              icon={<Icons.Image />}
+            />
+            <ToolCard
               href="/tools/exif-stripper"
-              className="group block rounded-2xl border p-6 transition-all hover:border-foreground/20 hover:shadow-xl hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Strip EXIF and metadata from images locally"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">EXIF/Metadata Stripper</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium">Active</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Remove EXIF data, GPS location, timestamps, and device info from JPEG/PNG images—<strong className="text-foreground">100% private</strong>.
-              </p>
-            </Link>
+              title="EXIF Stripper"
+              description="Remove location and metadata from photos."
+              icon={<Icons.Lock />}
+            />
+            <ToolCard
+              href="/tools/text-list"
+              title="List Tools"
+              description="Deduplicate, sort, and clean text lists."
+              icon={<Icons.List />}
+            />
           </div>
         </section>
 
-        {/* Category: Coming Soon */}
-        <section aria-labelledby="coming-soon" className="mt-12">
-          <div className="flex items-baseline justify-between mb-6">
-            <h2 id="coming-soon" className="text-2xl sm:text-3xl font-bold tracking-tight">Coming Soon</h2>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-border/40 text-muted">Roadmap</span>
+        {/* Footer Promise */}
+        <footer className="mt-32 pt-12 border-t border-neutral-200 dark:border-[#333] text-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
+          <h3 className="text-2xl font-bold mb-4">Privacy by Design</h3>
+          <p className="text-neutral-500 dark:text-[#86868b] max-w-2xl mx-auto mb-8">
+            Simple Toolkit is open source and runs 100% in your browser.
+            Your files never leave your device.
+          </p>
+          <div className="flex justify-center gap-6 text-sm font-medium">
+            <Link href="/privacy" className="hover:text-neutral-900 dark:hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="https://github.com/punq/simpletoolkit" className="hover:text-neutral-900 dark:hover:text-white transition-colors">GitHub</Link>
+            <Link href="/donate" className="hover:text-neutral-900 dark:hover:text-white transition-colors">Donate</Link>
           </div>
+        </footer>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="block rounded-2xl border border-border/50 p-6 opacity-80">
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold">PDF → Images</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-muted/10 text-muted font-medium">Planned</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Convert PDF pages to PNG or JPG entirely on-device.
-              </p>
-            </div>
-
-            <div className="block rounded-2xl border border-border/50 p-6 opacity-80">
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold">Images → PDF</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-muted/10 text-muted font-medium">Planned</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Combine images into a single, high‑quality PDF locally.
-              </p>
-            </div>
-
-            <div className="block rounded-2xl border border-border/50 p-6 opacity-80">
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold">Image Optimizer</h3>
-                <span className="text-xs px-2 py-1 rounded-full bg-muted/10 text-muted font-medium">Planned</span>
-              </div>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--muted-foreground)' }}>
-                Compress and resize images without quality loss—all in your browser.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Trust / Promise */}
-        <section aria-labelledby="privacy-promise" className="mt-16">
-          <div className="relative overflow-hidden rounded-3xl border-2 p-8 sm:p-10 text-center" style={{ borderColor: 'var(--primary)' }}>
-            <div className="absolute -top-16 left-1/3 w-72 h-72 bg-primary/10 rounded-full blur-3xl" aria-hidden="true"></div>
-            <div className="absolute -bottom-16 right-1/3 w-72 h-72 bg-success/10 rounded-full blur-3xl" aria-hidden="true"></div>
-            <div className="relative z-10 space-y-4">
-              <h2 id="privacy-promise" className="text-2xl sm:text-3xl font-bold">Our Privacy Promise</h2>
-              <p className="text-sm sm:text-base max-w-3xl mx-auto" style={{ color: 'var(--muted-foreground)' }}>
-                All tools run <strong className="text-foreground">100% in your browser</strong>. Your files are never uploaded. No accounts, no ads. We enable privacy‑friendly, cookie‑less analytics (Plausible) in production to count visits and basic events, but never file content.
-              </p>
-              <div className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
-                <Link className="underline hover:text-foreground transition-colors" href="/privacy">Read our simple privacy policy</Link>
-                {" · "}
-                <Link className="underline hover:text-foreground transition-colors" href="/donate">Support this project</Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Simple FAQ without JS */}
-        <section aria-labelledby="faq" className="mt-12">
-          <h2 id="faq" className="text-2xl sm:text-3xl font-bold tracking-tight mb-6">FAQs</h2>
-          <div className="space-y-3">
-            <details className="rounded-xl border p-4" style={{ borderColor: 'var(--card-border)' }}>
-              <summary className="cursor-pointer font-medium">Do my files ever get uploaded?</summary>
-              <p className="mt-3 text-sm" style={{ color: 'var(--muted-foreground)' }}>
-                No. Processing happens locally using WebAssembly and browser APIs via pdf-lib. We do not have servers to receive your files.
-              </p>
-            </details>
-            <details className="rounded-xl border p-4" style={{ borderColor: 'var(--card-border)' }}>
-              <summary className="cursor-pointer font-medium">Is it really free and ad‑free?</summary>
-              <p className="mt-3 text-sm" style={{ color: 'var(--muted-foreground)' }}>
-                Yes. The project is donation‑powered. There are no premium tiers, watermarks, ads, or trackers.
-              </p>
-            </details>
-            <details className="rounded-xl border p-4" style={{ borderColor: 'var(--card-border)' }}>
-              <summary className="cursor-pointer font-medium">Can I use this offline?</summary>
-              <p className="mt-3 text-sm" style={{ color: 'var(--muted-foreground)' }}>
-                Once the page loads, most tools continue to work even if your connection drops. Everything runs in your browser.
-              </p>
-            </details>
-          </div>
-        </section>
-
-        {/* Structured Data for SEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ItemList",
-              name: "Simple Toolkit – All Tools",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  item: {
-                    "@type": "SoftwareApplication",
-                    name: "Merge PDF",
-                    applicationCategory: "UtilitiesApplication",
-                    operatingSystem: "Web",
-                    offers: { "@type": "Offer", price: 0, priceCurrency: "USD" },
-                    url: "https://simpletoolkit.app/tools/merge",
-                    description: "Combine multiple PDF files locally in your browser—no uploads or tracking.",
-                  },
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  item: {
-                    "@type": "SoftwareApplication",
-                    name: "Split PDF",
-                    applicationCategory: "UtilitiesApplication",
-                    operatingSystem: "Web",
-                    offers: { "@type": "Offer", price: 0, priceCurrency: "USD" },
-                    url: "https://simpletoolkit.app/tools/split",
-                    description: "Extract pages or ranges and split PDFs entirely on‑device.",
-                  },
-                },
-                {
-                  "@type": "ListItem",
-                  position: 3,
-                  item: {
-                    "@type": "SoftwareApplication",
-                    name: "Rearrange & Rotate PDF",
-                    applicationCategory: "UtilitiesApplication",
-                    operatingSystem: "Web",
-                    offers: { "@type": "Offer", price: 0, priceCurrency: "USD" },
-                    url: "https://simpletoolkit.app/tools/rearrange",
-                    description: "Reorder and rotate PDF pages privately in your browser.",
-                  },
-                },
-                {
-                  "@type": "ListItem",
-                  position: 4,
-                  item: {
-                    "@type": "SoftwareApplication",
-                    name: "Compress PDF",
-                    applicationCategory: "UtilitiesApplication",
-                    operatingSystem: "Web",
-                    offers: { "@type": "Offer", price: 0, priceCurrency: "USD" },
-                    url: "https://simpletoolkit.app/tools/compress",
-                    description: "Reduce PDF file size with client‑side compression—no watermarks.",
-                  },
-                },
-              ],
-            }),
-          }}
-        />
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-                { "@type": "ListItem", position: 2, name: "Tools", item: "/tools" },
-              ],
-            }),
-          }}
-        />
       </main>
     </div>
   );
