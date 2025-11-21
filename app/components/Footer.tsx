@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Toast from "./Toast";
-import { Shield, Mail, Github } from "lucide-react";
+import { Shield, Mail, Github, Info } from "lucide-react";
 
 export default function Footer() {
   const [toast, setToast] = useState<string | null>(null);
@@ -27,6 +27,14 @@ export default function Footer() {
             >
               <Shield size={20} className="text-gray-600 dark:text-gray-300 mb-1 sm:hidden" />
               <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-700 dark:text-gray-300 sm:text-sm sm:mb-0 sm:ml-0 sm:inline">Privacy</span>
+            </Link>
+            <Link
+              href="/disclaimer"
+              className="flex flex-col items-center justify-center p-2 min-w-[44px] min-h-[44px] rounded-md transition active:scale-95 hover:opacity-90 sm:flex-row sm:gap-2"
+              aria-label="Disclaimer"
+            >
+              <Info size={20} className="text-gray-600 dark:text-gray-300 mb-1 sm:hidden" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-700 dark:text-gray-300 sm:text-sm sm:mb-0 sm:ml-0 sm:inline">Disclaimer</span>
             </Link>
 
             <a
