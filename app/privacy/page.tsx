@@ -18,139 +18,72 @@ export default function PrivacyPage() {
     <>
       <TrackView event="Privacy Page Viewed" />
       <main className="min-h-screen bg-white dark:bg-black">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16">
+        <div className="max-w-[700px] mx-auto px-6 py-16">
           {/* Breadcrumb */}
-          <nav className="mb-6 text-sm" aria-label="Breadcrumb">
+          <nav className="mb-8 text-sm" aria-label="Breadcrumb">
             <ol className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
               <li>
-                <Link href="/" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
-                  Home
-                </Link>
+                <Link href="/" className="hover:text-gray-900 dark:hover:text-gray-100 transition-colors">Home</Link>
               </li>
               <li aria-hidden="true">/</li>
-              <li className="text-gray-900 dark:text-gray-100" aria-current="page">
-                Privacy
-              </li>
+              <li className="text-gray-900 dark:text-gray-100" aria-current="page">Privacy</li>
             </ol>
           </nav>
 
-          <div className="max-w-3xl">
-            <div className="space-y-12">
-              {/* Header Section */}
-              <div className="space-y-4">
-                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
-                  Privacy
-                </h1>
-                <p className="text-lg text-muted-foreground dark:text-gray-300 leading-relaxed">
-                  Simple Toolkit (simpletoolkit.app) is intentionally privacy-first. All tools process files locally in your browser. 
-                  Files you select are not uploaded to our servers, stored, or logged.
-                </p>
-              </div>
+          <section className="mb-12">
+            <h1 className="text-4xl font-bold mb-4 tracking-tight">Your Privacy, Simply Protected</h1>
+            <p className="text-lg text-muted-foreground dark:text-gray-300 mb-2">Simple Toolkit is designed so your files never leave your device. All processing happens locally in your browser.</p>
+            <ul className="list-disc pl-6 space-y-2 text-base text-muted-foreground dark:text-gray-300">
+              <li>No uploads. No storage. No tracking of your files.</li>
+              <li>No cookies. No advertising. No cross-site tracking.</li>
+              <li>All tools work fully offline.</li>
+            </ul>
+          </section>
 
-              {/* Core Privacy Principles */}
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold tracking-tight">How We Protect Your Privacy</h2>
-                <div className="border-2 border-black dark:border-white p-8 space-y-6">
-                  <p className="text-muted-foreground dark:text-gray-300 leading-relaxed">
-                    We don&#39;t collect or store the files you process. Analytics are enabled by default in deployments that choose to use them (controlled by environment variables) — this helps us understand usage and prioritize improvements — but you can opt out at any time via the <strong>Analytics</strong> toggle in the footer. When enabled, we use Plausible Analytics, a privacy‑friendly, cookie‑less service that does not collect personal data, use cookies, or store file content.
-                  </p>
-                  <ul className="space-y-3 text-muted-foreground dark:text-gray-300">
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white font-bold">✓</span>
-                      <span>Your files never leave your device</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white font-bold">✓</span>
-                      <span>No cookies. No cross‑site tracking. No advertising identifiers</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white font-bold">✓</span>
-                      <span>Analytics can be blocked by content blockers without affecting functionality</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white font-bold">✓</span>
-                      <span>All processing happens client-side using JavaScript in your browser</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Analytics Details */}
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold tracking-tight">About Analytics</h2>
-                <div className="space-y-4 text-muted-foreground dark:text-gray-300">
-                  <p className="leading-relaxed">
-                    Analytics are opt‑in only and will only run after you grant consent via the site controls (the Analytics toggle on this page). When enabled, we use <strong className="text-foreground">Plausible Analytics</strong>, a privacy-focused alternative to Google Analytics.
-                    We track a minimal set of metrics so we can improve the experience (e.g., how many files users merge, approximate sizes, success/failure rates and durations). Every event includes:
-                  </p>
-
-                  <AnalyticsToggle />
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-3"><strong>tool</strong>: a low-cardinality identifier for the tool being used (e.g., `merge`, `compress`, `split`).</li>
-                    <li className="flex items-start gap-3"><strong>operationId</strong>: a short, ephemeral id that ties a start/completion/failure together without identifying a visitor.</li>
-                    <li className="flex items-start gap-3"><strong>sanitized props</strong>: counts, size buckets (no raw sizes in string form), pages, and duration; we never send filenames, paths, or raw file contents.</li>
-                  </ul>
-                  <p className="leading-relaxed">
-                    Plausible is:
-                  </p>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white">•</span>
-                      <span><strong className="text-foreground">GDPR, CCPA, and PECR compliant</strong> — no cookie banners needed</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white">•</span>
-                      <span><strong className="text-foreground">Open source</strong> — you can review the code</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white">•</span>
-                      <span><strong className="text-foreground">Lightweight</strong> — under 1KB script size</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-black dark:text-white">•</span>
-                      <span><strong className="text-foreground">Privacy-first</strong> — no personal data collection</span>
-                    </li>
-                  </ul>
-
-                  <p className="leading-relaxed">
-                    You can see the exact event schema and recommended dashboards in the repository&apos;s `ANALYTICS.md` file. If you prefer not to be tracked, use the Analytics toggle on this page to revoke consent at any time — this stops all analytics immediately and will also dispatch an event indicating consent was revoked.
-                  </p>
-                </div>
-              </div>
-
-              {/* Contact Section */}
-              <div className="space-y-4">
-                <h2 className="text-2xl font-bold tracking-tight">Questions?</h2>
-                <p className="text-muted-foreground dark:text-gray-300 leading-relaxed">
-                  If you have questions about privacy or how your data is handled, email me at{" "}
-                  <a 
-                    href="mailto:simpletoolkitapp@gmail.com" 
-                    className="text-black dark:text-white font-semibold hover:underline"
-                  >
-                    simpletoolkitapp@gmail.com
-                  </a>
-                  .
-                </p>
-              </div>
-
-              {/* Back Link */}
-              <div className="pt-8 border-t border-gray-200 dark:border-gray-800">
-                <Link 
-                  href="/" 
-                  className="inline-flex items-center text-sm text-muted-foreground dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
-                  aria-label="Return to homepage"
-                >
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-                  Back to home
-                </Link>
-              </div>
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-4 tracking-tight">Privacy Principles</h2>
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800">
+              <ul className="space-y-3 text-base">
+                <li>Your files never leave your device.</li>
+                <li>No personal data is collected.</li>
+                <li>No cookies or identifiers.</li>
+                <li>Analytics are optional and privacy-friendly.</li>
+              </ul>
             </div>
+          </section>
+
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-4 tracking-tight">Analytics</h2>
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-800 flex flex-col gap-4">
+              <p className="text-base text-muted-foreground dark:text-gray-300">We use Plausible Analytics, a privacy-first, cookie-less service. Analytics are <span className="font-semibold">enabled by default</span>, and you can opt out at any time below. No personal data or file contents are ever sent.</p>
+              <div className="flex justify-center py-2">
+                <AnalyticsToggle />
+              </div>
+              <ul className="list-disc pl-6 space-y-2 text-base">
+                <li>Tracks only anonymous usage: tool used, success/failure, duration.</li>
+                <li>No filenames, file contents, or personal info.</li>
+                <li>GDPR, CCPA, PECR compliant.</li>
+                <li>Can be blocked by content blockers.</li>
+                <li>You can opt out at any time using the toggle above.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-4 tracking-tight">Contact</h2>
+            <p className="text-base text-muted-foreground dark:text-gray-300">Questions about privacy? Email <a href="mailto:simpletoolkitapp@gmail.com" className="text-black dark:text-white font-semibold hover:underline">simpletoolkitapp@gmail.com</a></p>
+          </section>
+
+          <div className="pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
+            <Link href="/" className="inline-flex items-center text-sm text-muted-foreground dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors" aria-label="Return to homepage">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to home
+            </Link>
           </div>
         </div>
       </main>
-      {/* Analytics toast handled in client component */}
     </>
   );
 }
