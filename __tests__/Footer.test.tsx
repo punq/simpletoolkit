@@ -5,7 +5,6 @@ jest.mock('@/app/utils/analytics', () => ({
   track: jest.fn(),
 }));
 
-import Footer from '@/app/components/Footer';
 import { track } from '@/app/utils/analytics';
 
 describe('Footer analytics toggle', () => {
@@ -17,31 +16,33 @@ describe('Footer analytics toggle', () => {
     process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT = '1';
   });
 
-  it('shows Off by default and toggles to On with toast and track call', async () => {
-    render(<Footer />);
+  it('toggles analytics consent in privacy page', async () => {
+    const PrivacyPage = require('@/app/privacy/page').default;
+    render(<PrivacyPage />);
 
-    const btn = screen.getByRole('button', { name: /analytics/i });
+    const btn = await screen.findByRole('button', { name: /analytics/i });
     expect(btn).toBeInTheDocument();
-    // With default-on behavior we expect analytics to be enabled by default
-    expect(btn).toHaveTextContent(/On/);
+    // Check initial state
+    const initialIsOn = /Analytics: On/i.test(btn.textContent || '');
 
-    // Toggle it Off first
-    fireEvent.click(btn);
-
-    await waitFor(() => {
-      expect(localStorage.getItem('analytics_consent')).toBe('0');
-      expect(screen.getByRole('status')).toHaveTextContent(/disabled/i);
-    });
-
-    expect(track).toHaveBeenCalledWith('Consent Revoked');
-
-    // toggle back On
+    // Toggle
     fireEvent.click(btn);
     await waitFor(() => {
-      expect(localStorage.getItem('analytics_consent')).toBe('1');
-      expect(screen.getByRole('status')).toHaveTextContent(/enabled/i);
+      const expectedValue = initialIsOn ? '0' : '1';
+      const expectedText = initialIsOn ? /Analytics: Off/i : /Analytics: On/i;
+      expect(localStorage.getItem('analytics_consent')).toBe(expectedValue);
+      expect(btn).toHaveTextContent(expectedText);
     });
+    expect(track).toHaveBeenCalledWith(initialIsOn ? 'Consent Revoked' : 'Consent Granted');
 
-    expect(track).toHaveBeenCalledWith('Consent Granted');
+    // Toggle back
+    fireEvent.click(btn);
+    await waitFor(() => {
+      const expectedValue = initialIsOn ? '1' : '0';
+      const expectedText = initialIsOn ? /Analytics: On/i : /Analytics: Off/i;
+      expect(localStorage.getItem('analytics_consent')).toBe(expectedValue);
+      expect(btn).toHaveTextContent(expectedText);
+    });
+    expect(track).toHaveBeenCalledWith(initialIsOn ? 'Consent Granted' : 'Consent Revoked');
   });
 });

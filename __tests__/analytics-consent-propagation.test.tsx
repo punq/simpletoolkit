@@ -1,8 +1,6 @@
 import React from 'react';
-import { render, screen, act, within } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Footer from '@/app/components/Footer';
-import AnalyticsConsent from '@/app/components/AnalyticsConsent';
 
 // Ensure a clean localStorage between tests
 beforeEach(() => {
@@ -10,55 +8,29 @@ beforeEach(() => {
 });
 
 describe('Analytics consent propagation', () => {
-  test('clicking Yes in AnalyticsConsent updates Footer immediately', async () => {
-    // Render both components together as they would be on the page
-    render(
-      <>
-        <Footer />
-        <AnalyticsConsent />
-      </>
-    );
 
-    // Initially the consent banner should be visible (localStorage empty)
-    const allowButton = await screen.findByRole('button', { name: /Allow analytics|Yes/i });
-    expect(allowButton).toBeTruthy();
+  test('toggle AnalyticsToggle in privacy page updates consent', async () => {
+    window.localStorage.clear();
+    const PrivacyPage = require('@/app/privacy/page').default;
+    render(<PrivacyPage />);
 
-    // Footer should initially show Off (null treated as off)
-    const footer = screen.getByRole('contentinfo');
-    const footerToggle = within(footer).getByRole('button');
-    expect(footerToggle).toBeTruthy();
-    expect(footerToggle).toHaveTextContent(/Off/i);
+    // Analytics toggle should initially show Off
+    const toggleBtn = await screen.findByRole('button', { name: /analytics/i });
+    expect(toggleBtn).toBeTruthy();
+    expect(toggleBtn).toHaveTextContent(/Analytics: Off/i);
 
-    // Click the allow button and wait for updates
+    // Click to enable
     await act(async () => {
-      await userEvent.click(allowButton);
+      await userEvent.click(toggleBtn);
     });
-
-    // Footer should now reflect On
-    expect(footerToggle).toHaveTextContent(/On/i);
-
-    // localStorage should be set
+    expect(toggleBtn).toHaveTextContent(/Analytics: On/i);
     expect(window.localStorage.getItem('analytics_consent')).toBe('1');
-  });
 
-  test('clicking No in AnalyticsConsent updates Footer immediately', async () => {
-    render(
-      <>
-        <Footer />
-        <AnalyticsConsent />
-      </>
-    );
-
-    const denyButton = await screen.findByRole('button', { name: /Decline analytics|No/i });
-    const footer = screen.getByRole('contentinfo');
-    const footerToggle = within(footer).getByRole('button');
-
-    // Click deny
+    // Click to disable
     await act(async () => {
-      await userEvent.click(denyButton);
+      await userEvent.click(toggleBtn);
     });
-
-    expect(footerToggle).toHaveTextContent(/Off/i);
+    expect(toggleBtn).toHaveTextContent(/Analytics: Off/i);
     expect(window.localStorage.getItem('analytics_consent')).toBe('0');
   });
 });

@@ -1,113 +1,68 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { track } from "@/app/utils/analytics";
 import Toast from "./Toast";
+import { Shield, Mail, Github } from "lucide-react";
 
 export default function Footer() {
-  // Avoid reading localStorage during render to prevent hydration
-  // mismatches. Start with `null` and populate after mount.
-  const [analyticsConsent, setAnalyticsConsent] = useState<boolean | null>(null);
-
-  const toggle = () => {
-    try {
-      const next = !(analyticsConsent === true);
-      window.localStorage.setItem("analytics_consent", next ? "1" : "0");
-      window.dispatchEvent(new Event("analytics-consent-changed"));
-      setAnalyticsConsent(next);
-      try {
-        if (next) track("Consent Granted");
-        else track("Consent Revoked");
-      } catch {}
-    } catch {}
-  };
-
   const [toast, setToast] = useState<string | null>(null);
-
-  // Listen for consent changes triggered elsewhere in the app (same-window custom event)
-  // and for the browser `storage` event (other tabs/windows).
-  useEffect(() => {
-    const updateFromStorage = () => {
-      try {
-        const v = window.localStorage.getItem('analytics_consent');
-        // If no explicit choice yet, default to enabled when Plausible is
-        // enabled by environment, then persist that choice.
-        if (v === null) {
-            const enable =
-              process.env.NEXT_PUBLIC_PLAUSIBLE === '1' ||
-              process.env.NEXT_PUBLIC_PLAUSIBLE === 'true';
-            const defaultConsent =
-              process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT === '1' ||
-              process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT === 'true';
-            if (enable && defaultConsent) {
-              try { window.localStorage.setItem('analytics_consent', '1'); } catch {}
-              setAnalyticsConsent(true);
-            } else {
-              setAnalyticsConsent(null);
-            }
-        } else {
-          setAnalyticsConsent(v === '1' ? true : v === '0' ? false : null);
-        }
-      } catch {}
-    };
-
-    // Initial read after mount
-    updateFromStorage();
-
-    const onCustom = () => updateFromStorage();
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === 'analytics_consent') updateFromStorage();
-    };
-
-    window.addEventListener('analytics-consent-changed', onCustom);
-    window.addEventListener('storage', onStorage);
-
-    return () => {
-      window.removeEventListener('analytics-consent-changed', onCustom);
-      window.removeEventListener('storage', onStorage);
-    };
-  }, []);
 
   const showToast = (msg: string) => {
     setToast(msg);
   };
 
-  // Wrap toggle so we also show toast
-  const toggleWithToast = () => {
-    try {
-      const next = !(analyticsConsent === true);
-      toggle();
-      showToast(next ? "Analytics enabled" : "Analytics disabled");
-    } catch {
-      // ignore
-    }
-  };
+  // showToast remains for features like copying email
 
   return (
     <>
-      <footer className="w-full mt-6 border-t border-gray-100 dark:border-zinc-900 bg-transparent">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-12 py-4 flex items-center justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
-          <div className="flex items-center gap-4">
-            <span className="font-semibold text-black dark:text-white">Simple Toolkit</span>
-            <Link href="/privacy" className="hover:underline">Privacy</Link>
-          </div>
-          {/* Optional transparency note when defaults are enabled */}
-          {process.env.NEXT_PUBLIC_PLAUSIBLE_DEFAULT_CONSENT === '1' && analyticsConsent === true && (
-            <div className="text-xs text-gray-500 ml-2 hidden sm:block">Analytics enabled by default</div>
-          )}
-
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={toggleWithToast}
-              aria-pressed={analyticsConsent === true}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-transparent text-gray-700 dark:text-gray-300 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black dark:focus-visible:ring-white focus-visible:ring-offset-2"
+      <footer className="w-full mt-6 border-t border-gray-200 dark:border-zinc-800 bg-transparent">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-12 py-4 flex items-center justify-between gap-4 text-xs sm:text-[12px] text-gray-600 dark:text-gray-300">
+          <div className="flex w-full justify-center sm:justify-start gap-2 sm:gap-4">
+            {/* Apple-style: stacked icon + label on mobile, uppercase text-only links on desktop */}
+            <Link
+              href="/privacy"
+              className="flex flex-col items-center justify-center p-2 min-w-[44px] min-h-[44px] rounded-md transition active:scale-95 hover:opacity-90 sm:flex-row sm:gap-2"
+              aria-label="Privacy"
             >
-              <span className="text-sm">Analytics</span>
-              <span className="text-xs font-medium text-black dark:text-white">{analyticsConsent === true ? 'On' : 'Off'}</span>
-            </button>
+              <Shield size={20} className="text-gray-600 dark:text-gray-300 mb-1 sm:hidden" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-700 dark:text-gray-300 sm:text-sm sm:mb-0 sm:ml-0 sm:inline">Privacy</span>
+            </Link>
+
+            <a
+              href={`mailto:simpletoolkitapp@gmail.com?subject=${encodeURIComponent('Issue with Simple Toolkit')}&body=${encodeURIComponent('Please describe the issue and steps to reproduce:')}`}
+              onClick={async (e) => {
+                e.preventDefault();
+                const mailto = `mailto:simpletoolkitapp@gmail.com?subject=${encodeURIComponent('Issue with Simple Toolkit')}&body=${encodeURIComponent('Please describe the issue and steps to reproduce:')}`;
+                try {
+                  window.location.href = mailto;
+                } catch {}
+                try {
+                  await navigator.clipboard.writeText('simpletoolkitapp@gmail.com');
+                  showToast('Email copied: simpletoolkitapp@gmail.com');
+                } catch {
+                  showToast('Use this email: simpletoolkitapp@gmail.com');
+                }
+              }}
+              className="flex flex-col items-center justify-center p-2 min-w-[44px] min-h-[44px] rounded-md transition active:scale-95 hover:opacity-90 sm:flex-row sm:gap-2"
+              aria-label="Contact via email"
+            >
+              <Mail size={20} className="text-gray-600 dark:text-gray-300 mb-1 sm:hidden" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-700 dark:text-gray-300 sm:text-sm sm:mb-0 sm:ml-0 sm:inline">Contact</span>
+            </a>
+
+            <a
+              href="https://github.com/punq/simpletoolkit/issues/new"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-2 min-w-[44px] min-h-[44px] rounded-md transition active:scale-95 hover:opacity-90 sm:flex-row sm:gap-2"
+              aria-label="Report an issue on GitHub"
+            >
+              <Github size={20} className="text-gray-600 dark:text-gray-300 mb-1 sm:hidden" />
+              <span className="text-[11px] font-semibold uppercase tracking-widest text-gray-700 dark:text-gray-300 sm:text-sm sm:mb-0 sm:ml-0 sm:inline">Report</span>
+            </a>
           </div>
+          <div />
         </div>
       </footer>
       {toast ? <Toast message={toast} onClose={() => setToast(null)} /> : null}

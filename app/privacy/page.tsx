@@ -1,5 +1,6 @@
 import Link from "next/link";
 import TrackView from "@/app/components/TrackView";
+import AnalyticsToggle from "@/app/components/AnalyticsToggle";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -79,9 +80,11 @@ export default function PrivacyPage() {
                 <h2 className="text-2xl font-bold tracking-tight">About Analytics</h2>
                 <div className="space-y-4 text-muted-foreground dark:text-gray-300">
                   <p className="leading-relaxed">
-                    Analytics are opt‑in only and will only run after you grant consent via the site controls (footer or consent pill). When enabled, we use <strong className="text-foreground">Plausible Analytics</strong>, a privacy-focused alternative to Google Analytics.
+                    Analytics are opt‑in only and will only run after you grant consent via the site controls (the Analytics toggle on this page). When enabled, we use <strong className="text-foreground">Plausible Analytics</strong>, a privacy-focused alternative to Google Analytics.
                     We track a minimal set of metrics so we can improve the experience (e.g., how many files users merge, approximate sizes, success/failure rates and durations). Every event includes:
                   </p>
+
+                  <AnalyticsToggle />
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3"><strong>tool</strong>: a low-cardinality identifier for the tool being used (e.g., `merge`, `compress`, `split`).</li>
                     <li className="flex items-start gap-3"><strong>operationId</strong>: a short, ephemeral id that ties a start/completion/failure together without identifying a visitor.</li>
@@ -110,7 +113,7 @@ export default function PrivacyPage() {
                   </ul>
 
                   <p className="leading-relaxed">
-                    You can see the exact event schema and recommended dashboards in the repository&apos;s `ANALYTICS.md` file. If you prefer not to be tracked, use the footer toggle to revoke consent at any time — this stops all analytics immediately and will also dispatch an event indicating consent was revoked.
+                    You can see the exact event schema and recommended dashboards in the repository&apos;s `ANALYTICS.md` file. If you prefer not to be tracked, use the Analytics toggle on this page to revoke consent at any time — this stops all analytics immediately and will also dispatch an event indicating consent was revoked.
                   </p>
                 </div>
               </div>
@@ -147,6 +150,7 @@ export default function PrivacyPage() {
           </div>
         </div>
       </main>
+      {/* Analytics toast handled in client component */}
     </>
   );
 }
