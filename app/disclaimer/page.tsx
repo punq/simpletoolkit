@@ -27,7 +27,7 @@ export default function DisclaimerPage() {
               <li>No warranties, express or implied, regarding accuracy, reliability, or suitability.</li>
               <li>We are not responsible for any loss, damage, or legal issues from use or misuse.</li>
               <li>You are responsible for compliance with laws in your jurisdiction (including Canada).</li>
-              <li>This tool is provided "as is" without guarantees.</li>
+              <li>This tool is provided &quot;as is&quot; without guarantees.</li>
             </ul>
           </section>
 
