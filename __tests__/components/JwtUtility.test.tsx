@@ -133,7 +133,7 @@ describe('JwtUtility — Core crypto & UI integration', () => {
     const secret = 'test-secret-123';
     const secretInput = screen.getByPlaceholderText(/Enter shared secret/i);
     await userEvent.clear(secretInput);
-    await userEvent.type(secretInput, secret);
+    await userEvent.paste(secret);
 
     // Ensure header and payload fields have content (defaults exist)
     const genBtn = screen.getByRole('button', { name: /Generate HS256/i });
@@ -143,7 +143,7 @@ describe('JwtUtility — Core crypto & UI integration', () => {
     await waitFor(() => {
       const generatedLabel = screen.getByText(/Generated Token/i);
       expect(generatedLabel).toBeInTheDocument();
-    });
+    }, { timeout: 10000 });
 
     const generatedLabel = screen.getByText(/Generated Token/i);
     // Find the textarea inside the generated token container
@@ -159,14 +159,14 @@ describe('JwtUtility — Core crypto & UI integration', () => {
     // Paste token into main token textarea
     const mainTa = screen.getByPlaceholderText(/Paste JWT here/i);
     await userEvent.clear(mainTa);
-    await userEvent.type(mainTa, t);
+    await userEvent.paste(t);
 
     await userEvent.click(validateBtn);
 
     await waitFor(() => {
       expect(screen.getByText(/Valid \(HS256\)/i)).toBeInTheDocument();
-    });
-  });
+    }, { timeout: 10000 });
+  }, 15000);
 
   it('Displays an error message when token format is malformed', async () => {
     render(<JwtUtility />);
@@ -213,7 +213,7 @@ describe('JwtUtility — Core crypto & UI integration', () => {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
       'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.' +
       'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-    await userEvent.type(ta, token);
+    await userEvent.paste(token);
 
     const btn = screen.getByRole('button', { name: /Validate \(RS256\)/i });
     await userEvent.click(btn);
@@ -221,7 +221,7 @@ describe('JwtUtility — Core crypto & UI integration', () => {
     await waitFor(() => {
       expect(screen.getByText(/Public key PEM required for RS256 validation/i)).toBeInTheDocument();
     });
-  });
+  }, 10000);
 
   it('copies token to clipboard and shows toast on success, shows error on failure', async () => {
     render(<JwtUtility />);

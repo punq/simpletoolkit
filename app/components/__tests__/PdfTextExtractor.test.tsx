@@ -48,7 +48,7 @@ describe('PdfTextExtractor UI', () => {
       return { text: 'Hello world', pagesExtracted: 1, isImageOnly: false };
     });
 
-    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => {});
+    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => { });
 
     render(<PdfTextExtractor />);
 
@@ -75,7 +75,7 @@ describe('PdfTextExtractor UI', () => {
       .mockImplementationOnce(async () => { throw new Error('PDF is password protected'); })
       .mockImplementationOnce(async () => ({ text: 'ok', pagesExtracted: 1, isImageOnly: false }));
 
-    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => {});
+    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => { });
 
     render(<PdfTextExtractor />);
 
@@ -90,12 +90,12 @@ describe('PdfTextExtractor UI', () => {
     expect(screen.getByText(/password protected/i)).toBeInTheDocument();
   });
 
-  test.skip('shows image-only message when extract returns isImageOnly', async () => {
+  test('shows image-only message when extract returns isImageOnly', async () => {
     const mockExtract = extractTextFromPdf as jest.MockedFunction<typeof extractTextFromPdf>;
     // Simulate a failure that indicates the PDF has no selectable text
     mockExtract.mockImplementation(async () => { throw new Error('No selectable text was found in this PDF'); });
 
-    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => {});
+    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => { });
 
     render(<PdfTextExtractor />);
 
@@ -108,16 +108,15 @@ describe('PdfTextExtractor UI', () => {
 
     // ensure mock extract was invoked and the UI updated to show the image-only message
     await waitFor(() => expect(mockExtract).toHaveBeenCalled());
-    // The image-only message appears inside a status element; check within it
-    // The component sets an error string when no selectable text is found; detect that
-    await screen.findByText(/No selectable text|OCR is required|image-only/i);
+    // The component shows an error message when no selectable text is found
+    await screen.findByText(/No selectable text detected.*image-only.*scanned/i);
   });
 
   test('copy and download buttons call clipboard and download', async () => {
     const mockExtract = extractTextFromPdf as jest.MockedFunction<typeof extractTextFromPdf>;
     mockExtract.mockImplementation(async () => ({ text: 'Hello world', pagesExtracted: 1, isImageOnly: false }));
 
-    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => {});
+    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => { });
 
     // Mock clipboard
     Object.defineProperty(navigator, 'clipboard', {
@@ -160,7 +159,7 @@ describe('PdfTextExtractor UI', () => {
       });
     });
 
-    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => {});
+    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => { });
 
     render(<PdfTextExtractor />);
     const file = new File(['%PDF-1.4'], 'long.pdf', { type: 'application/pdf' });
@@ -189,7 +188,7 @@ describe('PdfTextExtractor UI', () => {
       throw new Error('PDF is password protected');
     });
 
-    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => {});
+    (validatePdfFile as jest.MockedFunction<typeof validatePdfFile>).mockImplementation(() => { });
 
     render(<PdfTextExtractor />);
     const file = new File(['%PDF-1.4'], 'locked.pdf', { type: 'application/pdf' });
